@@ -7,7 +7,7 @@ trait Storage {
 trait UriStorage extends Storage {
   def uris: Seq[java.net.URI]
   def items =
-    uris.toStream.map { uri =>
+    uris.view.map { uri =>
       scala.io.Source.fromURI(uri).mkString("")
     }
 }
