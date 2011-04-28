@@ -11,10 +11,9 @@ object App {
     unfiltered.jetty.Http.anylocal.filter(unfiltered.filter.Planify {
       case GET(Path(Seg(Nil))) =>
         contents.headOption.map { page =>
-          Redirect("/" + page.name)
+          Redirect("/" + Printer.webify(page.name))
         }.getOrElse { NotFound }
-      case GET(Path(Seg(uname :: Nil))) =>
-        val name = java.net.URLDecoder.decode(uname, "utf-8")
+      case GET(Path(Seg(name :: Nil))) =>
         printer.printNamed(name).map { html =>
           Html(html)
         }.getOrElse { NotFound }

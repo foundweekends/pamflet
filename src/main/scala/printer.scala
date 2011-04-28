@@ -1,14 +1,16 @@
 package pamflet
 import com.tristanhunt.knockoff.DefaultDiscounter.toXHTML
 
+object Printer {
+  def webify(name: String) =
+    java.net.URLEncoder.encode(name, "utf-8") + ".html"
+}
 class Printer(contents: Seq[Page]) {
   def toc(current: Page) =
     <ol> { contents.map {
       case `current` => <li>{ current.name }</li>
       case page => <li>
-        <a href={ 
-          java.net.URLEncoder.encode(page.name, "utf-8")
-        }>{ page.name }</a> 
+        <a href={ Printer.webify(page.name) }>{ page.name }</a> 
       </li>
     } } </ol>
 
@@ -21,6 +23,8 @@ class Printer(contents: Seq[Page]) {
     </html>
 
   def printNamed(name: String) =
-    contents.find { _.name == name }.map(print)
+    contents.find { page =>
+      Printer.webify(page.name) == name
+    }.map(print)
 }      
     
