@@ -6,7 +6,9 @@ class Printer(contents: Seq[Page]) {
     <ol> { contents.map {
       case `current` => <li>{ current.name }</li>
       case page => <li>
-        <a href={ page.name }>{ page.name }</a> 
+        <a href={ 
+          java.net.URLEncoder.encode(page.name, "utf-8")
+        }>{ page.name }</a> 
       </li>
     } } </ol>
 
