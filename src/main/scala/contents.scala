@@ -2,7 +2,7 @@ package pamflet
 import com.tristanhunt.knockoff._
 
 class Contents(storage: Storage) {
-  def contents = storage.items.map { str =>
+  def pages = storage.items.map { str =>
     val blocks = DefaultDiscounter.knockoff(str)
     val name = blocks.view.collect {
       case h: Header => h
