@@ -4,7 +4,7 @@ import unfiltered.request._
 import unfiltered.response._
 
 object Preview {
-  def run(contents: => Contents) {
+  def apply(contents: => Contents) {
     unfiltered.jetty.Http.anylocal.filter(unfiltered.filter.Planify {
       case GET(Path(Seg(Nil))) =>
         contents.pages.headOption.map { page =>
