@@ -5,9 +5,9 @@ object Printer {
   def webify(name: String) =
     java.net.URLEncoder.encode(name, "utf-8") + ".html"
 }
-class Printer(contents: Seq[Page]) {
+class Printer(contents: Contents) {
   def toc(current: Page) =
-    <ol> { contents.map {
+    <ol> { contents.pages.map {
       case `current` => <li>{ current.name }</li>
       case page => <li>
         <a href={ Printer.webify(page.name) }>{ page.name }</a> 
@@ -16,14 +16,14 @@ class Printer(contents: Seq[Page]) {
 
   def print(page: Page) =
     <html>
-      <head><title>{ page.name }</title></head>
+      <head><title>{ "%s: %s".format(contents.title, page.name) }</title></head>
       <body>
         { toXHTML(page.blocks) ++ toc(page) }
       </body>
     </html>
 
   def printNamed(name: String) =
-    contents.find { page =>
+    contents.pages.find { page =>
       Printer.webify(page.name) == name
     }.map(print)
 }      

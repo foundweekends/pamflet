@@ -1,4 +1,5 @@
 Pamflet
 =======
 
-This is
+*Pamflet* is a tool for publishing short texts. You can invoke it from
+the command line or through an sbt plugin.
