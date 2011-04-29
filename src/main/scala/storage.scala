@@ -5,15 +5,15 @@ trait Storage {
 }
 
 trait UriStorage extends Storage {
-  def uris: Seq[java.net.URI]
+  def uris: Seq[java.net.URL]
   def items =
     uris.map { uri =>
-      scala.io.Source.fromURI(uri).mkString("")
+      scala.io.Source.fromInputStream(uri.openStream).mkString("")
     }
 }
 
 class FileStorage(base: java.io.File) extends UriStorage {
   def uris = base.listFiles.filter {
     _.getName.endsWith(".markdown")
-  }.sortBy { _.getName } map { _.toURI }
+  }.toList.sort { _.getName < _.getName } map { _.toURL }
 }

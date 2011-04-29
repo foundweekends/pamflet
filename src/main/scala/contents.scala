@@ -12,12 +12,12 @@ class Contents(storage: Storage) {
 case class Page(name: String, blocks: Seq[Block])
 object Page {
   def apply(blocks: Seq[Block]): Page = {
-    val name = blocks.view.collect {
-      case h: Header => h
-    }.flatMap {
-      _.spans.collect {
-        case t: Text => t
-      }.headOption.map { _.content }
+    val name = blocks.projection.flatMap {
+      case h: Header => h.spans.flatMap {
+        case t: Text => Seq(t.content)
+        case _ => Seq()
+      }
+      case _ => Seq()
     }.headOption.getOrElse { "Untitled" }
     Page(name, blocks)
   }
