@@ -1,6 +1,7 @@
 import sbt._
 
-class Project(info: ProjectInfo) extends ParentProject(info) {
+class Project(info: ProjectInfo) extends ParentProject(info)
+    with pamflet.Actions {
   lazy val library = project("library", "pamflet", new DefaultProject(_) {
     val uf_version = "0.3.2"
 
@@ -9,4 +10,6 @@ class Project(info: ProjectInfo) extends ParentProject(info) {
     lazy val ufj = "net.databinder" %% "unfiltered-jetty" % uf_version
     lazy val knockoff  = "com.tristanhunt" %% "knockoff" % "0.8.0-16"
   })
+  lazy val plugin = project("plugin", "pamflet plugin", 
+                            new PluginProject(_), library)
 }
