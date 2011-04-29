@@ -4,7 +4,7 @@ import unfiltered.request._
 import unfiltered.response._
 
 object Preview {
-  def apply(contents: => Contents) {
+  def apply(contents: => Contents) = {
     unfiltered.jetty.Http.anylocal.filter(unfiltered.filter.Planify {
       case GET(Path(Seg(Nil))) =>
         contents.pages.headOption.map { page =>
@@ -14,8 +14,6 @@ object Preview {
         new Printer(contents).printNamed(name).map { html =>
           Html(html)
         }.getOrElse { NotFound }
-    }).run { server =>
-      unfiltered.util.Browser.open("http://127.0.0.1:%d/".format(server.port))
-    }
+    })
   }
 }
