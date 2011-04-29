@@ -1,0 +1,12 @@
+[app]
+  version: 0.1.0-SNAPSHOT
+  org: net.databinder
+  name: pamflet-app
+  class: pamflet.Pamflet
+[scala]
+  version: 2.7.7
+[repositories]
+  local
+  maven-local
+  scala-tools-releases
+  maven-central
