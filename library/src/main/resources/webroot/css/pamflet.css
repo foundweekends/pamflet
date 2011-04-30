@@ -2,3 +2,6 @@ body {
     font-size: 100%;
     font-family: "Warnock Pro", "Goudy Old Style", "Palatino", "Book Antiqua", Georgia, serif;
 }
+p {
+    width: 30em;
+}
