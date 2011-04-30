@@ -14,8 +14,6 @@ object Preview {
         new Printer(contents).printNamed(name).map { html =>
           Html(html)
         }.getOrElse { NotFound }
-    }).resources(
-      new java.net.URL(getClass.getResource("/webroot/marker"), ".")
-    )
+    }).resources(Shared.resources)
   }
 }
