@@ -16,9 +16,19 @@ class Printer(contents: Contents) {
 
   def print(page: Page) =
     <html>
-      <head><title>{ "%s: %s".format(contents.title, page.name) }</title></head>
+      <head>
+        <title>{ "%s: %s".format(contents.title, page.name) }</title>
+        <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/> 
+      </head>
       <body>
-        { toXHTML(page.blocks) ++ toc(page) }
+        <div class="container">
+          { toXHTML(page.blocks) ++ toc(page) }
+        </div>
       </body>
     </html>
 
