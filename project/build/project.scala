@@ -19,4 +19,7 @@ class Project(info: ProjectInfo) extends ParentProject(info)
                          new DefaultProject(_) {
     val launch = "org.scala-tools.sbt" % "launcher-interface" % "0.7.4" % "provided"
   }, library)
+  override def managedStyle = ManagedStyle.Maven
+  val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/releases/"
+  Credentials(Path.userHome / ".ivy2" / ".credentials", log)
 }
