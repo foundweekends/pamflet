@@ -4,11 +4,11 @@ class Pamflet extends xsbti.AppMain {
   def run(config: xsbti.AppConfiguration) = {
     config.arguments match {
       case Array(Dir(input), Dir(output)) =>
-        Produce(Contents(
-          StringTemplate(
+        val storage = (FileStorage(input))
+        val pages =  StringTemplate(
             new java.io.File(input, "template.properties")
-          )(FileStorage(input))
-        ), output)
+          )(storage)
+        Produce(Contents(pages, storage.css), output)
         Exit(0)
       case _ =>
         println("Usage: pf SRC DEST")

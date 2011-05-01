@@ -31,7 +31,12 @@ case class Printer(contents: Contents) {
         <!--[if lt IE 8]>
           <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"/>
         <![endif]-->
-        <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/> 
+        <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
+        {
+          contents.css.map { case (filename, contents) =>
+            <link rel="stylesheet" href={"css/" + filename} type="text/css" media="screen, projection"/>
+          }
+        }
       </head>
       <body>
         <div class="container">
@@ -57,7 +62,9 @@ case class Printer(contents: Contents) {
             }</div>
           </div>
           <div class="contents span-16 prepend-2 append-2">
-            { toXHTML(page.blocks) ++ toc(page) }
+            { toXHTML(page.blocks) }
+            <h5>Contents</h5>
+            { toc(page) }
           </div>
         </div>
       </body>

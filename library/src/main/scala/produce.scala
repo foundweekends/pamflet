@@ -15,6 +15,9 @@ object Produce {
     contents.pages.foreach { page =>
       write(Printer.webify(page.name), printer.print(page).toString)
     }
+    contents.css.foreach { case (name, contents) =>
+      write("css/" + name, contents)
+    }
     filePaths.foreach { path =>
       write(path, scala.io.Source.fromInputStream(
         new java.net.URL(Shared.resources, path).openStream()
