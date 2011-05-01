@@ -16,6 +16,7 @@ div.title {
 div.page {
     position: fixed;
     height: 100%;
+    font-size: 2em;
 }
 div.page a {
     color: black;
@@ -27,12 +28,12 @@ div.page a {
     vertical-align: middle;
 }
 div.page a:hover {
-    background: #DDD;
+    background: #efefef;
 }
 div.page a span {
     display: block;
     height: 45%;
 }
 div.contents {
-    margin-top: 2em;
+    margin-top: 2.5em;
 }

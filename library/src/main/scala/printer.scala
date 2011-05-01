@@ -40,7 +40,7 @@ case class Printer(contents: Contents) {
               prev.map { p =>
                 <a href={ Printer.webify(p.name)}>
                   <span>&nbsp;</span>
-                  <span>&lt;</span>
+                  <span>⊰</span>
                 </a>
               }.getOrElse { <span>&nbsp;</span> } .toSeq
             }</div>
@@ -51,7 +51,7 @@ case class Printer(contents: Contents) {
               next.map { n =>
                 <a class="pageright" href={ Printer.webify(n.name)}>
                   <span>&nbsp;</span>
-                  <span>&gt;</span>
+                  <span>⊱</span>
                 </a>
               }.getOrElse { <span>&nbsp;</span> }.toSeq
             }</div>
