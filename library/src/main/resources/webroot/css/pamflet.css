@@ -5,16 +5,17 @@ body {
 p {
     width: 30em;
 }
-div.topnav {
-    text-align: center;
-    position: fixed;
-    font-size: 1.2em;
-    height: 100%;
-}
 div.title {
+    position: fixed;
+    text-align: center;
+    font-size: 1.2em;
     font-style: italic;
     border-bottom: black solid 1px;
     background: white;
+}
+div.page {
+    position: fixed;
+    height: 100%;
 }
 div.page a {
     color: black;
@@ -24,13 +25,13 @@ div.page a {
     height: 100%;
     text-align: center;
     vertical-align: middle;
-} 
+}
 div.page a:hover {
     background: #DDD;
 }
 div.page a span {
     display: block;
-    padding-top: .2em;
+    height: 45%;
 }
 div.contents {
     margin-top: 2em;
