@@ -5,7 +5,7 @@ object Printer {
   def webify(name: String) =
     java.net.URLEncoder.encode(name, "utf-8") + ".html"
 }
-class Printer(contents: Contents) {
+case class Printer(contents: Contents) {
   def toc(current: Page) =
     <ol> { contents.pages.map {
       case `current` => <li>{ current.name }</li>

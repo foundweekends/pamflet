@@ -11,7 +11,7 @@ object Produce {
       out.write(contents.getBytes("utf-8"))
       out.close()
     }
-    val printer = new Printer(contents)
+    val printer = Printer(contents)
     contents.pages.foreach { page =>
       write(Printer.webify(page.name), printer.print(page).toString)
     }

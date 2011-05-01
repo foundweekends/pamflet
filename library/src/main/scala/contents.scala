@@ -1,8 +1,8 @@
 package pamflet
 import com.tristanhunt.knockoff._
 
-class Contents(storage: Storage) {
-  val pages = storage.items.map { str =>
+case class Contents(items: Seq[CharSequence]) {
+  val pages = items.map { str =>
     Page(DefaultDiscounter.knockoff(str))
   }.toList
   val title = pages.headOption.map {

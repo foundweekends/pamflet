@@ -7,9 +7,10 @@ class Project(info: ProjectInfo) extends ParentProject(info)
     val uf_version = "0.3.2"
 
     // unfiltered
-    lazy val uff = "net.databinder" %% "unfiltered-filter" % uf_version
-    lazy val ufj = "net.databinder" %% "unfiltered-jetty" % uf_version
-    lazy val knockoff  = "com.tristanhunt" %% "knockoff" % "0.8.0-16"
+    val uff = "net.databinder" %% "unfiltered-filter" % uf_version
+    val ufj = "net.databinder" %% "unfiltered-jetty" % uf_version
+    val knockoff  = "com.tristanhunt" %% "knockoff" % "0.8.0-16"
+    val stringTemplate = "org.antlr" % "stringtemplate" % "3.2.1"
   })
   lazy val plugin = project("plugin", "pamflet plugin", 
                             new PluginProject(_), library)

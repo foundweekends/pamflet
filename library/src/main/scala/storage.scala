@@ -12,7 +12,7 @@ trait UriStorage extends Storage {
     }
 }
 
-class FileStorage(base: java.io.File) extends UriStorage {
+case class FileStorage(base: java.io.File) extends UriStorage {
   def uris = base.listFiles.filter {
     _.getName.endsWith(".markdown")
   }.toList.sort { _.getName < _.getName } map { _.toURI }
