@@ -1,9 +1,13 @@
 body {
     font-size: 100%;
     font-family: "Warnock Pro", "Goudy Old Style", "Palatino", "Book Antiqua", Georgia, serif;
+    overflow-y: scroll;
 }
 p {
     width: 30em;
+}
+pre, code, tt {
+    font-size: .9em;
 }
 div.title {
     position: fixed;
@@ -28,6 +32,7 @@ div.page a {
     vertical-align: middle;
 }
 div.page a:hover {
+    color: #06c;
     background: #efefef;
 }
 div.page a span {
