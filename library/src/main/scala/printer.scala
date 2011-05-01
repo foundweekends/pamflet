@@ -14,7 +14,15 @@ case class Printer(contents: Contents) {
       </li>
     } } </ol>
 
-  def print(page: Page) =
+  def print(page: Page) = {
+    def lastnext(in: List[Page], last: Option[Page]): (Option[Page], Option[Page]) =
+      (in, last) match {
+        case (List(l, `page`, n, _*), _) => (Some(l), Some(n))
+        case (List(l, `page`), _) => (Some(l), None)
+        case (List(`page`, n, _*), _) => (last, Some(n))
+        case _  => lastnext(in.tail, last)
+      }
+    val (prev, next) = lastnext(contents.pages, None)
     <html>
       <head>
         <title>{ "%s: %s".format(contents.title, page.name) }</title>
@@ -28,7 +36,17 @@ case class Printer(contents: Contents) {
       <body>
         <div class="container">
           <div class="span-20 topnav">
-            <span class="title">{ contents.title }</span>
+            <div class="span-2">{
+              prev.map { p =>
+                <a href={ Printer.webify(p.name)}>&lt;</a>
+              }.getOrElse { <span>&nbsp;</span> } .toSeq
+            }</div>
+            <div class="span-16 title">{ contents.title }</div>
+            <div class="span-2 last">{
+              next.map { n =>
+                <a class="pageright" href={ Printer.webify(n.name)}>&gt;</a>
+              }.getOrElse { <span>&nbsp;</span> }.toSeq
+            }</div>
           </div>
           <div class="span-20 contents">
             { toXHTML(page.blocks) ++ toc(page) }
@@ -36,10 +54,13 @@ case class Printer(contents: Contents) {
         </div>
       </body>
     </html>
+  }
 
-  def printNamed(name: String) =
+  def named(name: String) =
     contents.pages.find { page =>
       Printer.webify(page.name) == name
-    }.map(print)
+    }
+
+  def printNamed(name: String) = named(name).map(print)
 }      
     
