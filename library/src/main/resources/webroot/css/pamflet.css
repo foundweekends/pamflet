@@ -5,3 +5,16 @@ body {
 p {
     width: 30em;
 }
+div.topnav {
+    border-bottom: black solid 1px;
+    text-align: center;
+    position: fixed;
+    background: white;
+}
+div.topnav span.title {
+    font-style: italic;
+    font-size: 1.2em;
+}
+div.contents {
+    margin-top: 2em;
+}

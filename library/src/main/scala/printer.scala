@@ -27,7 +27,12 @@ case class Printer(contents: Contents) {
       </head>
       <body>
         <div class="container">
-          { toXHTML(page.blocks) ++ toc(page) }
+          <div class="span-20 topnav">
+            <span class="title">{ contents.title }</span>
+          </div>
+          <div class="span-20 contents">
+            { toXHTML(page.blocks) ++ toc(page) }
+          </div>
         </div>
       </body>
     </html>
