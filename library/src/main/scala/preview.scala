@@ -7,7 +7,7 @@ object Preview {
   def apply(contents: => Contents) = {
     unfiltered.jetty.Http.anylocal.filter(unfiltered.filter.Planify {
       case GET(Path(Seg(Nil))) =>
-        contents.pages.headOption.map { page =>
+        contents.pages.firstOption.map { page =>
           Redirect("/" + Printer.webify(page.name))
         }.getOrElse { NotFound }
       case GET(Path(Seg(name :: Nil))) =>

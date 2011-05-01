@@ -5,7 +5,7 @@ case class Contents(items: Seq[CharSequence]) {
   val pages = items.map { str =>
     Page(DefaultDiscounter.knockoff(str))
   }.toList
-  val title = pages.headOption.map {
+  val title = pages.firstOption.map {
     case Page(name, _) => name
   }.getOrElse { "Empty" }
 }
@@ -18,7 +18,7 @@ object Page {
         case _ => Seq()
       }
       case _ => Seq()
-    }.headOption.getOrElse { "Untitled" }
+    }.firstOption.getOrElse { "Untitled" }
     Page(name, blocks)
   }
 }
