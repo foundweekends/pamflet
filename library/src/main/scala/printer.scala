@@ -44,8 +44,8 @@ case class Printer(contents: Contents) {
             <div class="span-2 page">{
               prev.map { p =>
                 <a href={ Printer.webify(p.name)}>
-                  <span>&nbsp;</span>
-                  <span>⊰</span>
+                  <span class="space">&nbsp;</span>
+                  <span class="flip">❧</span>
                 </a>
               }.getOrElse { <span>&nbsp;</span> } .toSeq
             }</div>
@@ -55,8 +55,8 @@ case class Printer(contents: Contents) {
             <div class="span-2 last push-18 page">{
               next.map { n =>
                 <a class="pageright" href={ Printer.webify(n.name)}>
-                  <span>&nbsp;</span>
-                  <span>⊱</span>
+                  <span class="space">&nbsp;</span>
+                  <span>❧</span>
                 </a>
               }.getOrElse { <span>&nbsp;</span> }.toSeq
             }</div>

@@ -4,7 +4,7 @@ body {
     overflow-y: scroll;
 }
 p {
-    width: 30em;
+    width: 32em;
 }
 pre, code, tt {
     font-size: .9em;
@@ -35,10 +35,21 @@ div.page a:hover {
     color: #06c;
     background: #efefef;
 }
-div.page a span {
+div.page a span.space {
     display: block;
     height: 45%;
 }
 div.contents {
     margin-top: 2.5em;
+}
+span.flip {
+    display: block;
+    -moz-transform: rotate(180deg);  
+    -o-transform: rotate(180deg);  
+    -webkit-transform: rotate(180deg);  
+    -ms-transform: rotate(180deg);  
+    transform: rotate(180deg);  
+    filter: progid:DXImageTransform.Microsoft.Matrix( 
+        M11=-1, M12=-1.2246063538223773e-16, M21=1.2246063538223773e-16, M22=-1, sizingMethod='auto expand');
+    zoom: 1;
 }
