@@ -16,31 +16,39 @@ div.title {
     font-style: italic;
     border-bottom: black solid 1px;
     background: white;
+    z-index: 1;
 }
-div.page {
+div.container {
+    position: relative;
+    background: white;
+    height: 100%;
+}
+a.page {
     position: fixed;
     height: 100%;
+    width: 50%;
+    top: 0;
     font-size: 2em;
-}
-div.page a {
+    text-align: right;
     color: black;
     text-decoration: none;
     display: block;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    vertical-align: middle;
+    padding: 0 2em;
 }
-div.page a:hover {
+a.page.next {
+    right: 0;
+}
+a.page:hover {
     color: #06c;
     background: #efefef;
 }
-div.page a span.space {
+a.page span.space {
     display: block;
     height: 45%;
 }
 div.contents {
-    margin-top: 2.5em;
+    padding-top: 2.5em;
+    background: white;
 }
 span.flip {
     display: block;

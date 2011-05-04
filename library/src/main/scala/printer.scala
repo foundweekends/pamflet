@@ -39,29 +39,25 @@ case class Printer(contents: Contents) {
         }
       </head>
       <body>
+        { prev.map { p =>
+          <a class="page prev" href={ Printer.webify(p.name)}>
+            <span class="space">&nbsp;</span>
+            <span class="flip">❧</span>
+          </a>
+        }.toSeq ++
+        next.map { n =>
+          <a class="page next" href={ Printer.webify(n.name)}>
+            <span class="space">&nbsp;</span>
+            <span>❧</span>
+          </a>
+        }.toSeq }
         <div class="container">
-          <div class="span-20 topnav">
-            <div class="span-2 page">{
-              prev.map { p =>
-                <a href={ Printer.webify(p.name)}>
-                  <span class="space">&nbsp;</span>
-                  <span class="flip">❧</span>
-                </a>
-              }.getOrElse { <span>&nbsp;</span> } .toSeq
-            }</div>
-            <div class="span-16 push-2 title">
+          <div class="span-16 prepend-1 append-1 topnav">
+            <div class="span-16 title">
               { contents.title }
             </div>
-            <div class="span-2 last push-18 page">{
-              next.map { n =>
-                <a class="pageright" href={ Printer.webify(n.name)}>
-                  <span class="space">&nbsp;</span>
-                  <span>❧</span>
-                </a>
-              }.getOrElse { <span>&nbsp;</span> }.toSeq
-            }</div>
           </div>
-          <div class="contents span-16 prepend-2 append-2">
+          <div class="span-16 prepend-1 append-1 contents">
             { toXHTML(page.blocks) }
             <h5>Contents</h5>
             { toc(page) }
