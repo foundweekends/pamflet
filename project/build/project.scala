@@ -17,6 +17,8 @@ class Project(info: ProjectInfo) extends ParentProject(info)
   lazy val app = project("app", 
                          "pamflet app", 
                          new DefaultProject(_) {
+    /** for sbt artifacts */
+    val databinder_net = "databinder.net repository" at "http://databinder.net/repo"
     val launch = "org.scala-tools.sbt" % "launcher-interface" % "0.7.4" % "provided"
   }, library)
   override def managedStyle = ManagedStyle.Maven
