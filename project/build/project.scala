@@ -17,6 +17,7 @@ class Project(info: ProjectInfo) extends ParentProject(info)
   lazy val app = project("app", 
                          "pamflet app", 
                          new DefaultProject(_) {
+    val launchInterface = "org.scala-tools.sbt" % "launcher-interface" % "0.7.4" % "provided" from "http://databinder.net/repo/org.scala-tools.sbt/launcher-interface/0.7.4/jars/launcher-interface.jar"
   }, library)
   override def managedStyle = ManagedStyle.Maven
   val publishTo = "Scala Tools Nexus" at "http://nexus.scala-tools.org/content/repositories/releases/"
