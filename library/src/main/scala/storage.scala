@@ -13,7 +13,11 @@ trait UriStorage extends Storage {
 }
 
 case class FileStorage(base: java.io.File) extends UriStorage {
-  def uris = base.listFiles.filter { f =>
+  def files = base.listFiles match {
+    case null => Seq.empty
+    case files => files
+  }
+  def uris = files.filter { f =>
     f.getName.endsWith(".markdown") && !f.getName.startsWith(".")
   }.toList.sort { _.getName < _.getName } map { _.toURI }
   def css = base.listFiles.filter {
