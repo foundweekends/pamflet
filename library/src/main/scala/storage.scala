@@ -25,7 +25,7 @@ case class FileStorage(base: java.io.File) extends UriStorage {
   def uris = files.filter(isAcceptable).toList.sort {
      _.getName < _.getName 
   } map { _.toURI }
-  def css = base.listFiles.filter {
+  def css = files.filter {
     _.getName.endsWith(".css")
   }.map { f => (f.getName, read(f.toURI)) }
 }
