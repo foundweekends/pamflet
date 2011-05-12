@@ -17,9 +17,14 @@ case class FileStorage(base: java.io.File) extends UriStorage {
     case null => Seq.empty
     case files => files
   }
-  def uris = files.filter { f =>
-    f.getName.endsWith(".markdown") && !f.getName.startsWith(".")
-  }.toList.sort { _.getName < _.getName } map { _.toURI }
+  def isAcceptable(f: java.io.File) = ( 
+    f.getName.endsWith(".markdown") || 
+    f.getName.endsWith(".md") && 
+    !f.getName.startsWith(".")
+  )
+  def uris = files.filter(isAcceptable).toList.sort {
+     _.getName < _.getName 
+  } map { _.toURI }
   def css = base.listFiles.filter {
     _.getName.endsWith(".css")
   }.map { f => (f.getName, read(f.toURI)) }
