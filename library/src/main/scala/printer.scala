@@ -20,7 +20,8 @@ case class Printer(contents: Contents) {
         case (List(l, `page`, n, _*), _) => (Some(l), Some(n))
         case (List(l, `page`), _) => (Some(l), None)
         case (List(`page`, n, _*), _) => (last, Some(n))
-        case _  => lastnext(in.tail, last)
+        case ((_ :: tail), _) => lastnext(tail, last)
+        case _  => (None, None)
       }
     val (prev, next) = lastnext(contents.pages, None)
     <html>
