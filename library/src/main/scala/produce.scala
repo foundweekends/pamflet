@@ -13,7 +13,7 @@ object Produce {
     }
     val printer = Printer(contents)
     contents.pages.foreach { page =>
-      write(Printer.webify(page.name), printer.print(page).toString)
+      write(Printer.fileify(page.name), printer.print(page).toString)
     }
     contents.css.foreach { case (name, contents) =>
       write("css/" + name, contents)

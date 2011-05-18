@@ -4,6 +4,9 @@ import com.tristanhunt.knockoff.DefaultDiscounter.toXHTML
 object Printer {
   def webify(name: String) =
     java.net.URLEncoder.encode(name, "utf-8") + ".html"
+  /** File names shouldn't be url encoded, just space converted */
+  def fileify(name: String) =
+    name.replace(' ', '+') + ".html"
 }
 case class Printer(contents: Contents) {
   def toc(current: Page) =
