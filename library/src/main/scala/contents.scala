@@ -3,7 +3,7 @@ import com.tristanhunt.knockoff._
 
 case class Contents(items: Seq[CharSequence], css: Seq[(String,String)]) {
   val pages = items.map { str =>
-    Page(DefaultDiscounter.knockoff(str))
+    Page(PamfletDiscounter.knockoff(str))
   }.toList
   val title = pages.firstOption.map {
     case Page(name, _) => name
