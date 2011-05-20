@@ -4,7 +4,7 @@ Pamflet
 *Pamflet* is a tool for publishing short texts. You can invoke it from
 the command line or through an sbt plugin.
 
-```
+```scala
 This should be a text line
   and another
 ```

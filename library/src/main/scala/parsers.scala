@@ -1,21 +1,36 @@
 package pamflet
 import com.tristanhunt.knockoff._
+import scala.util.parsing.input.{ CharSequenceReader, Position, Reader }
 
 object PamfletDiscounter extends Discounter {
   override def newChunkParser : ChunkParser = new PamfletChunkParser
+  override def blockToXHTML: Block => xml.Node = block => block match {
+    case FencedCodeBlock(text, _, language) =>
+      fencedChunkToXHTML(text, language)
+    case _ => super.blockToXHTML(block)
+  }
+  def fencedChunkToXHTML(text: Text, language: Option[String]) =
+    <pre><code class={
+      language.map { "brush: " + _ }.getOrElse("")
+    }>{ text.content }</code></pre>
 }
 class PamfletChunkParser extends ChunkParser {
   override def chunk : Parser[ Chunk ] = {
-    horizontalRule | leadingStrongTextBlock | leadingEmTextBlock | bulletItem |
-    numberedItem | indentedChunk | header | blockquote | linkDefinition |
-    fencedChunk |
-    textBlockWithBreak | textBlock | emptyLines
+    horizontalRule | leadingStrongTextBlock | leadingEmTextBlock | 
+    bulletItem | numberedItem | indentedChunk | header | blockquote | 
+    linkDefinition | fencedChunk | textBlockWithBreak | textBlock | 
+    emptyLines
   }
 
   def fencedChunk : Parser[ Chunk ] =
-    fence ~> emptyLine ~> rep1(unquotedTextLine) <~ fence <~emptyLine ^^ {
-      case lines => IndentedChunk(foldedString(lines))
-    }
+    fence ~> opt(brush) ~ emptyLine ~
+      rep1(unquotedTextLine) <~ fence <~ emptyLine ^^ {
+        case (brush ~ _) ~ lines =>
+          FencedChunk(foldedString(lines), brush.map { _.content })
+      }
+
+  def brush : Parser[Chunk] =
+    """[ ]*[^\n]+""".r ^^ { b => TextChunk(b.trim) }
 
   def fence : Parser[Chunk] =
     "```" ^^ { _ => EmptySpace("") }
@@ -26,3 +41,16 @@ class PamfletChunkParser extends ChunkParser {
   private def foldedString( texts : List[ Chunk ] ) : String =
     ( "" /: texts )( (current, text) => current + text.content )
 }
+
+case class FencedChunk(val content: String, language: Option[String])
+extends Chunk {
+  def appendNewBlock( list : collection.mutable.ListBuffer[Block],
+                      remaining : List[ (Chunk, Seq[Span], Position) ],
+                      spans : Seq[Span], position : Position,
+                      discounter : Discounter ) {
+    list += FencedCodeBlock(Text(content), position, language)
+  }
+}
+
+case class FencedCodeBlock(text: Text, position: Position, 
+                           language: Option[String]) extends Block

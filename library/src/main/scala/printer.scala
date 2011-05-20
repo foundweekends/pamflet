@@ -1,5 +1,5 @@
 package pamflet
-import com.tristanhunt.knockoff.DefaultDiscounter.toXHTML
+import PamfletDiscounter.toXHTML
 
 object Printer {
   def webify(name: String) =
