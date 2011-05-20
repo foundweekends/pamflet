@@ -41,6 +41,7 @@ case class Printer(contents: Contents) {
             <link rel="stylesheet" href={"css/" + filename} type="text/css" media="screen, projection"/>
           }
         }
+        <meta charset="utf-8" />
       </head>
       <body>
         { prev.map { p =>

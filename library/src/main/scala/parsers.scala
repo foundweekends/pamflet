@@ -13,9 +13,12 @@ class PamfletChunkParser extends ChunkParser {
   }
 
   def fencedChunk : Parser[ Chunk ] =
-    """```\n""".r ~ rep1(unquotedTextLine) <~ """```\n""".r ^^ {
-      case ~(start, lines) => IndentedChunk(foldedString(lines))
+    fence ~> emptyLine ~> rep1(unquotedTextLine) <~ fence <~emptyLine ^^ {
+      case lines => IndentedChunk(foldedString(lines))
     }
+
+  def fence : Parser[Chunk] =
+    "```" ^^ { _ => EmptySpace("") }
 
   def unquotedTextLine : Parser[ Chunk ] =
     """(?!```)[^\n]+\n""".r ^^ { TextChunk(_) }
