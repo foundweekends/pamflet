@@ -17,6 +17,27 @@ case class Printer(contents: Contents) {
       </li>
     } } </ol>
 
+  def prettify(page: Page) = {
+    val langs =
+      page.blocks.flatMap {
+        case FencedCodeBlock(_, _, Some(lang)) => Seq(lang)
+        case _ => Seq()
+      }
+    langs.firstOption.map { _ =>
+      { <script type="text/javascript"
+          src="js/prettify/prettify.js" /> } ++
+      langs.map { br =>
+        <script type="text/javascript" src={
+          "js/prettify/lang-%s.js".format(br)
+        } />
+      } ++
+      <link type="text/css" rel="stylesheet" href="css/prettify.css"/>
+      <script type="text/javascript"><!--
+        window.onload=function() { prettyPrint(); };
+      --></script>
+    }.toSeq
+  }
+
   def print(page: Page) = {
     def lastnext(in: List[Page], last: Option[Page]): (Option[Page], Option[Page]) =
       (in, last) match {
@@ -27,6 +48,7 @@ case class Printer(contents: Contents) {
         case _  => (None, None)
       }
     val (prev, next) = lastnext(contents.pages, None)
+    
     <html>
       <head>
         <title>{ "%s: %s".format(contents.title, page.name) }</title>
@@ -40,6 +62,9 @@ case class Printer(contents: Contents) {
           contents.css.map { case (filename, contents) =>
             <link rel="stylesheet" href={"css/" + filename} type="text/css" media="screen, projection"/>
           }
+        }
+        {
+          prettify(page)
         }
         <meta charset="utf-8" />
       </head>

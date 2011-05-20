@@ -11,7 +11,7 @@ object PamfletDiscounter extends Discounter {
   }
   def fencedChunkToXHTML(text: Text, language: Option[String]) =
     <pre><code class={
-      language.map { "brush: " + _ }.getOrElse("")
+      language.map { "prettyprint lang-r" + _ }.getOrElse("")
     }>{ text.content }</code></pre>
 }
 class PamfletChunkParser extends ChunkParser {
@@ -24,7 +24,7 @@ class PamfletChunkParser extends ChunkParser {
 
   def fencedChunk : Parser[ Chunk ] =
     fence ~> opt(brush) ~ emptyLine ~
-      rep1(unquotedTextLine) <~ fence <~ emptyLine ^^ {
+      rep1(unquotedTextLine | emptyLine) <~ fence <~ emptyLine ^^ {
         case (brush ~ _) ~ lines =>
           FencedChunk(foldedString(lines), brush.map { _.content })
       }

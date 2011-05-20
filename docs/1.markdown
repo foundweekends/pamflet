@@ -7,7 +7,7 @@ the command line or through an sbt plugin.
 ```scala
 import unfiltered._
 object P extends unfiltered.filter.Plan {
-  def filter
+  def filter = "constant"
 }
 ```
     and here's
