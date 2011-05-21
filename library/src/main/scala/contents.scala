@@ -8,8 +8,15 @@ case class Contents(items: Seq[CharSequence], css: Seq[(String,String)]) {
   val title = pages.firstOption.map {
     case Page(name, _) => name
   }.getOrElse { "Empty" }
+  val langs = (Set.empty[String] /: pages) { _ ++ _.langs }
 }
-case class Page(name: String, blocks: Seq[Block])
+case class Page(name: String, blocks: Seq[Block]) {
+  val langs =
+    (Set.empty[String] /: blocks) {
+      case (s, FencedCodeBlock(_, _, Some(lang))) => s + lang
+      case (s, _) => s
+    }
+}
 object Page {
   def apply(blocks: Seq[Block]): Page = {
     val name = blocks.projection.flatMap {

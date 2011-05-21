@@ -18,15 +18,21 @@ object Produce {
     contents.css.foreach { case (name, contents) =>
       write("css/" + name, contents)
     }
-    filePaths.foreach { path =>
+    filePaths(contents).foreach { path =>
       write(path, scala.io.Source.fromInputStream(
         new java.net.URL(Shared.resources, path).openStream()
       ).mkString(""))
     }
   }
-  val filePaths =
+  def filePaths(contents: Contents) =
     "css/pamflet.css" ::
-    ("screen.css" :: "print.css" :: "ie.css" :: Nil).map { name =>
-      "css/blueprint/%s".format(name)
+    ("screen.css" :: "print.css" :: "ie.css" :: Nil).map {
+      "css/blueprint/" + _
+    } :::
+    "css/prettify.css" ::
+    ("prettify.js" ::
+      contents.langs.map { l => "lang-%s.js".format(l) }.toList
+    ).map {
+      "js/prettify/" + _
     }
 }

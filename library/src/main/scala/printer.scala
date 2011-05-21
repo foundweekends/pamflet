@@ -18,15 +18,10 @@ case class Printer(contents: Contents) {
     } } </ol>
 
   def prettify(page: Page) = {
-    val langs =
-      page.blocks.flatMap {
-        case FencedCodeBlock(_, _, Some(lang)) => Seq(lang)
-        case _ => Seq()
-      }
-    langs.firstOption.map { _ =>
+    page.langs.elements.find{ _ => true }.map { _ =>
       { <script type="text/javascript"
           src="js/prettify/prettify.js" /> } ++
-      langs.map { br =>
+      page.langs.map { br =>
         <script type="text/javascript" src={
           "js/prettify/lang-%s.js".format(br)
         } />

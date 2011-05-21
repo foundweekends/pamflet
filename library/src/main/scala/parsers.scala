@@ -11,7 +11,7 @@ object PamfletDiscounter extends Discounter {
   }
   def fencedChunkToXHTML(text: Text, language: Option[String]) =
     <pre><code class={
-      language.map { "prettyprint lang-r" + _ }.getOrElse("")
+      language.map { "prettyprint lang-" + _ }.getOrElse("")
     }>{ text.content }</code></pre>
 }
 class PamfletChunkParser extends ChunkParser {
