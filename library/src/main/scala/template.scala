@@ -4,12 +4,11 @@ import java.io.{File,FileInputStream}
 import org.antlr.stringtemplate.{StringTemplate => STImpl}
 
 trait Template {
-  def apply(storage: Storage) = storage.items.map(template)
-  def template(input: CharSequence): CharSequence
+  def apply(input: CharSequence): CharSequence
 }
 
 case class StringTemplate(file: File) extends Template {
-  def template(input: CharSequence) =
+  def apply(input: CharSequence) =
     if (file.exists) {
       val st = new STImpl
       st.setTemplate(input.toString)
