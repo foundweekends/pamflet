@@ -9,13 +9,30 @@ object Printer {
     name.replace(' ', '+') + ".html"
 }
 case class Printer(contents: Contents) {
-  def toc(current: Page) =
-    <ol> { contents.pages.map {
-      case `current` => <li>{ current.name }</li>
-      case page => <li>
-        <a href={ Printer.webify(page.name) }>{ page.name }</a> 
-      </li>
-    } } </ol>
+  def toc(current: Page) = {
+    val link: Page => xml.NodeSeq = {
+        case `current` =>
+          <div class="current">{ current.name }</div>
+        case page =>
+          <div><a href={ Printer.webify(page.name) }>{ 
+            page.name 
+          }</a></div>
+    }
+    def draw: Page => xml.NodeSeq = {
+      case sect @ Section(name, blocks, children) =>
+        link(sect) ++ list(children)
+      case page => link(page)
+    }
+    def list(pages: Seq[Page]) = {
+      <ol class="toc"> { pages.map { page =>
+        <li>{ draw(page) }</li>
+       } } </ol>
+    }
+
+    <h4>Contents</h4> ++
+    { link(contents.pamflet) } ++
+    list(contents.pamflet.children)
+  }
 
   def prettify(page: Page) = {
     page.langs.elements.find{ _ => true }.map { _ =>
@@ -84,7 +101,6 @@ case class Printer(contents: Contents) {
           </div>
           <div class="span-16 prepend-1 append-1 contents">
             { toXHTML(page.blocks) }
-            <h5>Contents</h5>
             { toc(page) }
           </div>
         </div>
