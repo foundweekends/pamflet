@@ -22,6 +22,15 @@ sealed trait Page {
     (Set.empty[String] /: blocks) {
       case (s, FencedCodeBlock(_, _, Some(lang))) => s + lang
       case (s, _) => s
+    } filter { lang =>
+      try {
+        new java.net.URL(Shared.resources,
+                         "js/prettify/lang-%s.js".format(lang)
+                       ).openStream().close()
+        true
+      } catch {
+        case _ => false
+      }
     }
 }
 case class Leaf(name: String, blocks: Seq[Block]) extends Page
