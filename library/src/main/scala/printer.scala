@@ -60,16 +60,19 @@ case class Printer(contents: Contents) {
         case _  => (None, None)
       }
     val (prev, next) = lastnext(contents.pages, None)
+    val bigScreen = "screen and (min-device-width: 800px), projection"
     
     <html>
       <head>
         <title>{ "%s: %s".format(contents.title, page.name) }</title>
         <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/blueprint/grid.css" type="text/css" media={bigScreen}/>
         <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
         <!--[if lt IE 8]>
           <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"/>
         <![endif]-->
         <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamflet-grid.css" type="text/css" media={bigScreen}/>
         {
           contents.css.map { case (filename, contents) =>
             <link rel="stylesheet" href={"css/" + filename} type="text/css" media="screen, projection"/>
@@ -79,6 +82,7 @@ case class Printer(contents: Contents) {
           prettify(page)
         }
         <meta charset="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0"/>
       </head>
       <body>
         { prev.map { p =>
