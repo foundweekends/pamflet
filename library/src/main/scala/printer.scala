@@ -82,7 +82,7 @@ case class Printer(contents: Contents) {
           prettify(page)
         }
         <meta charset="utf-8" />
-        <meta name="viewport" content="initial-scale=1.0"/>
+        <meta name="viewport" content="width=device-width"/>
       </head>
       <body>
         { prev.map { p =>
