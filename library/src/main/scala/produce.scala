@@ -29,6 +29,10 @@ object Produce {
     ("screen.css" :: "grid.css" :: "print.css" :: "ie.css" :: Nil).map {
       "css/blueprint/" + _
     } :::
+    ("jquery.mobile-1.0a4.1.min.js" ::
+     "jquery-1.6.1.min.js" ::
+     "pamflet.js" :: Nil
+    ).map { "js/" + _ } :::
     "css/prettify.css" ::
     ("prettify.js" ::
       contents.langs.map { l => "lang-%s.js".format(l) }.toList
