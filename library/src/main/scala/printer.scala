@@ -8,7 +8,7 @@ object Printer {
   def fileify(name: String) =
     name.replace(' ', '+') + ".html"
 }
-case class Printer(contents: Contents) {
+case class Printer(contents: Contents, manifest: Option[String]) {
   def toc(current: Page) = {
     val link: Page => xml.NodeSeq = {
         case `current` =>
@@ -62,7 +62,7 @@ case class Printer(contents: Contents) {
     val (prev, next) = lastnext(contents.pages, None)
     val bigScreen = "screen and (min-device-width: 800px), projection"
     
-    <html>
+    val html = <html>
       <head>
         <title>{ "%s: %s".format(contents.title, page.name) }</title>
         <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
@@ -113,6 +113,9 @@ case class Printer(contents: Contents) {
         </div>
       </body>
     </html>
+    manifest.map { mf => 
+      html % new scala.xml.UnprefixedAttribute("manifest", mf, scala.xml.Null)
+    } getOrElse { html }
   }
 
   def named(name: String) =

@@ -12,7 +12,7 @@ object Preview {
           Redirect("/" + Printer.webify(page.name))
         }.getOrElse { NotFound }
       case GET(Path(Seg(name :: Nil))) =>
-        Printer(contents).printNamed(name).map { html =>
+        Printer(contents, None).printNamed(name).map { html =>
           Html(html)
         }.getOrElse { NotFound }
       case GET(Path(Seg("css" :: name :: Nil))) if css.contains(name) =>

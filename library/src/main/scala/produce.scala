@@ -11,18 +11,27 @@ object Produce {
       out.write(contents.getBytes("utf-8"))
       out.close()
     }
-    val printer = Printer(contents)
+    val manifest = "pamflet.manifest"
+    val printer = Printer(contents, Some(manifest))
     contents.pages.foreach { page =>
       write(Printer.fileify(page.name), printer.print(page).toString)
     }
-    contents.css.foreach { case (name, contents) =>
-      write("css/" + name, contents)
+    val css = contents.css.map { case (nm, v) => ("css/" + nm, v) }.toList
+    css.foreach { case (path, contents) =>
+      write(path, contents)
     }
-    filePaths(contents).foreach { path =>
+    val paths = filePaths(contents)
+    paths.foreach { path =>
       write(path, scala.io.Source.fromInputStream(
         new java.net.URL(Shared.resources, path).openStream()
       ).mkString(""))
     }
+    write(manifest, (
+      "CACHE MANIFEST" ::
+      css.map { case (n,_) => n } :::
+      contents.pages.map { p => Printer.webify(p.name) } :::
+      paths).mkString("\n")
+    )
   }
   def filePaths(contents: Contents) =
     "css/pamflet.css" :: "css/pamflet-grid.css" ::
