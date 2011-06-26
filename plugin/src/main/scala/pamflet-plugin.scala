@@ -15,7 +15,7 @@ object Pamflet extends Plugin {
   val stopPamflet = TaskKey[Unit]("stop-pamflet")
   val writePamflet = TaskKey[Unit]("write-pamflet")
 
-  override val settings: Seq[Project.Setting[_]] = Seq(
+  override lazy val settings = Seq(
     pamfletDocs <<= baseDirectory / "docs",
     pamfletProperties <<= pamfletDocs / "template.properties",
     pamfletOutput <<= target / "docs",
@@ -34,11 +34,13 @@ object Pamflet extends Plugin {
   private def startPamfletTask = (pamfletServer) map { (server) =>
     server.start
     unfiltered.util.Browser.open(
-      "http://127.0.0.1:%d/".format(pamfletServer.port)
+      "http://127.0.0.1:%d/".format(server.port)
     )
+    ()
   }
   private def stopPamfletTask = (pamfletServer) map { (server) =>
     server.stop
+    ()
   }
   private def writePamfletTask = (pamfletOutput, pamfletStorage) map {
     (output, storage) =>
