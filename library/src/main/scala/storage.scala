@@ -8,7 +8,7 @@ trait Storage {
 
 case class FileStorage(base: File, template: Template) extends Storage {
   def contents = {
-    val pamflet = section(base).firstOption.getOrElse {
+    val pamflet = section(base).headOption.getOrElse {
       Section("Empty", Seq.empty, Nil)
     }
     val css = base.listFiles.filter {
@@ -18,9 +18,9 @@ case class FileStorage(base: File, template: Template) extends Storage {
   }
   def section(dir: File): Seq[Section] = {
     val files = (dir.listFiles match {
-      case null => Seq.empty
+      case null => Array.empty
       case files => files
-    }).toList.sort {
+    }).toList.sortWith {
       _.getName < _.getName
     }
     files.find(isMarkdown).map { head =>

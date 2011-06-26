@@ -42,11 +42,11 @@ case class Section(name: String,
                    children: List[Page]) extends Page
 object Page {
   def name(blocks: Seq[Block]) =
-    blocks.projection.flatMap {
+    blocks.view.flatMap {
       case h: Header => h.spans.flatMap {
         case t: Text => Seq(t.content)
         case _ => Seq()
       }
       case _ => Seq()
-    }.firstOption.getOrElse { "Untitled" }
+    }.headOption.getOrElse { "Untitled" }
 }

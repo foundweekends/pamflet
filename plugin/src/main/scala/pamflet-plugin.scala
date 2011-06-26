@@ -1,28 +1,49 @@
 package pamflet
 
-trait Actions extends sbt.Project {
-  def pamfletDocs = path("docs")
-  def pamfletProperties = pamfletDocs / "template.properties"
-  def pamfletOutput = outputPath / "docs"
-  private def pamfletStorage = 
-    FileStorage(pamfletDocs.asFile, 
-                StringTemplate(pamfletProperties.asFile))
-  lazy private val pamfletServer = Preview(pamfletStorage.contents)
-  lazy val startPamflet = task {
-    pamfletServer.start
-    unfiltered.util.Browser.open("http://127.0.0.1:%d/".format(pamfletServer.port))
-    None
+import sbt._
+import Keys._
+import Defaults._
+
+
+object Pamflet extends Plugin {
+  val pamfletDocs = SettingKey[File]("pamflet-docs")
+  val pamfletProperties = SettingKey[File]("pamflet-properties")
+  val pamfletOutput = SettingKey[File]("pamflet-output")
+  val pamfletStorage = SettingKey[Storage]("pamflet-storage")
+  val pamfletServer = SettingKey[unfiltered.jetty.Http]("pamflet-server")
+  val startPamflet = TaskKey[Unit]("start-pamflet")
+  val stopPamflet = TaskKey[Unit]("stop-pamflet")
+  val writePamflet = TaskKey[Unit]("write-pamflet")
+
+  override val settings: Seq[Project.Setting[_]] = Seq(
+    pamfletDocs <<= baseDirectory / "docs",
+    pamfletProperties <<= pamfletDocs / "template.properties",
+    pamfletOutput <<= target / "docs",
+    pamfletStorage <<= (pamfletDocs, pamfletProperties) {
+      (docs, properties) =>
+        FileStorage(docs, StringTemplate(properties))
+    },
+    pamfletServer <<= (pamfletStorage) { (storage) =>
+      Preview(storage.contents)
+    },
+    startPamflet <<= startPamfletTask,
+    stopPamflet <<= stopPamfletTask,
+    writePamflet <<= writePamfletTask
+  )
+
+  private def startPamfletTask = (pamfletServer) map { (server) =>
+    server.start
+    unfiltered.util.Browser.open(
+      "http://127.0.0.1:%d/".format(pamfletServer.port)
+    )
   }
-  lazy val stopPamflet = task {
-    pamfletServer.stop
-    None
+  private def stopPamfletTask = (pamfletServer) map { (server) =>
+    server.stop
   }
-  lazy val writePamflet = task {
-    sbt.FileUtilities.createDirectory(pamfletOutput, log) orElse {
-      Produce(
-        pamfletStorage.contents, pamfletOutput.asFile
-      )
-      None
-    }
+  private def writePamfletTask = (pamfletOutput, pamfletStorage) map {
+    (output, storage) =>
+      sbt.IO.createDirectory(output)
+      Produce(storage.contents, output)
   }
+
 }

@@ -8,7 +8,7 @@ object Preview {
     def css = Map.empty ++ contents.css
     unfiltered.jetty.Http.anylocal.filter(unfiltered.filter.Planify {
       case GET(Path(Seg(Nil))) =>
-        contents.pages.firstOption.map { page =>
+        contents.pages.headOption.map { page =>
           Redirect("/" + Printer.webify(page.name))
         }.getOrElse { NotFound }
       case GET(Path(Seg(name :: Nil))) =>
