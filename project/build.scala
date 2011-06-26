@@ -1,18 +1,26 @@
 import sbt._
+import Keys._
 
 object PamfletBuild extends Build {
-  lazy val pamflet =
-    Project("pamflet", file(".")) aggregate(app, plugin)
+  lazy val common = Defaults.defaultSettings ++ Seq(
+    organization := "net.databinder",
+    version := "0.2.2",
+    crossScalaVersions := Seq("2.8.1")
+  )
+
+  lazy val pamflet: Project =
+    Project("pamflet", file("."), 
+            settings = common) aggregate(app, plugin)
   lazy val knockoff: Project =
     Project("pamflet-knockoff", file("knockoff"),
-            delegates = pamflet :: Nil)
+            settings = common)
   lazy val library: Project =
     Project("pamflet-library", file("library"),
-            delegates = pamflet :: Nil) dependsOn knockoff
+            settings = common) dependsOn knockoff
   lazy val app: Project =
     Project("pamflet-app", file("app"),
-            delegates = pamflet :: Nil) dependsOn library
+            settings = common) dependsOn library
   lazy val plugin: Project =
     Project("pamflet-plugin", file("plugin"),
-            delegates = pamflet :: Nil) dependsOn library
+            settings = common) dependsOn library
 }
