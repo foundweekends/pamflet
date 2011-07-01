@@ -4,7 +4,7 @@ import Keys._
 object PamfletBuild extends Build {
   lazy val common = Defaults.defaultSettings ++ Seq(
     organization := "net.databinder",
-    version := "0.2.2",
+    version := "0.2.3-SNAPSHOT",
     crossScalaVersions := Seq("2.8.1"),
     publishTo := Some("Scala Tools Nexus" at 
       "http://nexus.scala-tools.org/content/repositories/releases/"),
@@ -13,7 +13,7 @@ object PamfletBuild extends Build {
 
   lazy val pamflet: Project =
     Project("pamflet", file("."), 
-            settings = common) aggregate(app, plugin)
+            settings = common) aggregate(knockoff, library, app, plugin)
   lazy val knockoff: Project =
     Project("pamflet-knockoff", file("knockoff"),
             settings = common)

@@ -4,7 +4,8 @@ import com.tristanhunt.knockoff._
 import scala.util.parsing.input.{ CharSequenceReader, Position, Reader }
 
 trait FencedDiscounter extends Discounter {
-  override def newChunkParser : ChunkParser = new PamfletChunkParser
+  override def newChunkParser : ChunkParser =
+    new ChunkParser with FencedChunkParser
   override def blockToXHTML: Block => xml.Node = block => block match {
     case FencedCodeBlock(text, _, language) =>
       fencedChunkToXHTML(text, language)
@@ -17,6 +18,13 @@ trait FencedDiscounter extends Discounter {
 }
 
 trait FencedChunkParser { self: ChunkParser =>
+  override def chunk : Parser[ Chunk ] = {
+    horizontalRule | leadingStrongTextBlock | leadingEmTextBlock | 
+    bulletItem | numberedItem | indentedChunk | header | blockquote | 
+    linkDefinition | fencedChunk | textBlockWithBreak | textBlock | 
+    emptyLines
+  }
+
   def fencedChunk : Parser[ Chunk ] =
     fence ~> opt(brush) ~ emptyLine ~
       rep1(unquotedTextLine | emptyLine) <~ fence <~ emptyLine ^^ {
