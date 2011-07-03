@@ -24,18 +24,34 @@ $(function() {
         orig = null;
         moved = false;
     }
+    var edge = function(touch) {
+        var width = screen.width;
+        return Math.abs(touch.screenX - width/2) > (3*width / 8);
+    };
     document.body.ontouchstart = function(e){
-        var width = $(document).width();
         if(e.touches.length == 1 && 
            e.changedTouches.length == 1 &&
-           Math.abs(e.touches[0].screenX - width/2) > (width / 4)
+           edge(e.touches[0])
           ){
             orig = e.touches[0];
             e.preventDefault();
         }
     };
     document.body.ontouchend = function(e){
-        reset();
+        if(moved && e.touches.length == 0 && e.changedTouches.length == 1){
+            var half = screen.width / 2;
+            var touch = e.changedTouches[0];
+            if (orig.screenX > half && touch.screenX < half
+                && $(".next").length > 0)
+                next();
+            else if (orig.screenX < half && touch.screenX > half
+                && $(".prev").length > 0)
+                prev();
+            else
+                reset();
+        } else {
+            reset();
+        }
     };
     document.body.ontouchmove = function(e){
         if(e.touches.length == 1){
