@@ -41,14 +41,19 @@ $(function() {
         if(moved && e.touches.length == 0 && e.changedTouches.length == 1){
             var half = screen.width / 2;
             var touch = e.changedTouches[0];
-            if (orig.screenX > half && touch.screenX < half
-                && $(".next").length > 0)
-                next();
-            else if (orig.screenX < half && touch.screenX > half
-                && $(".prev").length > 0)
-                prev();
-            else
+            if (orig.screenX > half&& touch.screenX < half
+                && $(".next").length > 0) {
+                $(".container").animate({
+                    left: "-=" + half + "px"
+                }, 100, "linear", next);
+            } else if (orig.screenX < half && touch.screenX > half
+                       && $(".prev").length > 0) {
+                $(".container").animate({
+                    left: "+=" + half + "px"
+                }, 100, "linear", prev);
+            } else {
                 reset();
+            }
         } else {
             reset();
         }
