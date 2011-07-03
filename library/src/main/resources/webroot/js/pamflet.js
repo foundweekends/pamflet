@@ -18,11 +18,11 @@ $(function() {
         }
     });
     var orig = null;
-    var moved = false;
+    var container = $(".container");
     var reset = function() {
-        $(".container").animate({left: "0px"});
+        if (orig)
+            container.animate({left: "0px"}, 200);
         orig = null;
-        moved = false;
     }
     var edge = function(touch) {
         var width = screen.width;
@@ -38,19 +38,17 @@ $(function() {
         }
     };
     document.body.ontouchend = function(e){
-        if(moved && e.touches.length == 0 && e.changedTouches.length == 1){
+        if(orig && e.touches.length == 0 && e.changedTouches.length == 1){
             var half = screen.width / 2;
             var touch = e.changedTouches[0];
-            if (orig.screenX > half&& touch.screenX < half
+            if (orig.screenX > half && touch.screenX < half
                 && $(".next").length > 0) {
-                $(".container").animate({
-                    left: "-=" + half + "px"
-                }, 100, "linear", next);
+                container.animate(
+                    {left: "-=" + half + "px"}, 100, "linear", next);
             } else if (orig.screenX < half && touch.screenX > half
                        && $(".prev").length > 0) {
-                $(".container").animate({
-                    left: "+=" + half + "px"
-                }, 100, "linear", prev);
+                container.animate(
+                    {left: "+=" + half + "px"}, 100, "linear", prev);
             } else {
                 reset();
             }
@@ -61,18 +59,12 @@ $(function() {
     document.body.ontouchmove = function(e){
         if(e.touches.length == 1){
             var touch = e.touches[0];
-            if (moved || horiz(touch)) {
-                moved = true;
+            if (orig) {
                 e.preventDefault();
-                $(".container").css({
+                container.css({
                     left: (touch.clientX - orig.clientX) + "px",
                 });
             }
         }
     };
-    var horiz = function(touch) {
-        return orig && Math.abs(
-            (touch.clientY - orig.clientY) / (touch.clientX - orig.clientX)
-        ) < 1;
-    }
 });
