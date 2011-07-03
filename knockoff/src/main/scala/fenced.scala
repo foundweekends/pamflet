@@ -17,7 +17,7 @@ trait FencedDiscounter extends Discounter {
     }>{ text.content }</code></pre>
 }
 
-trait FencedChunkParser { self: ChunkParser =>
+trait FencedChunkParser extends ChunkParser {
   override def chunk : Parser[ Chunk ] = {
     horizontalRule | leadingStrongTextBlock | leadingEmTextBlock | 
     bulletItem | numberedItem | indentedChunk | header | blockquote | 
