@@ -24,9 +24,11 @@ $(function() {
             container.animate({left: "0px"}, 200);
         orig = null;
     }
+    var screenW = function() {
+        return window.innerWidth;
+    }
     var edge = function(touch) {
-        var width = screen.width;
-        return Math.abs(touch.screenX - width/2) > (3*width / 8);
+        return Math.abs(touch.screenX - screenW()/2) > (3*screenW() / 8);
     };
     document.body.ontouchstart = function(e){
         if(e.touches.length == 1 && 
@@ -39,7 +41,7 @@ $(function() {
     };
     document.body.ontouchend = function(e){
         if(orig && e.touches.length == 0 && e.changedTouches.length == 1){
-            var half = screen.width / 2;
+            var half = screenW() / 2;
             var touch = e.changedTouches[0];
             if (orig.screenX > half && touch.screenX < half
                 && $(".next").length > 0) {
