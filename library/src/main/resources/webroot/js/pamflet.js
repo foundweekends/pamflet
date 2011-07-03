@@ -17,25 +17,41 @@ $(function() {
             next();
         }
     });
-    container = $(".container")[0];
     var orig = null;
-    container.ontouchstart = function(e){
-        if(e.touches.length == 1 && e.changedTouches.length == 1){
+    var moved = false;
+    var reset = function() {
+        $(".container").animate({left: "0px"});
+        orig = null;
+        moved = false;
+    }
+    document.body.ontouchstart = function(e){
+        var width = $(document).width();
+        if(e.touches.length == 1 && 
+           e.changedTouches.length == 1 &&
+           Math.abs(e.touches[0].screenX - width/2) > (width / 4)
+          ){
             orig = e.touches[0];
-        } else orig = null;
+            e.preventDefault();
+        }
+    };
+    document.body.ontouchend = function(e){
+        reset();
+    };
+    document.body.ontouchmove = function(e){
+        if(e.touches.length == 1){
+            var touch = e.touches[0];
+            if (moved || horiz(touch)) {
+                moved = true;
+                e.preventDefault();
+                $(".container").css({
+                    left: (touch.clientX - orig.clientX) + "px",
+                });
+            }
+        }
     };
     var horiz = function(touch) {
         return orig && Math.abs(
             (touch.clientY - orig.clientY) / (touch.clientX - orig.clientX)
         ) < 1;
     }
-    container.ontouchmove = function(e){
-        if(e.touches.length == 1){
-            var touch = e.touches[0];
-            if (horiz(touch)) {
-                e.preventDefault();
-                container.style.left = (touch.clientX - orig.clientX) + "px";
-            }
-        }
-    };
 });

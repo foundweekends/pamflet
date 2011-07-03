@@ -78,8 +78,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
             <link rel="stylesheet" href={"css/" + filename} type="text/css" media="screen, projection"/>
           }
         }
-        <script src="js/jquery-1.6.1.min.js"/>
-        <script src="js/jquery.mobile-1.0a4.1.min.js"/>
+        <script src="js/jquery-1.6.2.min.js"/>
         <script src="js/pamflet.js"/>
         {
           prettify(page)
