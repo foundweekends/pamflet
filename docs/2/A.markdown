@@ -1,4 +1,0 @@
-Example A
----------
-
-First,

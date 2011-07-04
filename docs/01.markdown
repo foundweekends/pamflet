@@ -1,0 +1,37 @@
+Easy Reading
+------------
+
+Pamflet generates a linked sets of pages called "pamflets". Although
+hierarchical organization of pages is supported, the primary means of
+navigation is linear and authors are encouraged to write pamflets that
+progress logically when read front to back.
+
+The table of contents appears at the bottom of every page. The first
+page of a pamflet should be brief so that the generated contents
+listing will appear above the fold. Think of it as a title page, with
+a few sentences of description.
+
+### On the Big Screen
+
+On devices with large screens--typically, laptop and desktop
+computers--pamflet pages appear in a fixed-width center column. The
+**page margins** act as a clickable area for page flipping. The left
+and right **keyboard arrows** may also be used for the same purpose.
+
+### Going Mobile
+
+Since Pamflets are meant to be carried around, good mobile appearance
+and behavior is important. When viewed on a phone, tablet, or other
+small-screen device, pamflets take the full screen width.
+
+Pamflet doesn't skimp on the linear navigation for this mode,
+either. Readers can **swipe left and right** to flip pages forward and
+backward. Just be sure to start your swipe at the edge of the screen
+and carry it past the half-way point.
+
+And because mobile devices aren't always connected, an
+[HTML5 cache manifest][manifest] is generated for all pamflets. Add a
+bookmark for a pamflet to your home screen so you can read it
+anywhere.
+
+[manifest]: http://diveintohtml5.org/offline.html
