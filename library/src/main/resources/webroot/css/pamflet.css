@@ -2,6 +2,8 @@ body {
     font-size: 100%;
     font-family: serif;
     padding: 0 1em;
+}
+h1,h2,h3,h4,h5 {
     text-rendering: optimizeLegibility;
 }
 pre, code, tt {
