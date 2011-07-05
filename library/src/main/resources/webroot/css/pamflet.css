@@ -2,6 +2,7 @@ body {
     font-size: 100%;
     font-family: serif;
     padding: 0 1em;
+    text-rendering: optimizeLegibility;
 }
 pre, code, tt {
     font-family: monospace
