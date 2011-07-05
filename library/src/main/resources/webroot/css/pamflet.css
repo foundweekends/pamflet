@@ -1,7 +1,10 @@
 body {
     font-size: 100%;
-    font-family: "Warnock Pro", "Goudy Old Style", "Palatino", "Book Antiqua", Georgia, serif;
+    font-family: serif;
     padding: 0 1em;
+}
+pre, code, tt {
+    font-family: monospace
 }
 div.title {
     text-align: center;
