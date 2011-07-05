@@ -2,5 +2,5 @@ Pamflet
 =======
 
 *Pamflet* is a publishing application for short texts, particularly
-for user documentation of open-source software. Its design objectives
-are to be easy to write and read on any platform.
+ user documentation of open-source software. It is designed to be easy
+ to write and read on any platform.

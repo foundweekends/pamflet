@@ -1,5 +1,5 @@
-Easy Reading
-------------
+Like a Book
+-----------
 
 Pamflet generates a linked sets of pages called "pamflets". Although
 hierarchical organization of pages is supported, the primary means of
@@ -14,15 +14,15 @@ a few sentences of description.
 ### On the Big Screen
 
 On devices with large screens--typically, laptop and desktop
-computers--pamflet pages appear in a fixed-width center column. The
-**page margins** act as a clickable area for page flipping. The left
+computers--pamflet texts appear in a fixed-width center column.  The
+margins are giant **clickable regions** for page flipping. The left
 and right **keyboard arrows** may also be used for the same purpose.
 
 ### Going Mobile
 
-Since Pamflets are meant to be carried around, good mobile appearance
-and behavior is important. When viewed on a phone, tablet, or other
-small-screen device, pamflets take the full screen width.
+Since Pamflets are meant to be carried around, having a good mobile
+appearance and behavior is vital. When viewed on a phone, tablet, or
+other small-screen device, pamflets take the full screen width.
 
 Pamflet doesn't skimp on the linear navigation for this mode,
 either. Readers can **swipe left and right** to flip pages forward and

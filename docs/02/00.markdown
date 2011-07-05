@@ -1,0 +1,6 @@
+Writing and Organizing
+----------------------
+
+Pamflet's purpose is to make it so easy to write decent project
+documentation that everyone will do it. This section tells you
+everything there is to know about writing pamflets.
