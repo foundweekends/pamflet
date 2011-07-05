@@ -1,6 +1,6 @@
 @media (min-device-width: 800px) {
-    body {
-        font-family: "DejaVu Serif", "Droid Serif", "Bitream Vera Serif",
-                     Georgia, serif;
+    h1,h2,h3,h4,h5 {
+        /* prefix with some that have ligatures */
+        font-family: "DejaVu Serif", Didot, "Warnock Pro", "Goudy Old Style", "Palatino", "Book Antiqua", Georgia, serif;
     }
 }
