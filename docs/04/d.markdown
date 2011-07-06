@@ -1,0 +1,7 @@
+For Your Perusal
+----------------
+
+All techniques described in this pamflet are used to produce it. Take
+a look through Pamflet's `docs/` directory [on github][gh].
+
+[gh]: https://github.com/n8han/pamflet/
