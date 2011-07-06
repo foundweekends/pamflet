@@ -35,7 +35,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
   }
 
   def prettify(page: Page) = {
-    page.langs.find{ _ => true }.map { _ =>
+    page.referencedLangs.find{ _ => true }.map { _ =>
       { <script type="text/javascript"
           src="js/prettify/prettify.js" /> } ++
       page.langs.map { br =>

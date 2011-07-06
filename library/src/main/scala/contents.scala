@@ -18,11 +18,12 @@ case class Contents(pamflet: Section, css: Seq[(String,String)]) {
 sealed trait Page {
   def name: String
   def blocks: Seq[Block]
-  lazy val langs =
+  lazy val referencedLangs =
     (Set.empty[String] /: blocks) {
       case (s, FencedCodeBlock(_, _, Some(lang))) => s + lang
       case (s, _) => s
-    } filter { lang =>
+    }
+  lazy val langs = referencedLangs.filter { lang =>
       try {
         new java.net.URL(Shared.resources,
                          "js/prettify/lang-%s.js".format(lang)
