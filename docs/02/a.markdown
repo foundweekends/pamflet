@@ -7,7 +7,7 @@ finished web files at the destination. Sources with a `markdown` or
 
 
 Filenames are used only for ordering pages and sections; the display
-titles and page URLs are determined instead by the first header
+titles and page URLs are determined instead by the first heading
 element in the source of the page.
 
 ### Naming Conventions
@@ -29,3 +29,9 @@ might look like this:
 This tells the processor that "Pamflet" is the name of the page. If
 this source is indeed the first one in the ordered list, it is
 interpreted as the name of the entire pamflet.
+
+#### Output Names
+
+The output `html` filenames are URL-encoded versions of the page
+names; the have no relationship to the input filenames. Page names
+must therefore be unique across the pamflet.

@@ -17,7 +17,7 @@ sources.
         b.markdown
       02.markdown
 
-Given valid sources containing page headers, the above structure will
+Given valid sources containing page headings, the above structure will
 produce the following *Contents* listing:
 
     <00.markdown>
@@ -36,3 +36,8 @@ You can also see in this example that Pamflet's second level numbering
 is lowercase letters. The third is lowercase roman numerals, and and
 after that it is back to the browser default. You can override these
 for any level using a custom stylesheet.
+
+###### Note
+
+Nesting is reflected only in the *Contents* listing. The pamflet page
+namespace is flat, with all output `html` under a single path.

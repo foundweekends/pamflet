@@ -1,8 +1,8 @@
 Shaping the Contents Tree
 -------------------------
 
-As mentioned on the previous page, source filenames determine page
-ordering of a pamflet. This ordering also affects the *Contents*
+As mentioned on the previous page, pages are ordered alphabetically
+by their source filenames. This ordering also affects the *Contents*
 listing that appears below every page.
 
 Pamflet uses HTML ordered lists for *Contents*. In the default

@@ -1,0 +1,6 @@
+Pamflet in a Project
+--------------------
+
+Although it can be applied for any purpose, Pamflet is tailored to
+produce open-source project documentation. This section explores the
+workflow from drafting to publication.
