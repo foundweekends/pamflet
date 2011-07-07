@@ -35,7 +35,10 @@ $(function() {
            e.changedTouches.length == 1 &&
            edge(e.touches[0])
           ){
-            orig = e.touches[0];
+            orig = {
+                screenX: e.touches[0].screenX,
+                clientX: e.touches[0].clientX
+            } // mobile safari reuses touch objects
             e.preventDefault();
         }
     };
@@ -58,13 +61,13 @@ $(function() {
             reset();
         }
     };
+    var test = 0;
     document.body.ontouchmove = function(e){
         if(e.touches.length == 1){
             var touch = e.touches[0];
             if (orig) {
-                e.preventDefault();
                 container.css({
-                    left: (touch.clientX - orig.clientX) + "px",
+                    left: (touch.clientX - orig.clientX) + "px"
                 });
             }
         }
