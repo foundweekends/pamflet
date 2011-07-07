@@ -66,6 +66,7 @@ $(function() {
         if(e.touches.length == 1){
             var touch = e.touches[0];
             if (orig) {
+                e.preventDefault();
                 container[0].style.left = 
                     (touch.clientX - orig.clientX) + "px";
             }
