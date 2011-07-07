@@ -66,9 +66,8 @@ $(function() {
         if(e.touches.length == 1){
             var touch = e.touches[0];
             if (orig) {
-                container.css({
-                    left: (touch.clientX - orig.clientX) + "px"
-                });
+                container[0].style.left = 
+                    (touch.clientX - orig.clientX) + "px";
             }
         }
     };

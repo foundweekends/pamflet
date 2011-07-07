@@ -84,7 +84,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
           prettify(page)
         }
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"></meta>
       </head>
       <body>
         { prev.map { p =>
