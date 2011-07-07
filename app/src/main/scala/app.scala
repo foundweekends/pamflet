@@ -8,6 +8,7 @@ class Pamflet extends xsbti.AppMain {
           StringTemplate(new java.io.File(input, "template.properties"))
         val storage = FileStorage(input, template)
         Produce(storage.contents, output)
+        println("Wrote pamflet to " + output)
         Exit(0)
       case _ =>
         println("Usage: pf SRC DEST")
