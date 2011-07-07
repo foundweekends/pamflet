@@ -31,6 +31,6 @@ run and you'll be very confused for a while*. Also, make sure that
 `~/bin/pf` runs normally on the server.
 
 When you push to the bare repo from elsewhere, you'll see the normal
-git output followed by a success or error message from Pamflet. (And
+git output along with a success or error message from Pamflet. (And
 yes, this is some pretty lame scripting. Fork this pamflet, that's
 what it's here for.)
