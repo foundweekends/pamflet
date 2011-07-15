@@ -13,7 +13,7 @@ object PamfletBuild extends Build {
 
   lazy val pamflet: Project =
     Project("pamflet", file("."), 
-            settings = common) aggregate(knockoff, library, app, plugin)
+            settings = common) aggregate(knockoff, library, app)
   lazy val knockoff: Project =
     Project("pamflet-knockoff", file("knockoff"),
             settings = common)
@@ -22,8 +22,5 @@ object PamfletBuild extends Build {
             settings = common) dependsOn knockoff
   lazy val app: Project =
     Project("pamflet-app", file("app"),
-            settings = common) dependsOn library
-  lazy val plugin: Project =
-    Project("pamflet-plugin", file("plugin"),
             settings = common) dependsOn library
 }
