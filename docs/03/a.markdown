@@ -20,7 +20,7 @@ and publish pamflets.
 ### Preview
 
 Pamflet's preview mode allows you to check the layout and text
-rendering as much as you like while editing document sources.
+rendering as much as you like while editing project documentation.
 
 When you call `pf` with no arguments, `SRC` is assumed to be "docs"
 under the working directory--typically, your project's base
