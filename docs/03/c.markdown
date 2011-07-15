@@ -1,36 +1,19 @@
-Git Hooks
----------
+Apache Setup
+------------
 
-Git hooks turn Pamflet from a cute toy into digital printing
-press. Set them up on a server under your control (you do have one,
-yes?) and have your published documentation updated every time you
-push.
+You probably know all this already, but to save the rest of us some
+time, Apache can be pointed to your pamflet directory like this:
 
-Assuming your have a `--bare` git repository on your server, it should
-already have a `hooks/` subdirectory. In `hooks/`, create or edit a
-file `post-update` that is similar to the following:
-
-```sh
-#!/bin/sh
-HOME=/home/me
-DOCB=\$HOME/app/my_doc_build
-PUB=\$HOME/app/my_pub
-cd \$DOCB
-env -i git pull
-cd -
-\$HOME/bin/pf \$DOCB/docs \$PUB
+```xml
+<VirtualHost *:80>
+        ServerName pamflet.databinder.net
+        DocumentRoot /home/me/app/pamflet
+        RewriteEngine On
+        RewriteRule ^/\$ /Pamflet.html [L,R=permanent]
+</VirtualHost>
 ```
 
-`DOCB` is a clone of the same repo, but with a working tree. `PUB` is the
-directory where the finished `html` and other files will be
-placed. `HOME` is your home directory, because git runs the hook in a
-weird environment and it's best to be explicit.
+###### Note
 
-Set all that up, and make the hook script executable *or it will not
-run and you'll be very confused for a while*. Also, make sure that
-`~/bin/pf` runs normally on the server.
-
-When you push to the bare repo from elsewhere, you'll see the normal
-git output along with a success or error message from Pamflet. (And
-yes, this is some pretty lame scripting. Fork this pamflet, that's
-what it's here for.)
+You do need a root redirect if you want requests to the root path to
+resolve. The title page is assigend an output name like any other.

@@ -1,53 +1,56 @@
-Build Plugins and Previews
---------------------------
+On the Command Line
+-------------------
 
-Projects using Pamflet typically have a `docs/` directory under their
-project base for the Pamflet source directory. This allows anyone with
-a clone of the project to easily refer to its text-formatted docs
-whether or not they have a network connection. Furthermore, any
-corrections or contributions to the docs can be made through the
-project's normal fork/patch process.
+Pamflet is installed with [conscript][conscript], a general installer
+and updater for Scala applications. Conscript is pretty easy to set
+up, so please [do that and come back][conscript] if you haven't yet.
 
-### Build Plugin
+[conscript]: https://github.com/n8han/conscript#readme
 
-Projects built with Scala's [Simple Build Tool][sbt] (sbt) 0.10 may
-use the provided Pamflet plugin to streamline their editing
-workflow. Those who work on multiple projects will find it easiest to
-[configure the plugin globally][plugins], in `~/.sbt/plugins/build.sbt`
+Once you have conscript setup, and assuming that `~/bin` is on your
+executable search path, you can install Pamflet like so:
 
-[sbt]: https://github.com/harrah/xsbt/#readme
-[plugins]: https://github.com/harrah/xsbt/wiki/Plugins
+    cs n8han/pamflet
 
-```scala
-libraryDependencies ++= Seq(
-  "net.databinder" %% "pamflet-plugin" % "$version$"
-)
-```
+That installs Pamflet's `pf` command, which is used to both preview
+and publish pamflets. 
 
-#### Preview
+    Usage: pf [SRC] [DEST]
 
-With the plugin installed, several tasks specific to Pamflet become
-available in the sbt console. The most useful is **`start-pamflet`**,
-which spawns a preview server for the `docs/` directory under the
-current project. The preview server binds on the loopback interface to
-some available port, and requests that a local web browser open the
-corresponding URL.
+### Preview
 
-If everything is in place, you will see your pamflet's title
-page. Linear navigation and the *Contents* listing will work exactly
-as in the published pamflet. But the best thing about preview is that
-any changes to the pamflet source are reflected immediately: just hit
+Pamflet's preview mode allows you to check the layout and text
+rendering as much as you like while editing document sources.
+
+When you call `pf` with no arguments, `SRC` is assumed to be "docs"
+under the working directory--typically, your project's base
+directory. When you call `pf` with one argument, you are specifying
+the `SRC` directory. In both these cases where no `DEST` is specified,
+Pamflet goes into preview mode.
+
+    2011-07-15 09:29:38.033:INFO::jetty-7.2.2.v20101205
+    2011-07-15 09:29:38.066:INFO::Started SocketConnector@127.0.0.1:44449
+
+    Previewing `docs`. Press CTRL+C to stop.
+
+Preview mode starts an [Unfiltered][uf] web server bound to the
+loopback interface on some available port. It also requests that a
+local web browser open the relevant URL; this occurs in a background
+or foreground window depending on your platform and browser.
+
+[uf]: http://unfiltered.databinder.net/
+
+If a usable pamflet is found in the `docs` or other specified
+directory, you will see its title page in the browser. Linear
+navigation and the *Contents* listing will work exactly as in the
+published pamflet. But the best thing about preview is that any
+changes to the pamflet source are reflected immediately: just hit
 reload.
 
-You can stop the preview server with the `pamflet-stop` task, or by
-exiting the sbt console.
+### Publish
 
-#### Other Options
-
-If your pamflet source is not under `docs/`, you map override the
-`pamfletDocs` setting to point elsewhere.
-
-In addition to `star-pamflet` there is a `write-pamflet` task writes
-the finished html and other files needed for statically serving the
-site; these are placed according to the `pamfletOutput` setting, which
-resolves to `target/docs` by default.
+To publish Pamflet sources into web sources, call the `pf` command
+with both `SRC` and `DEST` parameters. If `SRC` has Pamflet sources
+and `DEST` is some directory that the current user can write to,
+you'll find all the output files written to it after the command
+completes.

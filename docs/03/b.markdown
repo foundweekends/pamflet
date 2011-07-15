@@ -1,21 +1,36 @@
-On the Command Line
--------------------
+Git Hooks
+---------
 
-Pamflet is installed with [conscript][conscript], a general installer
-and updater for Scala applications. Conscript is pretty easy to set
-up, so please [do that and come back][conscript] if you haven't yet.
+Git hooks turn Pamflet from a cute toy into digital printing
+press. Set them up on a server under your control (you do have one,
+yes?) and have your published documentation updated every time you
+push.
 
-[conscript]: https://github.com/n8han/conscript#readme
+Assuming your have a `--bare` git repository on your server, it should
+already have a `hooks/` subdirectory. In `hooks/`, create or edit a
+file `post-update` that is similar to the following:
 
-Once you have conscript setup, and assuming that `~/bin` is on your
-executable search path, you can install Pamflet like so:
+```sh
+#!/bin/sh
+HOME=/home/me
+DOCB=\$HOME/app/my_doc_build
+PUB=\$HOME/app/my_pub
+cd \$DOCB
+env -i git pull
+cd -
+\$HOME/bin/pf \$DOCB/docs \$PUB
+```
 
-    cs n8han/pamflet
+`DOCB` is a clone of the same repo, but with a working tree. `PUB` is the
+directory where the finished `html` and other files will be
+placed. `HOME` is your home directory, because git runs the hook in a
+weird environment and it's best to be explicit.
 
-This installs Pamflet's `pf` command, which takes just two parameters:
+Set all that up, and make the hook script executable *or it will not
+run and you'll be very confused for a while*. Also, make sure that
+`~/bin/pf` runs normally on the server.
 
-    Usage: pf SRC DEST
-
-Unlike the sbt plugin the `pf` command does not make any guesses
-about where your docs lie. Give it the full path to your project's
-`docs/` directory, or elsewhere.
+When you push to the bare repo from elsewhere, you'll see the normal
+git output along with a success or error message from Pamflet. (And
+yes, this is some pretty lame scripting. Fork this pamflet, that's
+what it's here for.)
