@@ -1,5 +1,5 @@
 [app]
-  version: 0.2.4
+  version: 0.2.5
   org: net.databinder
   name: pamflet-app
   class: pamflet.Pamflet
