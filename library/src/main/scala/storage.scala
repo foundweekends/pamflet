@@ -31,7 +31,7 @@ case class FileStorage(base: File, template: Template) extends Storage {
           Seq(Leaf(knock(f)))
         else section(f)
       }
-      Section(Page.name(blocks), blocks, children)
+      Section(IdentifiedHeaders.name(blocks), blocks, children)
     }.toSeq
   }
   def read(file: File) = scala.io.Source.fromFile(file).mkString("")

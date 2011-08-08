@@ -3,14 +3,24 @@ import java.io.File
 
 class Pamflet extends xsbti.AppMain {
   def run(config: xsbti.AppConfiguration) = {
-    config.arguments match {
+    Exit(Pamflet.run(config.arguments))
+  }
+  case class Exit(val code: Int) extends xsbti.Exit
+}
+
+object Pamflet {
+  def main(args: Array[String]) {
+    System.exit(run(args))
+  }
+  def run(args: Array[String]) = {
+    args match {
       case Array(Dir(input), Dir(output)) =>
         val template =
           StringTemplate(new File(input, "template.properties"))
         val storage = FileStorage(input, template)
         Produce(storage.contents, output)
         println("Wrote pamflet to " + output)
-        Exit(0)
+        0
       case Array(Dir(dir)) => preview(dir)
       case Array() =>
         "docs" match {
@@ -19,11 +29,11 @@ class Pamflet extends xsbti.AppMain {
             println("""Usage: pf [SRC] [DEST]
                     |
                     |Default SRC is ./docs""".stripMargin)
-            Exit(1)
+            1
         }
       case _ =>
         println("Input paths must be directories")
-        Exit(1)
+        1
     }
   }
   def preview(dir: File) = {
@@ -35,7 +45,7 @@ class Pamflet extends xsbti.AppMain {
       )
       println("\nPreviewing `%s`. Press CTRL+C to stop.".format(dir))
     }
-    Exit(0)
+    0
   }
   object Dir {
     def unapply(path: String) = {
@@ -45,5 +55,4 @@ class Pamflet extends xsbti.AppMain {
       else None
     }
   }
-  case class Exit(val code: Int) extends xsbti.Exit
 }
