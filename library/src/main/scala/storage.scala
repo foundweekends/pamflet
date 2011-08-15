@@ -9,7 +9,7 @@ trait Storage {
 case class FileStorage(base: File, template: Template) extends Storage {
   def contents = {
     val pamflet = section(base).headOption.getOrElse {
-      Section("Empty", Seq.empty, Nil)
+      Section(Seq.empty, Nil)
     }
     val css = base.listFiles.filter {
       _.getName.endsWith(".css")
@@ -31,7 +31,7 @@ case class FileStorage(base: File, template: Template) extends Storage {
           Seq(Leaf(knock(f)))
         else section(f)
       }
-      Section(IdentifiedHeaders.name(blocks), blocks, children)
+      Section(blocks, children)
     }.toSeq
   }
   def read(file: File) = scala.io.Source.fromFile(file).mkString("")

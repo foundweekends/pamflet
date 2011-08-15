@@ -19,7 +19,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
           }</a></div>
     }
     def draw: Page => xml.NodeSeq = {
-      case sect @ Section(name, blocks, children) =>
+      case sect @ Section(blocks, children) =>
         link(sect) ++ list(children)
       case page => link(page)
     }

@@ -4,7 +4,7 @@ import com.tristanhunt.knockoff._
 case class Contents(pamflet: Section, css: Seq[(String,String)]) {
   def traverse(incoming: List[Page], past: List[Page]): List[Page] =
     incoming match {
-      case (head @ Section(_,_,_)) :: tail =>
+      case (head @ Section(_,_)) :: tail =>
         traverse(head.children ::: tail, head :: past)
       case head :: tail =>
         traverse(tail, head :: past)
@@ -16,7 +16,6 @@ case class Contents(pamflet: Section, css: Seq[(String,String)]) {
   val langs = (Set.empty[String] /: pages) { _ ++ _.langs }
 }
 sealed trait Page {
-  def name: String
   def blocks: Seq[Block]
   lazy val referencedLangs =
     (Set.empty[String] /: blocks) {
@@ -33,12 +32,8 @@ sealed trait Page {
         case _ => false
       }
     }
+  lazy val name = IdentifiedHeaders.name(blocks)
 }
-case class Leaf(name: String, blocks: Seq[Block]) extends Page
-object Leaf {
-  def apply(blocks: Seq[Block]): Leaf =
-    Leaf(IdentifiedHeaders.name(blocks), blocks)
-}
-case class Section(name: String, 
-                   blocks: Seq[Block], 
+case class Leaf(blocks: Seq[Block]) extends Page
+case class Section(blocks: Seq[Block], 
                    children: List[Page]) extends Page
