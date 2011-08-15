@@ -23,15 +23,15 @@ sealed trait Page {
       case (s, _) => s
     }
   lazy val langs = referencedLangs.filter { lang =>
-      try {
-        new java.net.URL(Shared.resources,
-                         "js/prettify/lang-%s.js".format(lang)
-                       ).openStream().close()
-        true
-      } catch {
-        case _ => false
-      }
+    try {
+      new java.net.URL(Shared.resources,
+                       "js/prettify/lang-%s.js".format(lang)
+                     ).openStream().close()
+      true
+    } catch {
+      case _ => false
     }
+  }
   lazy val name = IdentifiedHeaders.name(blocks)
 }
 case class Leaf(blocks: Seq[Block]) extends Page
