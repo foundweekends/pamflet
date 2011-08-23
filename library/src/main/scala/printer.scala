@@ -2,8 +2,7 @@ package pamflet
 import PamfletDiscounter.toXHTML
 
 object Printer {
-  def webify(name: String) =
-    java.net.URLEncoder.encode(name, "utf-8") + ".html"
+  def webify(name: String) = BlockNames.encode(name) + ".html"
   /** File names shouldn't be url encoded, just space converted */
   def fileify(name: String) =
     name.replace(' ', '+') + ".html"
@@ -64,7 +63,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
     
     val html = <html>
       <head>
-        <title>{ "%s: %s".format(contents.title, page.name) }</title>
+        <title>{ "%s — %s".format(contents.title, page.name) }</title>
         <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="css/blueprint/grid.css" type="text/css" media={bigScreen}/>
         <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
@@ -100,9 +99,18 @@ case class Printer(contents: Contents, manifest: Option[String]) {
           </a>
         }.toSeq }
         <div class="container">
-          <div class="span-16 prepend-1 append-1 topnav">
-            <div class="span-16 title">
-              { contents.title }
+          <div class="span-16 prepend-1 append-1">
+            <div class="topnav">
+              <div class="span-16 title">
+                <span>{ contents.title }</span>
+                { if (contents.title != page.name)
+                    " — " + page.name
+                  else ""
+                }
+              </div>
+              <div class="outline">
+                { Outline(page.blocks) }
+              </div>
             </div>
           </div>
           <div class="span-16 prepend-1 append-1 contents">

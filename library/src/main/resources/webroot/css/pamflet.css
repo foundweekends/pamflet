@@ -9,11 +9,21 @@ h1,h2,h3,h4,h5, .title {
 pre, code, tt {
     font-family: monospace
 }
-div.title {
+div.topnav {
+    border-bottom: black solid 1px;
+}
+div.topnav div.title {
     text-align: center;
     font-size: 1.2em;
+}
+div.topnav div.title span {
     font-style: italic;
-    border-bottom: black solid 1px;
+}
+div.topnav div.outline {
+    display: none;
+}
+div.topnav div.outline ol {
+    margin-bottom: 1em;
 }
 div.container {
     position: relative;

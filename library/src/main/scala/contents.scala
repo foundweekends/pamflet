@@ -32,7 +32,7 @@ sealed trait Page {
       case _ => false
     }
   }
-  lazy val name = IdentifiedHeaders.name(blocks)
+  lazy val name = BlockNames.name(blocks)
 }
 case class Leaf(blocks: Seq[Block]) extends Page
 case class Section(blocks: Seq[Block], 

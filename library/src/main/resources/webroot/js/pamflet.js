@@ -1,4 +1,13 @@
 $(function() {
+    var hideNav = function() {
+        $("div.topnav div.outline").hide();
+        return true;
+    };
+
+    $("div.topnav").hover(function() {
+        $("div.topnav div.outline").slideDown('fast');
+    }, hideNav);
+    $("div.topnav a").click(hideNav);
     var load = function() {
         window.location = this.href;
     };

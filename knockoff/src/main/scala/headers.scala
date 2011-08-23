@@ -12,7 +12,7 @@ trait IdentifiedHeaders extends Discounter { self: TextWriter =>
   }
   override def headerToXHTML = (level, spans) => {
     val spanned = spans.map(spanToXHTML)
-    val name = URLEncoder.encode(IdentifiedHeaders.textOf(spans), "utf-8")
+    val name = BlockNames.encode(BlockNames.textOf(spans))
     level match {
       case 1 => <h1 id={name}>{ spanned }</h1>
       case 2 => <h2 id={name}>{ spanned }</h2>
@@ -26,7 +26,10 @@ trait IdentifiedHeaders extends Discounter { self: TextWriter =>
   }
 }
 
-object IdentifiedHeaders {
+object BlockNames {
+  def encode(str: String) =
+    java.net.URLEncoder.encode(str.trim(), "utf-8")
+  def fragment(str: String) = "#" + encode(str)
   def textOf(spans: Seq[Span]) =
     spans.flatMap {
       case t: Text => Seq(t.content)
