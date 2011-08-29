@@ -43,7 +43,6 @@ object Produce {
       write(path, new InputStreamReader(
         new java.net.URL(Shared.resources, path).openStream()
       ))
-println("*** ... written.")
     }
     writeString(manifest, (
       "CACHE MANIFEST" ::
