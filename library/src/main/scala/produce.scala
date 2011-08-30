@@ -1,7 +1,7 @@
 package pamflet
 
-import java.io.{File,FileOutputStream,InputStreamReader,OutputStream,Reader,
-                StringReader}
+import java.io.{File,FileOutputStream,InputStreamReader,OutputStream,
+                OutputStreamWriter,Reader,StringReader,Writer}
 
 import scala.annotation.tailrec
 
@@ -13,21 +13,21 @@ object Produce {
     def write(path: String, r: Reader) {
       val file = new File(target, path)
       new File(file.getParent).mkdirs()
-      val os = new FileOutputStream(file)
-      copy(r, os)
+      val w = new OutputStreamWriter(new FileOutputStream(file), "UTF-8")
+      copy(r, w)
       r.close()
-      os.close()
+      w.close()
     }
-    def copy(r: Reader, os: OutputStream) {
+    def copy(r: Reader, w: Writer) {
       @tailrec def doCopy: Unit = {
         val byte = r.read()
         if (byte != -1) {
-          os.write(byte)
+          w.write(byte)
           doCopy
         }
       }
       doCopy
-      os.flush()
+      w.flush()
     }
     val manifest = "pamflet.manifest"
     val printer = Printer(contents, Some(manifest))
