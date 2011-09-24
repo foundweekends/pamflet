@@ -5,6 +5,10 @@ import PamfletDiscounter.headerText
 object Outline {
   private case class Return(nodes: xml.NodeSeq, rest: Seq[Header])
   def apply(page: AuthoredPage) = {
+    def anchor(name: String) =
+      <a href={Printer.webify(page.name) +
+               BlockNames.fragment(name)}>{ name }</a>
+
     def build(blocks: Seq[Header], cur: Int): Return =
       blocks match {
         case Seq(a, b, tail @_*) if a.level == cur && b.level > cur =>
@@ -12,7 +16,7 @@ object Outline {
           val after = build(nested.rest, cur)
           val name = headerText(a.spans)
           Return((
-            <li> <a href={BlockNames.fragment(name)}>{ name }</a>
+            <li> { anchor(name) }
               <ul class="outline"> { nested.nodes } </ul>
             </li>
           ) ++ after.nodes, after.rest)
@@ -22,9 +26,7 @@ object Outline {
         case Seq(a, tail @ _*) if a.level == cur =>
           val Return(nodes, rest) = build(tail, cur)
           val name = headerText(a.spans)
-          Return(( <li> <a href={Printer.webify(page.name) +
-                                 BlockNames.fragment(name)}>
-                  { name } </a> </li> ) ++ nodes, rest)
+          Return(( <li> { anchor(name) } </li> ) ++ nodes, rest)
         case _ =>
           Return(Seq.empty, blocks)
       }
