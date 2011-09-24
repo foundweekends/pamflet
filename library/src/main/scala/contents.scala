@@ -1,7 +1,7 @@
 package pamflet
 import com.tristanhunt.knockoff._
 
-case class Contents(pamflet: Section, css: Seq[(String,String)]) {
+case class Contents(rootSection: Section, css: Seq[(String,String)]) {
   def traverse(incoming: List[Page], past: List[Page]): List[Page] =
     incoming match {
       case (head @ Section(_,_)) :: tail =>
@@ -10,12 +10,18 @@ case class Contents(pamflet: Section, css: Seq[(String,String)]) {
         traverse(tail, head :: past)
       case Nil => past.reverse
     }
-    
+  val pamflet = Section(rootSection.blocks,
+                        rootSection.children ::: Index :: Nil)
   val pages = traverse(pamflet.children, pamflet :: Nil)
   val title = pamflet.name
   val langs = (Set.empty[String] /: pages) { _ ++ _.langs }
 }
 sealed trait Page {
+  def name: String
+  def langs: Set[String]
+  def referencedLangs: Set[String]
+}
+trait AuthoredPage extends Page {
   def blocks: Seq[Block]
   lazy val referencedLangs =
     (Set.empty[String] /: blocks) {
@@ -34,6 +40,11 @@ sealed trait Page {
   }
   lazy val name = BlockNames.name(blocks)
 }
-case class Leaf(blocks: Seq[Block]) extends Page
+case class Leaf(blocks: Seq[Block]) extends AuthoredPage
 case class Section(blocks: Seq[Block], 
-                   children: List[Page]) extends Page
+                   children: List[Page]) extends AuthoredPage
+object Index extends Page {
+  val name = "Topic Index"
+  def langs = Set.empty
+  def referencedLangs = Set.empty
+}

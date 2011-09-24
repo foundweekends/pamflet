@@ -108,14 +108,15 @@ case class Printer(contents: Contents, manifest: Option[String]) {
                   else ""
                 }
               </div>
-              <div class="outline">
-                { Outline(page.blocks) }
-              </div>
             </div>
           </div>
           <div class="span-16 prepend-1 append-1 contents">
-            { toXHTML(page.blocks) }
-            { toc(page) }
+            { page match {
+                case Index =>
+                  toc(page)
+                case page: AuthoredPage =>
+                  toXHTML(page.blocks) ++ toc(page) 
+            } }
           </div>
         </div>
       </body>
