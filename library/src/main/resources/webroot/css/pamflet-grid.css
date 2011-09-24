@@ -7,7 +7,6 @@ pre, code, tt {
     font-family: 'andale mono', 'lucida console', monospace
 }
 div.topnav {
-    position: fixed;
     background: white;
     z-index: 1;
 }

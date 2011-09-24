@@ -10,12 +10,16 @@ object Printer {
 case class Printer(contents: Contents, manifest: Option[String]) {
   def toc(current: Page) = {
     val link: Page => xml.NodeSeq = {
-        case `current` =>
-          <div class="current">{ current.name }</div>
-        case page =>
-          <div><a href={ Printer.webify(page.name) }>{ 
-            page.name 
-          }</a></div>
+      case `current` =>
+        <div class="current">{ current.name }</div>
+      case page =>
+        { <div><a href={ Printer.webify(page.name) }>{ 
+          page.name 
+        }</a></div> } ++ (page match {
+          case page: AuthoredPage if current == Index =>
+            Outline(page)
+          case _ => Nil
+        })
     }
     def draw: Page => xml.NodeSeq = {
       case sect @ Section(blocks, children) =>
@@ -28,7 +32,8 @@ case class Printer(contents: Contents, manifest: Option[String]) {
        } } </ol>
     }
 
-    <h4>Contents</h4> ++
+    (if (current == Index) Nil
+    else <h4>Contents</h4>) ++
     { link(contents.pamflet) } ++
     list(contents.pamflet.children)
   }
@@ -100,14 +105,12 @@ case class Printer(contents: Contents, manifest: Option[String]) {
         }.toSeq }
         <div class="container">
           <div class="span-16 prepend-1 append-1">
-            <div class="topnav">
-              <div class="span-16 title">
-                <span>{ contents.title }</span>
-                { if (contents.title != page.name)
-                    " — " + page.name
-                  else ""
-                }
-              </div>
+            <div class="topnav span-16 title">
+              <span>{ contents.title }</span>
+              { if (contents.title != page.name)
+                  " — " + page.name
+                else ""
+              }
             </div>
           </div>
           <div class="span-16 prepend-1 append-1 contents">

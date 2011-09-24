@@ -12,11 +12,11 @@ pre, code, tt {
 div.topnav {
     border-bottom: black solid 1px;
 }
-div.topnav div.title {
+div.topnav.title {
     text-align: center;
     font-size: 1.2em;
 }
-div.topnav div.title span {
+div.topnav.title span {
     font-style: italic;
 }
 div.topnav div.outline {
@@ -42,6 +42,10 @@ ol.toc ol.toc {
 }
 ol.toc ol.toc ol.toc {
     list-style-type: lower-roman;
+}
+ul.outline {
+    font-style: italic;
+    list-style-type: circle;
 }
 a.page {
     display: none;
