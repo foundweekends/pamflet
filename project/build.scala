@@ -22,5 +22,6 @@ object PamfletBuild extends Build {
             settings = common) dependsOn knockoff
   lazy val app: Project =
     Project("pamflet-app", file("app"),
-            settings = common) dependsOn library
+            settings = common ++ conscript.Harness.conscriptSettings
+    ) dependsOn library
 }
