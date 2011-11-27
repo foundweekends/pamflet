@@ -16,7 +16,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
         { <div><a href={ Printer.webify(page.name) }>{ 
           page.name 
         }</a></div> } ++ (page match {
-          case page: AuthoredPage if current == Index =>
+          case page: AuthoredPage if current == DeepContents =>
             Outline(page)
           case _ => Nil
         })
@@ -32,7 +32,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
        } } </ol>
     }
 
-    (if (current == Index) Nil
+    (if (current == DeepContents) Nil
     else <h4>Contents</h4>) ++
     { link(contents.pamflet) } ++
     list(contents.pamflet.children)
@@ -115,7 +115,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
           </div>
           <div class="span-16 prepend-1 append-1 contents">
             { page match {
-                case Index =>
+                case DeepContents =>
                   toc(page)
                 case page: AuthoredPage =>
                   toXHTML(page.blocks) ++ toc(page) 

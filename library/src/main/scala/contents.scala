@@ -11,7 +11,7 @@ case class Contents(rootSection: Section, css: Seq[(String,String)]) {
       case Nil => past.reverse
     }
   val pamflet = Section(rootSection.blocks,
-                        rootSection.children ::: Index :: Nil)
+                        rootSection.children ::: DeepContents :: Nil)
   val pages = traverse(pamflet.children, pamflet :: Nil)
   val title = pamflet.name
   val langs = (Set.empty[String] /: pages) { _ ++ _.langs }
@@ -43,8 +43,8 @@ trait AuthoredPage extends Page {
 case class Leaf(blocks: Seq[Block]) extends AuthoredPage
 case class Section(blocks: Seq[Block], 
                    children: List[Page]) extends AuthoredPage
-object Index extends Page {
-  val name = "Topic Index"
+object DeepContents extends Page {
+  val name = "Contents in Depth"
   def langs = Set.empty
   def referencedLangs = Set.empty
 }
