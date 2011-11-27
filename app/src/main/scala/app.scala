@@ -12,13 +12,13 @@ object Pamflet {
   def main(args: Array[String]) {
     System.exit(run(args))
   }
+  private def storage(dir: File) =
+    FileStorage(dir, 
+                StringTemplate(new File(dir, "template.properties")))
   def run(args: Array[String]) = {
     args match {
       case Array(Dir(input), Dir(output)) =>
-        val template =
-          StringTemplate(new File(input, "template.properties"))
-        val storage = FileStorage(input, template)
-        Produce(storage.contents, output)
+        Produce(storage(input).contents, output)
         println("Wrote pamflet to " + output)
         0
       case Array(Dir(dir)) => preview(dir)
@@ -37,9 +37,7 @@ object Pamflet {
     }
   }
   def preview(dir: File) = {
-    val properties = new File(dir, "template.properties")
-    val storage = FileStorage(dir, StringTemplate(properties))
-    Preview(storage.contents).run { server =>
+    Preview(storage(dir).contents).run { server =>
       unfiltered.util.Browser.open(
         "http://127.0.0.1:%d/".format(server.port)
       )

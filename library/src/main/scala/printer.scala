@@ -135,6 +135,12 @@ case class Printer(contents: Contents, manifest: Option[String]) {
             } }
           </div>
         </div>
+        {
+          contents.template.get("github").map { repo =>
+            <a href={"http://github.com/" + repo} class="fork nav"
+               ><img src="img/fork.png" alt="Fork me on GitHub"/></a>
+          }.toSeq
+        }
       </body>
     </html>
     manifest.map { mf => 

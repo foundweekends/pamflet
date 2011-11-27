@@ -1,7 +1,11 @@
 package pamflet
 import com.tristanhunt.knockoff._
 
-case class Contents(rootSection: Section, css: Seq[(String,String)]) {
+case class Contents(
+  rootSection: Section,
+  css: Seq[(String,String)],
+  template: Template
+) {
   def traverse(incoming: List[Page], past: List[Page]): List[Page] =
     incoming match {
       case (head @ Section(_,_)) :: tail =>

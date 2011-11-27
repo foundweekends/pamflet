@@ -52,7 +52,10 @@ object Produce {
     )
   }
   def filePaths(contents: Contents) =
-    "css/pamflet.css" :: "css/pamflet-grid.css" :: "css/pamflet-print.css" ::
+    "img/fork.png" ::
+    ("pamflet.css" :: "pamflet-grid.css" :: "pamflet-print.css" :: Nil).map {
+      "css/" + _
+    } :::
     ("screen.css" :: "grid.css" :: "print.css" :: "ie.css" :: Nil).map {
       "css/blueprint/" + _
     } :::
