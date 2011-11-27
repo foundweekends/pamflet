@@ -30,11 +30,15 @@ object Outline {
         case _ =>
           Return(Seq.empty, blocks)
       }
-
-    <ul class="outline"> {
-      build(page.blocks.collect {
-        case h: Header => h
-      }.tail, 0).nodes
-    } </ul>
+    val headers = page.blocks.collect {
+      case h: Header => h
+    }
+    headers match {
+      case Seq(head, elem, rest @ _*) => 
+        <ul class="outline"> {
+          build(elem +: rest, 0).nodes
+        } </ul>
+      case _ => Seq.empty
+    }
   }
 }
