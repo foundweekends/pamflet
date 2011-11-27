@@ -6,7 +6,7 @@ body {
 pre, code, tt {
     font-family: 'andale mono', 'lucida console', monospace
 }
-div.topnav {
+div.top.nav {
     background: white;
     z-index: 1;
 }

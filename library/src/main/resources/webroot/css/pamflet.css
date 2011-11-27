@@ -9,20 +9,20 @@ h1,h2,h3,h4,h5, .title {
 pre, code, tt {
     font-family: monospace
 }
-div.topnav {
+div.top.nav {
     border-bottom: black solid 1px;
 }
-div.topnav.title {
+div.top.nav.title {
     text-align: center;
     font-size: 1.2em;
 }
-div.topnav.title span {
+div.top.nav.title span {
     font-style: italic;
 }
-div.topnav div.outline {
+div.top.nav div.outline {
     display: none;
 }
-div.topnav div.outline ol {
+div.top.nav div.outline ol {
     margin-bottom: 1em;
 }
 div.container {

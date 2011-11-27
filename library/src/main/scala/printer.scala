@@ -85,6 +85,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
           <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"/>
         <![endif]-->
         <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamflet-print.css" type="text/css" media="print"/>
         <link rel="stylesheet" href="css/pamflet-grid.css" type="text/css" media={bigScreen}/>
         {
           contents.css.map { case (filename, contents) =>
@@ -101,20 +102,20 @@ case class Printer(contents: Contents, manifest: Option[String]) {
       </head>
       <body>
         { prev.map { p =>
-          <a class="page prev" href={ Printer.webify(p.name)}>
+          <a class="page prev nav" href={ Printer.webify(p.name)}>
             <span class="space">&nbsp;</span>
             <span class="flip">❧</span>
           </a>
         }.toSeq ++
         next.map { n =>
-          <a class="page next" href={ Printer.webify(n.name)}>
+          <a class="page next nav" href={ Printer.webify(n.name)}>
             <span class="space">&nbsp;</span>
             <span>❧</span>
           </a>
         }.toSeq }
         <div class="container">
           <div class="span-16 prepend-1 append-1">
-            <div class="topnav span-16 title">
+            <div class="top nav span-16 title">
               <span>{ contents.title }</span>
               { if (contents.title != page.name)
                   " — " + page.name
@@ -130,10 +131,9 @@ case class Printer(contents: Contents, manifest: Option[String]) {
                   toXHTML(page.blocks) ++ toc(page)
                 case page: ScrollPage =>
                   toc(page) ++ toXHTML(page.blocks) ++
-                    <a href={
+                    <a class="nav" href={
                       Printer.webify(contents.title)
-                    }><em>Standard Pagination</em></a>
-
+                    }><em>Combined Pages</em></a>
             } }
           </div>
         </div>
