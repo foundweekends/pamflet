@@ -11,7 +11,10 @@ case class Contents(rootSection: Section, css: Seq[(String,String)]) {
       case Nil => past.reverse
     }
   val pamflet = Section(rootSection.blocks,
-                        rootSection.children ::: DeepContents :: Nil)
+                        rootSection.children ::: 
+                        DeepContents ::
+                        ScrollPage(rootSection) ::
+                        Nil)
   val pages = traverse(pamflet.children, pamflet :: Nil)
   val title = pamflet.name
   val langs = (Set.empty[String] /: pages) { _ ++ _.langs }
@@ -38,13 +41,26 @@ trait AuthoredPage extends Page {
       case _ => false
     }
   }
+}
+trait ContentPage extends AuthoredPage {
   lazy val name = BlockNames.name(blocks)
 }
-case class Leaf(blocks: Seq[Block]) extends AuthoredPage
+case class Leaf(blocks: Seq[Block]) extends ContentPage
 case class Section(blocks: Seq[Block], 
-                   children: List[Page]) extends AuthoredPage
+                   children: List[Page]) extends ContentPage
 object DeepContents extends Page {
   val name = "Contents in Depth"
   def langs = Set.empty
   def referencedLangs = Set.empty
+}
+case class ScrollPage(root: Section) extends AuthoredPage {
+  val name = "All in One Page"
+  def flatten(pages: List[Page]): Seq[Block] =
+    pages.view.flatMap {
+      case Leaf(blocks) => blocks
+      case Section(blocks, children) =>
+        blocks ++: flatten(children)
+      case _ => Seq.empty
+    }
+  def blocks = root.blocks ++: flatten(root.children)
 }

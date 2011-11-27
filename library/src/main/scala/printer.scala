@@ -135,5 +135,4 @@ case class Printer(contents: Contents, manifest: Option[String]) {
     }
 
   def printNamed(name: String) = named(name).map(print)
-}      
-    
+}
