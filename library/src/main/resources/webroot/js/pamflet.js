@@ -1,5 +1,4 @@
 $(function() {
-    $("div.topnav a").click(hideNav);
     var load = function() {
         window.location = this.href;
     };
