@@ -31,7 +31,7 @@ object Outline {
           Return(Seq.empty, blocks)
       }
     val headers = page.blocks.collect {
-      case h: Header => h
+      case h: Header if h.level <= BlockNames.maxLevel => h
     }
     headers match {
       case Seq(head, elem, rest @ _*) => 

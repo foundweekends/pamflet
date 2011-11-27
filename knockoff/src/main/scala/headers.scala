@@ -21,12 +21,14 @@ trait IdentifiedHeaders extends Discounter { self: TextWriter =>
       case 5 => <h5 id={name}>{ spanned }</h5>
       case 6 => <h6>{ spanned }</h6>
       case _ =>
-        <div class={ "header" + level } id={name}>{ spanned }</div>
+        <div class={ "header" + level }>{ spanned }</div>
     }
   }
 }
 
 object BlockNames {
+  /** Do not generate ids for higher levels than this */
+  val maxLevel = 5
   def encode(str: String) =
     java.net.URLEncoder.encode(str.trim(), "utf-8")
   def fragment(str: String) = "#" + encode(str)

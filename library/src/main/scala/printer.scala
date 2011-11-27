@@ -32,8 +32,9 @@ case class Printer(contents: Contents, manifest: Option[String]) {
       case page => link(page)
     }
     def list(pages: Seq[Page]) = {
-      <ol class="toc"> { pages.map { page =>
-        <li>{ draw(page) }</li>
+      <ol class="toc"> { pages.map {
+        case page: ContentPage => <li>{ draw(page) }</li>
+        case page => <li class="generated">{ draw(page) }</li>
        } } </ol>
     }
 
@@ -130,10 +131,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
                 case page: ContentPage =>
                   toXHTML(page.blocks) ++ toc(page)
                 case page: ScrollPage =>
-                  toc(page) ++ toXHTML(page.blocks) ++
-                    <a class="nav" href={
-                      Printer.webify(contents.title)
-                    }><em>Combined Pages</em></a>
+                  toc(page) ++ toXHTML(page.blocks)
             } }
           </div>
         </div>

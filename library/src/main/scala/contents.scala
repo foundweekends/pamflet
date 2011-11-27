@@ -54,7 +54,7 @@ object DeepContents extends Page {
   def referencedLangs = Set.empty
 }
 case class ScrollPage(root: Section) extends AuthoredPage {
-  val name = "All in One Page"
+  val name = "Combined Pages"
   def flatten(pages: List[Page]): Seq[Block] =
     pages.view.flatMap {
       case Leaf(blocks) => blocks
