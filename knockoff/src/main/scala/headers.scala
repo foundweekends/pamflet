@@ -19,7 +19,7 @@ trait IdentifiedHeaders extends Discounter { self: TextWriter =>
       case 3 => <h3 id={name}>{ spanned }</h3>
       case 4 => <h4 id={name}>{ spanned }</h4>
       case 5 => <h5 id={name}>{ spanned }</h5>
-      case 6 => <h6 id={name}>{ spanned }</h6>
+      case 6 => <h6>{ spanned }</h6>
       case _ =>
         <div class={ "header" + level } id={name}>{ spanned }</div>
     }

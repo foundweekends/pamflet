@@ -9,14 +9,19 @@ object Printer {
 }
 case class Printer(contents: Contents, manifest: Option[String]) {
   def toc(current: Page) = {
+    val href: String => String = current match {
+      case ScrollPage(_) => BlockNames.fragment
+      case _ => Printer.webify
+    }
+      
     val link: Page => xml.NodeSeq = {
       case `current` =>
         <div class="current">{ current.name }</div>
       case page =>
-        { <div><a href={ Printer.webify(page.name) }>{ 
+        { <div><a href={ href(page.name) }>{ 
           page.name 
         }</a></div> } ++ (page match {
-          case page: AuthoredPage if current == DeepContents =>
+          case page: ContentPage if current == DeepContents =>
             Outline(page)
           case _ => Nil
         })
@@ -32,10 +37,14 @@ case class Printer(contents: Contents, manifest: Option[String]) {
        } } </ol>
     }
 
-    (if (current == DeepContents) Nil
-    else <h4>Contents</h4>) ++
-    { link(contents.pamflet) } ++
-    list(contents.pamflet.children)
+    <h4>Contents</h4> ++
+    link(contents.pamflet) ++
+    list(current match {
+      case ScrollPage(_) => contents.pamflet.children.collect{
+        case cp: ContentPage => cp
+      }
+      case _ => contents.pamflet.children
+    })
   }
 
   def prettify(page: Page) = {
@@ -117,8 +126,14 @@ case class Printer(contents: Contents, manifest: Option[String]) {
             { page match {
                 case DeepContents =>
                   toc(page)
-                case page: AuthoredPage =>
-                  toXHTML(page.blocks) ++ toc(page) 
+                case page: ContentPage =>
+                  toXHTML(page.blocks) ++ toc(page)
+                case page: ScrollPage =>
+                  toc(page) ++ toXHTML(page.blocks) ++
+                    <a href={
+                      Printer.webify(contents.title)
+                    }><em>Standard Pagination</em></a>
+
             } }
           </div>
         </div>
