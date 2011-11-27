@@ -1,24 +1,24 @@
 package pamflet
 
-import java.io.{File,FileOutputStream,InputStreamReader,OutputStream,
-                OutputStreamWriter,Reader,StringReader,Writer}
+import java.io.{File,FileOutputStream,InputStream,
+                OutputStream,ByteArrayInputStream,Reader,StringReader}
 
 import scala.annotation.tailrec
 
 object Produce {
   def apply(contents: Contents, target: File) {
     def writeString(path: String, contents: String) {
-      write(path, new StringReader(contents))
+      write(path, new ByteArrayInputStream(contents.getBytes("utf-8")))
     }
-    def write(path: String, r: Reader) {
+    def write(path: String, r: InputStream) {
       val file = new File(target, path)
       new File(file.getParent).mkdirs()
-      val w = new OutputStreamWriter(new FileOutputStream(file), "UTF-8")
+      val w = new FileOutputStream(file)
       copy(r, w)
       r.close()
       w.close()
     }
-    def copy(r: Reader, w: Writer) {
+    def copy(r: InputStream, w: OutputStream) {
       @tailrec def doCopy: Unit = {
         val byte = r.read()
         if (byte != -1) {
@@ -40,9 +40,9 @@ object Produce {
     }
     val paths = filePaths(contents)
     paths.foreach { path =>
-      write(path, new InputStreamReader(
+      write(path,
         new java.net.URL(Shared.resources, path).openStream()
-      ))
+      )
     }
     writeString(manifest, (
       "CACHE MANIFEST" ::
