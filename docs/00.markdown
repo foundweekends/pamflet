@@ -5,6 +5,4 @@ Pamflet
 user documentation of open-source software. It is designed to be easy
 to write and read on any platform.
 
-<!--
 > [Version $version$ Release Notes](http://implicit.ly/pamflet-$vrsn$)
--->

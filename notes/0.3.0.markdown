@@ -1,0 +1,15 @@
+This release adds several features, all of which can be seen in
+[Pamflet's own documentation][pf]:
+
+* [Contents in Depth][depth] — A table of contentst that includes
+  headers from within pages
+* [Combined Pages][combined] — A single webpage containing the full
+  pamflet contents, with internal links to each "page"
+* Print-friendly stylesheets — Navigation elements are removed. This
+  works best with the combined pages feature.
+* Fork me on GitHub — If a "github" link is present in the template
+  properties file, a GitHub ribbon is added to the top of each page.
+
+[pf]: http://pamflet.databinder.net/Pamflet.html
+[depth]: http://pamflet.databinder.net/Contents+in+Depth.html
+[combined]: http://pamflet.databinder.net/Combined+Pages.html
