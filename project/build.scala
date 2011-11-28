@@ -6,7 +6,6 @@ object PamfletBuild extends Build {
     organization := "net.databinder",
     version := "0.3.0",
     scalaVersion := "2.9.1",
-    crossScalaVersions := Seq("2.8.1", "2.8.2", "2.9.1"),
     publishTo := Some("Scala Tools Nexus" at 
       "http://nexus.scala-tools.org/content/repositories/releases/"),
     credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
