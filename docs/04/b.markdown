@@ -1,5 +1,5 @@
-Custom Stylsheets
------------------
+Custom Stylesheets
+------------------
 
 To give your project that special edge, you will surely want to set
 all headings to Copperplate MT or Bank Gothic.
