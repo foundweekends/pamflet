@@ -46,6 +46,8 @@ object Produce {
     }
     writeString(manifest, (
       "CACHE MANIFEST" ::
+      // cache file must change between updates
+      ("# " + new java.util.Date) ::
       css.map { case (n,_) => n } :::
       contents.pages.map { p => Printer.webify(p.name) } :::
       paths).mkString("\n")
