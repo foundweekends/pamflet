@@ -1,4 +1,6 @@
 * Update HTML5 cache manifest with current date and time comment, so
   browsers will check for updated content.
 * Adjust top title padding in default stylesheet.
+* Update Unfiltered dependency to 0.5.3.
+* Synced to ls.
   
