@@ -2,5 +2,5 @@
   publish, so browsers will check for updated content.
 * Adjusted top title padding in default stylesheet.
 * Updated Unfiltered dependency to 0.5.3.
-* Synced to ls.
+* Synced to [ls](http://ls.implicit.ly/n8han/pamflet).
   
