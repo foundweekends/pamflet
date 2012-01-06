@@ -3,7 +3,7 @@
  "organization":"net.databinder",
  "name":"pamflet-app",
  "version":"0.3.1",
- "description":"Pamflet app for previewing and publishing",
+ "description":"Pamflet app for previewing and publishing project documentation",
  "site":"http://pamflet.databinder.net/",
  "tags":[],
  "docs":"",
