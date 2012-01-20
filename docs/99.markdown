@@ -1,5 +1,5 @@
-Who's Using Pamflet
--------------------
+Who's Using Pamflet?
+--------------------
 
 * [Dispatch](http://dispatch.databinder.net/)
 * [Pamflet](http://pamflet.databinder.net/)
