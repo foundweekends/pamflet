@@ -1,0 +1,2 @@
+Removes extraneous newline in page top header to fix empty box shown
+in Android browser.
