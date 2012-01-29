@@ -117,11 +117,10 @@ case class Printer(contents: Contents, manifest: Option[String]) {
         <div class="container">
           <div class="span-16 prepend-1 append-1">
             <div class="top nav span-16 title">
-              <span>{ contents.title }</span>
-              { if (contents.title != page.name)
-                  " — " + page.name
-                else ""
-              }
+              <span>{ contents.title }</span> { 
+                if (contents.title != page.name)
+                  "— " + page.name
+                else "" }
             </div>
           </div>
           <div class="span-16 prepend-1 append-1 contents">
