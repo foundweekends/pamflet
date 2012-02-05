@@ -5,5 +5,6 @@ Who's Using Pamflet?
 * [Pamflet](http://pamflet.databinder.net/)
 * [Unfiltered](http://unfiltered.databinder.net/)
 * [Subset](http://osinka.github.com/subset/Subset.html)
+* [Lifty](http://lifty.github.com/Lifty.html)
 
 Are you using Pamflet? Add your project and send a pull request.
