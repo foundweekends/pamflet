@@ -49,7 +49,7 @@ object Produce {
       // cache file must change between updates
       ("# " + new java.util.Date) ::
       css.map { case (n,_) => n } :::
-      contents.pages.map { p => Printer.webify(p.name) } :::
+      contents.pages.map { p => Printer.webify(p) } :::
       paths).mkString("\n")
     )
   }
