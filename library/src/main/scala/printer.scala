@@ -3,9 +3,9 @@ import PamfletDiscounter.toXHTML
 
 object Printer {
   def webify(page: Page) =
-    page.template.get("out") getOrElse {
-      BlockNames.encode(page.name) + ".html"
-    }
+    BlockNames.encode(page.template.get("out") getOrElse {
+      page.name + ".html"
+    })
   /** File names shouldn't be url encoded, just space converted */
   def fileify(name: String) =
     name.replace(' ', '+') + ".html"
