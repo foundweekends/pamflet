@@ -7,8 +7,10 @@ object Printer {
       page.name + ".html"
     })
   /** File names shouldn't be url encoded, just space converted */
-  def fileify(name: String) =
-    name.replace(' ', '+') + ".html"
+  def fileify(page: Page) =
+    (page.template.get("out") getOrElse {
+      page.name + ".html"
+    }).replace(' ', '+')
 }
 case class Printer(contents: Contents, manifest: Option[String]) {
   def toc(current: Page) = {
