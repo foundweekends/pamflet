@@ -2,15 +2,20 @@ package pamflet
 import PamfletDiscounter.toXHTML
 
 object Printer {
-  def webify(name: String) = BlockNames.encode(name) + ".html"
+  def webify(page: Page) =
+    BlockNames.encode(page.template.get("out") getOrElse {
+      page.name + ".html"
+    })
   /** File names shouldn't be url encoded, just space converted */
-  def fileify(name: String) =
-    name.replace(' ', '+') + ".html"
+  def fileify(page: Page) =
+    (page.template.get("out") getOrElse {
+      page.name + ".html"
+    }).replace(' ', '+')
 }
 case class Printer(contents: Contents, manifest: Option[String]) {
   def toc(current: Page) = {
-    val href: String => String = current match {
-      case ScrollPage(_) => BlockNames.fragment
+    val href: Page => String = current match {
+      case ScrollPage(_, _) => (p: Page) => BlockNames.fragment(p.name)
       case _ => Printer.webify
     }
       
@@ -18,7 +23,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
       case `current` =>
         <div class="current">{ current.name }</div>
       case page =>
-        { <div><a href={ href(page.name) }>{ 
+        { <div><a href={ href(page) }>{ 
           page.name 
         }</a></div> } ++ (page match {
           case page: ContentPage if current == DeepContents =>
@@ -27,7 +32,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
         })
     }
     def draw: Page => xml.NodeSeq = {
-      case sect @ Section(blocks, children) =>
+      case sect @ Section(blocks, children, _) =>
         link(sect) ++ list(children)
       case page => link(page)
     }
@@ -41,7 +46,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
     <h4>Contents</h4> ++
     link(contents.pamflet) ++
     list(current match {
-      case ScrollPage(_) => contents.pamflet.children.collect{
+      case ScrollPage(_, _) => contents.pamflet.children.collect{
         case cp: ContentPage => cp
       }
       case _ => contents.pamflet.children
@@ -103,13 +108,13 @@ case class Printer(contents: Contents, manifest: Option[String]) {
       </head>
       <body>
         { prev.map { p =>
-          <a class="page prev nav" href={ Printer.webify(p.name)}>
+          <a class="page prev nav" href={ Printer.webify(p)}>
             <span class="space">&nbsp;</span>
             <span class="flip">❧</span>
           </a>
         }.toSeq ++
         next.map { n =>
-          <a class="page next nav" href={ Printer.webify(n.name)}>
+          <a class="page next nav" href={ Printer.webify(n)}>
             <span class="space">&nbsp;</span>
             <span>❧</span>
           </a>
@@ -125,7 +130,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
           </div>
           <div class="span-16 prepend-1 append-1 contents">
             { page match {
-                case DeepContents =>
+                case page: DeepContents =>
                   toc(page)
                 case page: ContentPage =>
                   toXHTML(page.blocks) ++ toc(page)
@@ -135,7 +140,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
           </div>
         </div>
         {
-          contents.template.get("github").map { repo =>
+          page.template.get("github").map { repo =>
             <a href={"http://github.com/" + repo} class="fork nav"
                ><img src="img/fork.png" alt="Fork me on GitHub"/></a>
           }.toSeq
@@ -149,7 +154,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
 
   def named(name: String) =
     contents.pages.find { page =>
-      Printer.webify(page.name) == name
+      Printer.webify(page) == name
     }
 
   def printNamed(name: String) = named(name).map(print)

@@ -8,7 +8,7 @@ case class Contents(
 ) {
   def traverse(incoming: List[Page], past: List[Page]): List[Page] =
     incoming match {
-      case (head @ Section(_,_)) :: tail =>
+      case (head @ Section(_,_,_)) :: tail =>
         traverse(head.children ::: tail, head :: past)
       case head :: tail =>
         traverse(tail, head :: past)
@@ -16,9 +16,10 @@ case class Contents(
     }
   val pamflet = Section(rootSection.blocks,
                         rootSection.children ::: 
-                        DeepContents ::
-                        ScrollPage(rootSection) ::
-                        Nil)
+                        DeepContents(template) ::
+                        ScrollPage(rootSection, template) ::
+                        Nil,
+                        rootSection.template)
   val pages = traverse(pamflet.children, pamflet :: Nil)
   val title = pamflet.name
   val langs = (Set.empty[String] /: pages) { _ ++ _.langs }
@@ -27,6 +28,7 @@ sealed trait Page {
   def name: String
   def langs: Set[String]
   def referencedLangs: Set[String]
+  def template: Template
 }
 trait AuthoredPage extends Page {
   def blocks: Seq[Block]
@@ -49,20 +51,26 @@ trait AuthoredPage extends Page {
 trait ContentPage extends AuthoredPage {
   lazy val name = BlockNames.name(blocks)
 }
-case class Leaf(blocks: Seq[Block]) extends ContentPage
+case class Leaf(blocks: Seq[Block],
+                template: Template) extends ContentPage
+object Leaf {
+  def apply(t: (Seq[Block], Template)): Leaf = Leaf(t._1, t._2)
+}
 case class Section(blocks: Seq[Block], 
-                   children: List[Page]) extends ContentPage
-object DeepContents extends Page {
+                   children: List[Page],
+                   template: Template) extends ContentPage
+case class DeepContents(template: Template) extends Page {
   val name = "Contents in Depth"
   def langs = Set.empty
   def referencedLangs = Set.empty
 }
-case class ScrollPage(root: Section) extends AuthoredPage {
+case class ScrollPage(root: Section,
+                      template: Template) extends AuthoredPage {
   val name = "Combined Pages"
   def flatten(pages: List[Page]): Seq[Block] =
     pages.view.flatMap {
-      case Leaf(blocks) => blocks
-      case Section(blocks, children) =>
+      case Leaf(blocks, _) => blocks
+      case Section(blocks, children, _) =>
         blocks ++: flatten(children)
       case _ => Seq.empty
     }

@@ -9,7 +9,7 @@ object Preview {
     unfiltered.jetty.Http.anylocal.filter(unfiltered.filter.Planify {
       case GET(Path(Seg(Nil))) =>
         contents.pages.headOption.map { page =>
-          Redirect("/" + Printer.webify(page.name))
+          Redirect("/" + Printer.webify(page))
         }.getOrElse { NotFound }
       case GET(Path(Seg(name :: Nil))) =>
         Printer(contents, None).printNamed(name).map { html =>
