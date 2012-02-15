@@ -6,5 +6,6 @@ Who's Using Pamflet?
 * [Unfiltered](http://unfiltered.databinder.net/)
 * [Subset](http://osinka.github.com/subset/Subset.html)
 * [Lifty](http://lifty.github.com/Lifty.html)
+* [treehugger.scala](http://eed3si9n.com/treehugger/)
 
 Are you using Pamflet? Add your project and send a pull request.
