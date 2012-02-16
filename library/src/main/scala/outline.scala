@@ -6,7 +6,7 @@ object Outline {
   private case class Return(nodes: xml.NodeSeq, rest: Seq[Header])
   def apply(page: AuthoredPage) = {
     def anchor(name: String) =
-      <a href={Printer.webify(page.name) +
+      <a href={Printer.webify(page) +
                BlockNames.fragment(name)}>{ name }</a>
 
     def build(blocks: Seq[Header], cur: Int): Return =

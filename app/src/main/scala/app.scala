@@ -14,7 +14,10 @@ object Pamflet {
   }
   private def storage(dir: File) =
     FileStorage(dir, 
-                StringTemplate(new File(dir, "template.properties")))
+                new File(dir, "template.properties") match {
+                  case file if file.exists => Some(file)
+                  case _ => None
+                })
   def run(args: Array[String]) = {
     args match {
       case Array(Dir(input), Dir(output)) =>

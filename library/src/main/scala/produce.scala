@@ -32,7 +32,7 @@ object Produce {
     val manifest = "pamflet.manifest"
     val printer = Printer(contents, Some(manifest))
     contents.pages.foreach { page =>
-      writeString(Printer.fileify(page.name), printer.print(page).toString)
+      writeString(Printer.fileify(page), printer.print(page).toString)
     }
     val css = contents.css.map { case (nm, v) => ("css/" + nm, v) }.toList
     css.foreach { case (path, contents) =>
@@ -49,7 +49,7 @@ object Produce {
       // cache file must change between updates
       ("# " + new java.util.Date) ::
       css.map { case (n,_) => n } :::
-      contents.pages.map { p => Printer.webify(p.name) } :::
+      contents.pages.map { p => Printer.webify(p) } :::
       paths).mkString("\n")
     )
   }
