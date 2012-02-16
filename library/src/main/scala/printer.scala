@@ -42,15 +42,28 @@ case class Printer(contents: Contents, manifest: Option[String]) {
         case page => <li class="generated">{ draw(page) }</li>
        } } </ol>
     }
-
-    <h4>Contents</h4> ++
-    link(contents.pamflet) ++
-    list(current match {
-      case ScrollPage(_, _) => contents.pamflet.children.collect{
-        case cp: ContentPage => cp
-      }
-      case _ => contents.pamflet.children
-    })
+    def display: String = current match {
+      case DeepContents(_) | ScrollPage(_, _) => "show"
+      case _ =>
+        current.template.get("toc") match {
+          case Some("hide") => "hide"
+          case Some("collapse") => "collap"
+          case _ => "show"
+        }
+    }
+    if (display == "hide") Nil
+    else <div class={ "tocwrapper " + display }>
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      {link(contents.pamflet) ++
+      list(current match {
+        case ScrollPage(_, _) => contents.pamflet.children.collect{
+          case cp: ContentPage => cp
+        }
+        case _ => contents.pamflet.children
+      })}</div></div>
   }
 
   def prettify(page: Page) = {
@@ -99,6 +112,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
           }
         }
         <script src="js/jquery-1.6.2.min.js"/>
+        <script src="js/jquery.collapse.js"/>
         <script src="js/pamflet.js"/>
         {
           prettify(page)

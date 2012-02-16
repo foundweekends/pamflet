@@ -62,6 +62,7 @@ object Produce {
       "css/blueprint/" + _
     } :::
     ("jquery-1.6.2.min.js" ::
+     "jquery.collapse.js" ::
      "pamflet.js" :: Nil
     ).map { "js/" + _ } :::
     "css/prettify.css" ::
