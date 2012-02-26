@@ -13,7 +13,7 @@ object Preview {
         }.getOrElse { NotFound }
       case GET(Path(Seg(name :: Nil))) =>
         Printer(contents, None).printNamed(name).map { html =>
-          Html(html)
+          Html5(html)
         }.getOrElse { NotFound }
       case GET(Path(Seg("css" :: name :: Nil))) if css.contains(name) =>
         CssContent ~> ResponseString(css(name))

@@ -32,7 +32,18 @@ object Produce {
     val manifest = "pamflet.manifest"
     val printer = Printer(contents, Some(manifest))
     contents.pages.foreach { page =>
-      writeString(Printer.fileify(page), printer.print(page).toString)
+      val w = new java.io.StringWriter()
+      xml.XML.write(w, 
+                    printer.print(page),
+                    "utf-8",
+                    xmlDecl = false,
+                    doctype = xml.dtd.DocType(
+                      "html",
+                      xml.dtd.SystemID("about:legacy-compat"),
+                      Nil
+                    )
+                  )
+      writeString(Printer.fileify(page), w.toString)
     }
     val css = contents.css.map { case (nm, v) => ("css/" + nm, v) }.toList
     css.foreach { case (path, contents) =>
