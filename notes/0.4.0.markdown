@@ -1,0 +1,9 @@
+* [Collapsible][special] table of contents { [eed3si9n][coll] }
+* [Page-specific properties][special] and output filename configuration { [eed3si9n][props] }
+* Include `DOCTYPE` tag in output { [n8han][doctype] }
+
+[n8han]: https://github.com/n8han
+[coll]: https://github.com/n8han/pamflet/pull/26
+[props]: https://github.com/n8han/pamflet/pull/24
+[doctype]: https://github.com/n8han/pamflet/commit/83f512fb02cc9e29720f478e1ea9435d0acc847c
+[special]: http://pamflet.databinder.net/Special+Properties.html
