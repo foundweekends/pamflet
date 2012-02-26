@@ -10,8 +10,30 @@ object PamfletBuild extends Build {
       "http://nexus.scala-tools.org/content/repositories/releases/"),
     credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
     homepage :=
-      Some(new java.net.URL("http://pamflet.databinder.net/"))
-
+      Some(new java.net.URL("http://pamflet.databinder.net/")),
+    licenses := Seq("LGPL v3" -> url("http://www.gnu.org/licenses/lgpl.txt")),
+    publishMavenStyle := true,
+    publishTo :=
+      Some("releases" at
+           "https://oss.sonatype.org/service/local/staging/deploy/maven2"),
+    publishArtifact in Test := false,
+    pomExtra := (
+      <scm>
+        <url>git@github.com:n8han/pamflet.git</url>
+        <connection>scm:git:git@github.com:n8han/pamflet.git</connection>
+      </scm>
+      <developers>
+        <developer>
+          <id>n8han</id>
+          <name>Nathan Hamblen</name>
+          <url>http://github.com/n8han</url>
+        </developer>
+        <developer>
+          <id>eed3si9n</id>
+          <name>Eugene Yokota</name>
+          <url>https://github.com/eed3si9n</url>
+        </developer>
+      </developers>)
   )
 
   lazy val pamflet: Project =
