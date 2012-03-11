@@ -31,3 +31,14 @@ It is intended to be used in the properties front matter of the page:
 `toc` property may be used to control how the table of contents
 is displayed at the end of each page.
 The allowed values are `show`, `hide`, and `collapse`.
+
+### Google Analytics
+
+Defining `google-analytics` with a Google Analytics web property ID will 
+insert [tracking Javascript][ga] in the head of all your pages. For
+example:
+
+    google-analytics=UA-12345-6
+
+
+[ga]: http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html
