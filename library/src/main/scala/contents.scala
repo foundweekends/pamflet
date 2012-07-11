@@ -1,9 +1,11 @@
 package pamflet
 import com.tristanhunt.knockoff._
+import java.net.URI
 
 case class Contents(
   rootSection: Section,
   css: Seq[(String,String)],
+  files: Seq[(String, URI)],
   template: Template
 ) {
   def traverse(incoming: List[Page], past: List[Page]): List[Page] =
