@@ -9,7 +9,7 @@ h1,h2,h3,h4,h5, .title {
 pre, code, tt {
     font-family: monospace
 }
-div.top.nav {
+div.nav {
     border-bottom: black solid 1px;
 }
 div.top.nav.title {
@@ -24,6 +24,10 @@ div.top.nav div.outline {
 }
 div.top.nav div.outline ol {
     margin-bottom: 1em;
+}
+div.bottom.nav {
+    margin-bottom: 1em;
+    padding-bottom: 1em;
 }
 div.container {
     position: relative;

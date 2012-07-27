@@ -163,7 +163,12 @@ case class Printer(contents: Contents, manifest: Option[String]) {
                 case page: DeepContents =>
                   toc(page)
                 case page: ContentPage =>
-                  toXHTML(page.blocks) ++ toc(page)
+                  toXHTML(page.blocks) ++ next.map { n =>
+                    <div class="bottom nav">
+                      <em>Next Page</em> {arrow}
+                      <a href={Printer.webify(n)}> {n.name} </a>
+                    </div>
+                  } ++ toc(page)
                 case page: ScrollPage =>
                   toc(page) ++ toXHTML(page.blocks)
             } }
