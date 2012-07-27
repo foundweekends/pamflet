@@ -7,5 +7,6 @@ Who's Using Pamflet?
 * [Subset](http://osinka.github.com/subset/Subset.html)
 * [Lifty](http://lifty.github.com/Lifty.html)
 * [treehugger.scala](http://eed3si9n.com/treehugger/)
+* [GeoTrellis](http://azavea.github.com/geotrellis/getting_started/GeoTrellis.html)
 
 Are you using Pamflet? Add your project and send a pull request.
