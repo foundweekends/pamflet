@@ -1,2 +1,7 @@
+* Adds pamflet.arrow configuration option for next page icon
+  —[joshmarcus][jm]
+
 * Fixes regression in generated *Contents in Depth* page causing
   headings within the text to be ignored.
+
+[jm]: https://github.com/n8han/pamflet/pull/31
