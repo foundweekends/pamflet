@@ -1,0 +1,2 @@
+* Fixes regression in generated *Contents in Depth* page causing
+  headings within the text to be ignored.
