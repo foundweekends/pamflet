@@ -169,6 +169,8 @@ case class Printer(contents: Contents, manifest: Option[String]) {
                         <em>Next Page</em> {arrow}
                         <a href={Printer.webify(n)}> {n.name} </a>
                       </div>
+                    case _ =>
+                      <div class="bottom nav end"></div>
                   } ++ toc(page)
                 case page: ScrollPage =>
                   toc(page) ++ toXHTML(page.blocks)

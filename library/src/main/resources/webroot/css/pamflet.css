@@ -29,6 +29,9 @@ div.bottom.nav {
     margin-bottom: 1em;
     padding-bottom: 1em;
 }
+div.bottom.nav.end {
+    padding-bottom: 0;
+}
 div.container {
     position: relative;
     background: white;
