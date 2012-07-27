@@ -32,6 +32,9 @@ div.bottom.nav {
 div.bottom.nav.end {
     padding-bottom: 0;
 }
+div.bottom.nav span.arrow {
+    margin: 0 .5em;
+}
 div.container {
     position: relative;
     background: white;

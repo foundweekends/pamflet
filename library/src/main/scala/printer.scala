@@ -166,7 +166,8 @@ case class Printer(contents: Contents, manifest: Option[String]) {
                   toXHTML(page.blocks) ++ next.collect {
                     case n: AuthoredPage =>
                       <div class="bottom nav">
-                        <em>Next Page</em> {arrow}
+                        <em>Next Page</em>
+                        <span class="arrow">{arrow}</span>
                         <a href={Printer.webify(n)}> {n.name} </a>
                       </div>
                     case _ =>
