@@ -7,10 +7,10 @@ import scala.annotation.tailrec
 
 object Produce {
   def apply(contents: Contents, target: File) {
-    def writeString(path: String, contents: String) {
-      write(path, new ByteArrayInputStream(contents.getBytes("utf-8")))
+    def writeString(path: String, contents: String, target:File) {
+      write(path, target, new ByteArrayInputStream(contents.getBytes("utf-8")))
     }
-    def write(path: String, r: InputStream) {
+    def write(path: String, target:File, r: InputStream) {
       val file = new File(target, path)
       new File(file.getParent).mkdirs()
       val w = new FileOutputStream(file)
@@ -30,40 +30,54 @@ object Produce {
       w.flush()
     }
     val manifest = "pamflet.manifest"
-    val printer = Printer(contents, Some(manifest))
-    contents.pages.foreach { page =>
-      val w = new java.io.StringWriter()
-      xml.XML.write(w, 
-                    printer.print(page),
-                    "utf-8",
-                    xmlDecl = false,
-                    doctype = xml.dtd.DocType(
-                      "html",
-                      xml.dtd.SystemID("about:legacy-compat"),
-                      Nil
-                    )
-                  )
-      writeString(Printer.fileify(page), w.toString)
-    }
+    val offlineTarget = new File(target + "/offline/")
     val css = contents.css.map { case (nm, v) => ("css/" + nm, v) }.toList
-    css.foreach { case (path, contents) =>
-      writeString(path, contents)
-    }
     val paths = filePaths(contents)
-    paths.foreach { path =>
-      write(path,
-        new java.net.URL(Shared.resources, path).openStream()
-      )
+
+    // generate the pages in target directory and in 
+    // subdirectory "offline" with html5 manifest 
+    List(Some(manifest), None).foreach { manifestOpt =>
+      val offline = ! manifestOpt.isEmpty
+      val targetDir = (if (offline) offlineTarget else target)
+      val printer = Printer(contents, manifestOpt)
+      contents.pages.foreach { page => 
+        val w = new java.io.StringWriter()
+        xml.XML.write(w, 
+                      printer.print(page),
+                      "utf-8",
+                      xmlDecl = false,
+                      doctype = xml.dtd.DocType(
+                        "html",
+                        xml.dtd.SystemID("about:legacy-compat"),
+                        Nil
+                      )
+        )
+        val pagePath = Printer.fileify(page) 
+        writeString(pagePath, w.toString, targetDir)
+      } 
+      css.foreach { case (path, contents) =>
+        writeString(path, contents, targetDir) 
+      }
+
+      paths.foreach { path =>
+        write(path,
+          targetDir,
+          new java.net.URL(Shared.resources, path).openStream()
+        )
+      }
     }
+
     writeString(manifest, (
       "CACHE MANIFEST" ::
       // cache file must change between updates
       ("# " + new java.util.Date) ::
       css.map { case (n,_) => n } :::
       contents.pages.map { p => Printer.webify(p) } :::
-      paths).mkString("\n")
+      paths).mkString("\n"),
+      mobileTarget
     )
   }
+
   def filePaths(contents: Contents) =
     "img/fork.png" ::
     ("pamflet.css" :: "pamflet-grid.css" :: "pamflet-print.css" :: Nil).map {
