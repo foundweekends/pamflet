@@ -4,4 +4,7 @@
 * Fixes regression in generated *Contents in Depth* page causing
   headings within the text to be ignored.
 
+* Removes swipe actions for page navigation as these were unreliable
+  on some mobile browsers and caused problems scrolling.
+
 [jm]: https://github.com/n8han/pamflet/pull/31
