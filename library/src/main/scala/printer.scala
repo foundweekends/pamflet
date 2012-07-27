@@ -24,9 +24,9 @@ case class Printer(contents: Contents, manifest: Option[String]) {
         <div class="current">{ current.name }</div>
       case page =>
         { <div><a href={ href(page) }>{ 
-          page.name 
-        }</a></div> } ++ (page match {
-          case page: ContentPage if current == DeepContents =>
+          page.name
+        }</a></div> } ++ ((page, current) match {
+          case (page: ContentPage, c: DeepContents) =>
             Outline(page)
           case _ => Nil
         })
