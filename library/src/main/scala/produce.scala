@@ -74,7 +74,7 @@ object Produce {
       css.map { case (n,_) => n } :::
       contents.pages.map { p => Printer.webify(p) } :::
       paths).mkString("\n"),
-      mobileTarget
+      offlineTarget
     )
   }
 
