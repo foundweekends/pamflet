@@ -1,6 +1,11 @@
 * Adds pamflet.arrow configuration option for next page icon
   —[joshmarcus][jm]
 
+* Relegates HTML5 cache manifest instructions to "offline" version of
+  docs. —[joshmarcus][jm]
+
+* Adds "Next Page" link to the end of each authored page.
+
 * Fixes regression in generated *Contents in Depth* page causing
   headings within the text to be ignored.
 
