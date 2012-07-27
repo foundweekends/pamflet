@@ -93,7 +93,9 @@ case class Printer(contents: Contents, manifest: Option[String]) {
       }
     val (prev, next) = lastnext(contents.pages, None)
     val bigScreen = "screen and (min-device-width: 800px), projection"
-    
+   
+    val arrow = page.template.get("pamflet.arrow") getOrElse "❧"
+
     val html = <html>
       <head>
         <title>{ "%s — %s".format(contents.title, page.name) }</title>
@@ -138,13 +140,13 @@ case class Printer(contents: Contents, manifest: Option[String]) {
         { prev.map { p =>
           <a class="page prev nav" href={ Printer.webify(p)}>
             <span class="space">&nbsp;</span>
-            <span class="flip">❧</span>
+            <span class="flip">{arrow}</span>
           </a>
         }.toSeq ++
         next.map { n =>
           <a class="page next nav" href={ Printer.webify(n)}>
             <span class="space">&nbsp;</span>
-            <span>❧</span>
+            <span>{arrow}</span>
           </a>
         }.toSeq }
         <div class="container">
