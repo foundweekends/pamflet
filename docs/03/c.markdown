@@ -16,4 +16,4 @@ time, Apache can be pointed to your pamflet directory like this:
 ###### Note
 
 You do need a root redirect if you want requests to the root path to
-resolve. The title page is assigend an output name like any other.
+resolve. The title page is assigned an output name like any other.
