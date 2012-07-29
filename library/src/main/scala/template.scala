@@ -1,6 +1,7 @@
 package pamflet
 
-import java.io.{File,FileInputStream,ByteArrayInputStream}
+import java.io.{
+  File,FileInputStream,ByteArrayInputStream,InputStreamReader,StringReader}
 import java.nio.charset.Charset
 import org.antlr.stringtemplate.{StringTemplate => STImpl}
 
@@ -22,12 +23,13 @@ case class StringTemplate(file: Option[File], str: Option[String]) extends Templ
     
   private def properties = {
     val p = new java.util.Properties
-    file foreach { f => p.load(new FileInputStream(f)) }
-    str foreach { s =>
+    for (f <- file)
+      p.load(new InputStreamReader(new FileInputStream(f),
+                                   Charset.forName("UTF-8")))
+    for (s <- str) {
       val q = new java.util.Properties
-      val latin1 = s getBytes Charset.forName("ISO-8859-1")
-      q.load(new ByteArrayInputStream(latin1))
-      p putAll q
+      q.load(new StringReader(s))
+      p.putAll(q)
     }
     p
   }
