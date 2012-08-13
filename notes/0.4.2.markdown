@@ -1,1 +1,6 @@
 * Reads `template.properties` as utf-8 ♥
+* Support for [arbitrary resources bundled in pamflet][files], contributed
+  [by plalloni][29]
+
+[files]: http://pamflet.databinder.net/Additional+resources.html
+[29]: https://github.com/n8han/pamflet/pull/29
