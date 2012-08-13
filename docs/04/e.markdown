@@ -18,6 +18,6 @@ Of course, the trick works great for images using usual markdown:
 
 Becomes
 
-![some svg](files/an.svg)
+> ![some svg](files/an.svg)
 
 It's worth a thousand words, give or take.
