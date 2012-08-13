@@ -67,12 +67,17 @@ object Produce {
       }
     }
 
+    val files = contents.files.toList
+      .map { case (nm, u) => ("files/" + nm, u) }
+    files.foreach { case (path, uri) => write(path, uri.toURL.openStream) }
+
     writeString(manifest, (
       "CACHE MANIFEST" ::
       // cache file must change between updates
       ("# " + new java.util.Date) ::
       css.map { case (n,_) => n } :::
       contents.pages.map { p => Printer.webify(p) } :::
+      files.map { case (n, _) => n } :::
       paths).mkString("\n"),
       offlineTarget
     )

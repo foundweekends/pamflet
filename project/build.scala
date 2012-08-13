@@ -4,7 +4,7 @@ import Keys._
 object PamfletBuild extends Build {
   lazy val common = Defaults.defaultSettings ++ ls.Plugin.lsSettings ++ Seq(
     organization := "net.databinder",
-    version := "0.4.1",
+    version := "0.4.2-SNAPSHOT",
     scalaVersion := "2.9.1",
     publishTo := Some("Scala Tools Nexus" at 
       "http://nexus.scala-tools.org/content/repositories/releases/"),

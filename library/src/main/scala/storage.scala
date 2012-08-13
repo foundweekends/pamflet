@@ -15,7 +15,9 @@ case class FileStorage(base: File, propfile: Option[File]) extends Storage {
     val css = base.listFiles.filter {
       _.getName.endsWith(".css")
     }.map { f => (f.getName, read(f)) }
-    Contents(pamflet, css, defaultTemplate)
+    val files = base.listFiles.filter(_.getName=="files")
+      .flatMap(_.listFiles.map { f => (f.getName, f.toURI) })
+    Contents(pamflet, css, files, defaultTemplate)
   }
   def section(dir: File): Seq[Section] = {
     val files = (dir.listFiles match {
