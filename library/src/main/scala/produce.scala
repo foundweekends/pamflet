@@ -34,6 +34,10 @@ object Produce {
     val css = contents.css.map { case (nm, v) => ("css/" + nm, v) }.toList
     val paths = filePaths(contents)
 
+    val files = contents.files.toList.map {
+      case (nm, u) => ("files/" + nm, u)
+    }
+
     // generate the pages in target directory and in 
     // subdirectory "offline" with html5 manifest 
     List(Some(manifest), None).foreach { manifestOpt =>
@@ -65,11 +69,10 @@ object Produce {
           new java.net.URL(Shared.resources, path).openStream()
         )
       }
-    }
 
-    val files = contents.files.toList
-      .map { case (nm, u) => ("files/" + nm, u) }
-    files.foreach { case (path, uri) => write(path, uri.toURL.openStream) }
+      for ((path, uri) <- files)
+        write(path, targetDir, uri.toURL.openStream)
+    }
 
     writeString(manifest, (
       "CACHE MANIFEST" ::
