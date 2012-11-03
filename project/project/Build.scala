@@ -2,5 +2,5 @@ import sbt._
 object PluginDef extends Build {
   override def projects = Seq(root)
   lazy val root = Project("plugins", file(".")) dependsOn(conscript)
-  lazy val conscript = uri("git://github.com/n8han/conscript-plugin.git#0.3.4")
+  lazy val conscript = uri("git://github.com/n8han/conscript-plugin.git#0.3.5")
 }
