@@ -1,6 +1,8 @@
 * Reads `template.properties` as utf-8 ♥
 * Support for [arbitrary resources bundled in pamflet][files], contributed
   [by plalloni][29]
+* Fix for [arrow appearance in IE 9][36]
 
 [files]: http://pamflet.databinder.net/Additional+resources.html
 [29]: https://github.com/n8han/pamflet/pull/29
+[36]: https://github.com/n8han/pamflet/pull/36
