@@ -67,3 +67,7 @@ a.page {
 a.fork {
     display: none;
 }
+
+body.present .nav, body.present .tocwrapper, body.present p {
+    display: none;
+}

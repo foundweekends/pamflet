@@ -9,19 +9,31 @@ $(function() {
         $("a.page.next").first().each(load);
     }
     var present = function() {
+        $(document.body).addClass("present");
         for (i in document.styleSheets) {
             var sheet = document.styleSheets[i];
             if (sheet.media && sheet.media.mediaText.indexOf("min-device-width") > -1)
                 sheet.disabled = true;
         }
     }
-    if (window.location.search.indexOf("present") > -1) {
+    var isPresentLoc = function() {
+        return window.location.search.indexOf("present") > -1;
+    }
+    var togglePresent = function() {
+        if (isPresentLoc()) {
+            window.location = window.location.toString().substring(
+                0, window.location.toString().indexOf("?"));
+        } else {
+            window.location = window.location + "?present";
+        }
+    }
+    if (isPresentLoc()) {
         present();
     }
     $(document).keydown(function (event) {
         if (event.ctrlKey && event.which == 116) {
             event.preventDefault();
-            window.location = window.location + "?present";
+            togglePresent();
         } else if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) {
             return;
         } else if (event.which == 37) {
