@@ -108,16 +108,16 @@ case class Printer(contents: Contents, manifest: Option[String]) {
         <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="css/pamflet-print.css" type="text/css" media="print"/>
         <link rel="stylesheet" href="css/pamflet-grid.css" type="text/css" media={bigScreen}/>
-        {
-          contents.css.map { case (filename, contents) =>
-            <link rel="stylesheet" href={"css/" + filename} type="text/css" media="screen, projection"/>
-          }
-        }
         <script src="js/jquery-1.6.2.min.js"/>
         <script src="js/jquery.collapse.js"/>
         <script src="js/pamflet.js"/>
         {
           prettify(page)
+        }
+        {
+          contents.css.map { case (filename, contents) =>
+            <link rel="stylesheet" href={"css/" + filename} type="text/css" media="screen, projection"/>
+          }
         }
         <meta charset="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport"></meta>
