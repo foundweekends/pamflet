@@ -99,6 +99,11 @@ case class Printer(contents: Contents, manifest: Option[String]) {
     val html = <html>
       <head>
         <title>{ "%s — %s".format(contents.title, page.name) }</title>
+        {
+          contents.favicon.toList.map { case _ =>
+            <link rel="shortcut icon" href="favicon.ico" />
+          }
+        }
         <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="css/blueprint/grid.css" type="text/css" media={bigScreen}/>
         <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
