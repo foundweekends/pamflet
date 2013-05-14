@@ -33,9 +33,11 @@ object Produce {
     val offlineTarget = new File(target + "/offline/")
     val css = contents.css.map { case (nm, v) => ("css/" + nm, v) }.toList
     val paths = filePaths(contents)
-
     val files = contents.files.toList.map {
       case (nm, u) => ("files/" + nm, u)
+    }
+    val favicon = contents.favicon.toList.map {
+      case u => ("favicon.ico", u)
     }
 
     // generate the pages in target directory and in 
@@ -70,7 +72,7 @@ object Produce {
         )
       }
 
-      for ((path, uri) <- files)
+      for ((path, uri) <- files ++ favicon)
         write(path, targetDir, uri.toURL.openStream)
     }
 
@@ -81,6 +83,7 @@ object Produce {
       css.map { case (n,_) => n } :::
       contents.pages.map { p => Printer.webify(p) } :::
       files.map { case (n, _) => n } :::
+      favicon.map { case (n, _) => n } :::
       paths).mkString("\n"),
       offlineTarget
     )

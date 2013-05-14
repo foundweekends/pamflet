@@ -17,7 +17,9 @@ case class FileStorage(base: File, propfile: Option[File]) extends Storage {
     }.map { f => (f.getName, read(f)) }
     val files = base.listFiles.filter(_.getName=="files")
       .flatMap(_.listFiles.map { f => (f.getName, f.toURI) })
-    Contents(pamflet, css, files, defaultTemplate)
+    val favicon = base.listFiles.filter(_.getName == "favicon.ico").headOption
+      .map { _.toURI }
+    Contents(pamflet, css, files, favicon, defaultTemplate)
   }
   def section(dir: File): Seq[Section] = {
     val files = (dir.listFiles match {
