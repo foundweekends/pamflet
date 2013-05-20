@@ -6,6 +6,7 @@ case class Contents(
   rootSection: Section,
   css: Seq[(String,String)],
   files: Seq[(String, URI)],
+  favicon: Option[URI],
   template: Template
 ) {
   def traverse(incoming: List[Page], past: List[Page]): List[Page] =
