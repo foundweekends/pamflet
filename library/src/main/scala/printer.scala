@@ -65,7 +65,21 @@ case class Printer(contents: Contents, manifest: Option[String]) {
         case _ => contents.pamflet.children
       })}</div></div>
   }
+  def comment(current: Page) = {
+    current.template.get("disqus") map { disqusName =>
+      val disqusCode = """
+        var disqus_shortname = '""" + disqusName + """';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+"""
 
+      { <div id="disqus_thread"></div> } ++
+      { <script type="text/javascript">{disqusCode}</script> }
+    } getOrElse Nil
+  }
   def prettify(page: Page) = {
     page.referencedLangs.find{ _ => true }.map { _ =>
       { <script type="text/javascript"
@@ -177,7 +191,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
                       </div>
                     case _ =>
                       <div class="bottom nav end"></div>
-                  } ++ toc(page)
+                  } ++ toc(page) ++ comment(page)
                 case page: ScrollPage =>
                   toc(page) ++ toXHTML(page.blocks)
             } }
