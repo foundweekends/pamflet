@@ -69,11 +69,11 @@ case class Printer(contents: Contents, manifest: Option[String]) {
   def prettify(page: Page) = {
     page.referencedLangs.find{ _ => true }.map { _ =>
       { <script type="text/javascript"
-          src="js/prettify/prettify.js" /> } ++
+          src="js/prettify/prettify.js"></script> } ++
       page.langs.map { br =>
         <script type="text/javascript" src={
           "js/prettify/lang-%s.js".format(br)
-        } />
+        } ></script>
       } ++
       <link type="text/css" rel="stylesheet" href="css/prettify.css"/>
       <script type="text/javascript"><!--
@@ -113,9 +113,9 @@ case class Printer(contents: Contents, manifest: Option[String]) {
         <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="css/pamflet-print.css" type="text/css" media="print"/>
         <link rel="stylesheet" href="css/pamflet-grid.css" type="text/css" media={bigScreen}/>
-        <script src="js/jquery-1.6.2.min.js"/>
-        <script src="js/jquery.collapse.js"/>
-        <script src="js/pamflet.js"/>
+        <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="js/pamflet.js"></script>
         {
           prettify(page)
         }
@@ -128,7 +128,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
         <meta content="width=device-width, initial-scale=1" name="viewport"></meta>
         {
           page.template.get("google-analytics").toList.map { uid: String => 
-            <script type="text/javascript">
+            <script type="text/javascript"><!--
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', '{xml.Unparsed(uid)}']);
             _gaq.push(['_trackPageview']);
@@ -137,7 +137,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
               ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
               var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
             }})();
-            </script>
+            --></script>
          }
         }
       </head>
