@@ -22,10 +22,10 @@ case class FileStorage(base: File, propfile: Option[File]) extends Storage {
     Contents(pamflet, css, files, favicon, defaultTemplate)
   }
   def section(dir: File): Seq[Section] = {
-    val files = (dir.listFiles match {
-      case null => Array.empty
-      case files => files
-    }).toList.sortWith {
+    val files: List[File] = (Option(dir.listFiles) match {
+      case None        => Nil
+      case Some(files) => files.toList
+    }).sortWith {
       _.getName < _.getName
     }
     files.find(isMarkdown).map { head =>

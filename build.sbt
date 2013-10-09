@@ -1,8 +1,8 @@
 lazy val common = ls.Plugin.lsSettings ++ Seq(
   organization := "net.databinder",
   version := "0.4.3-SNAPSHOT",
-  scalaVersion := "2.9.2",
-  crossScalaVersions := Seq("2.9.1", "2.9.2"),
+  scalaVersion := "2.10.3",
+  crossScalaVersions := Seq("2.10.3"),
   publishTo := Some("Scala Tools Nexus" at 
     "http://nexus.scala-tools.org/content/repositories/releases/"),
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
@@ -33,16 +33,22 @@ lazy val common = ls.Plugin.lsSettings ++ Seq(
     </developers>)
 )
 
-val knockoffVersion = "0.8.0-16"
+val knockoffVersion = "0.8.1"
 lazy val knockoffDeps = Def.setting { Seq(
   "com.tristanhunt" %% "knockoff" % knockoffVersion
 )}
-val unfilteredVersion = "0.6.3"
+val unfilteredVersion = "0.7.0"
 val stringtemplateVersion = "3.2.1"
 lazy val libraryDeps = Def.setting { Seq(
   "net.databinder" %% "unfiltered-filter" % unfilteredVersion,
   "net.databinder" %% "unfiltered-jetty" % unfilteredVersion,
   "org.antlr" % "stringtemplate" % stringtemplateVersion
+)}
+val launcherInterfaceVersion = "0.12.0"
+val servletApiVersion = "2.5"
+lazy val appDeps = Def.setting { Seq(
+  "org.scala-sbt" % "launcher-interface" % launcherInterfaceVersion % "provided",
+  "javax.servlet" % "servlet-api" % servletApiVersion
 )}
 
 lazy val pamflet: Project =
@@ -50,7 +56,8 @@ lazy val pamflet: Project =
   settings(common: _*).
   settings(
     name := "pamflet",
-    ls.Plugin.LsKeys.skipWrite := true
+    ls.Plugin.LsKeys.skipWrite := true,
+    publishArtifact := false
   ).
   aggregate(knockoff, library, app)
 lazy val knockoff: Project =
@@ -59,7 +66,7 @@ lazy val knockoff: Project =
   settings(
     name := "pamflet-knockoff",
     description := "Extensions to the Knockoff Markdown parser",
-    crossScalaVersions := Seq("2.8.1", "2.9.0", "2.9.1"),
+    crossScalaVersions := Seq("2.9.0", "2.9.1", "2.10.3"),
     libraryDependencies ++= knockoffDeps.value
   )
 lazy val library: Project =
@@ -74,10 +81,10 @@ lazy val library: Project =
 lazy val app: Project =
   (project in file("app")).
   settings(common: _*).
-  settings(conscript.Harness.conscriptSettings: _*).
   settings(
     name := "pamflet-app",
     description :=
-      "Pamflet app for previewing and publishing project documentation"    
+      "Pamflet app for previewing and publishing project documentation",
+    libraryDependencies ++= appDeps.value
   ).
   dependsOn(library)
