@@ -11,14 +11,16 @@ trait IdentifiedHeaders extends Discounter { self: TextWriter =>
     return stringWriter.toString        
   }
   override def headerToXHTML = (level, spans) => {
-    val spanned = spans.map(spanToXHTML)
     val name = BlockNames.encode(BlockNames.textOf(spans))
+    val spanned = spans.map(spanToXHTML)
+    val anchored = spanned ++
+      <a href={ "#" + name } class="header-link"><span class="header-link-content">&nbsp;</span></a>
     level match {
-      case 1 => <h1 id={name}>{ spanned }</h1>
-      case 2 => <h2 id={name}>{ spanned }</h2>
-      case 3 => <h3 id={name}>{ spanned }</h3>
-      case 4 => <h4 id={name}>{ spanned }</h4>
-      case 5 => <h5 id={name}>{ spanned }</h5>
+      case 1 => <h1 id={name}>{ anchored }</h1>
+      case 2 => <h2 id={name}>{ anchored }</h2>
+      case 3 => <h3 id={name}>{ anchored }</h3>
+      case 4 => <h4 id={name}>{ anchored }</h4>
+      case 5 => <h5 id={name}>{ anchored }</h5>
       case 6 => <h6>{ spanned }</h6>
       case _ =>
         <div class={ "header" + level }>{ spanned }</div>
