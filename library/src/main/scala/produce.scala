@@ -6,7 +6,13 @@ import java.io.{File,FileOutputStream,InputStream,
 import scala.annotation.tailrec
 
 object Produce {
-  def apply(contents: Contents, target: File) {
+  def apply(globalized: Globalized, target: File) {
+    globalized.languages foreach { lang =>
+      if (lang == globalized.defaultLanguage) apply(globalized.defaultContents, globalized, target)
+      else apply(globalized(lang), globalized, new File(target, lang))
+    }
+  }
+  def apply(contents: Contents, globalized: Globalized, target: File) {
     def writeString(path: String, contents: String, target:File) {
       write(path, target, new ByteArrayInputStream(contents.getBytes("utf-8")))
     }
@@ -45,7 +51,7 @@ object Produce {
     List(Some(manifest), None).foreach { manifestOpt =>
       val offline = ! manifestOpt.isEmpty
       val targetDir = (if (offline) offlineTarget else target)
-      val printer = Printer(contents, manifestOpt)
+      val printer = Printer(contents, globalized, manifestOpt)
       contents.pages.foreach { page => 
         val w = new java.io.StringWriter()
         xml.XML.write(w, 
@@ -103,7 +109,7 @@ object Produce {
     ).map { "js/" + _ } :::
     "css/prettify.css" ::
     ("prettify.js" ::
-      contents.langs.map { l => "lang-%s.js".format(l) }.toList
+      contents.prettifyLangs.map { l => "lang-%s.js".format(l) }.toList
     ).map {
       "js/prettify/" + _
     }
