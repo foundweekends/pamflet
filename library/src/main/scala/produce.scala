@@ -94,9 +94,12 @@ object Produce {
       offlineTarget
     )
   }
-
+  val languageCodes = "de" :: "en" :: "es" :: "fr" :: "ja" :: "ko" :: "pt-br" :: Nil
   def filePaths(contents: Contents) =
     "img/fork.png" ::
+    (languageCodes.map {
+      "img/language/" + _ + ".png"
+    }) :::
     ("pamflet.css" :: "pamflet-grid.css" :: "pamflet-print.css" :: Nil).map {
       "css/" + _
     } :::
