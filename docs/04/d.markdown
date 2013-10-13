@@ -32,6 +32,12 @@ It is intended to be used in the properties front matter of the page:
 is displayed at the end of each page.
 The allowed values are `show`, `hide`, and `collapse`.
 
+### Disqus
+
+Defining `disqus` property with a disqus short name will add a comment section at the end of all your pages.
+
+    disqus=namehere
+
 ### Google Analytics
 
 Defining `google-analytics` with a Google Analytics web property ID will 

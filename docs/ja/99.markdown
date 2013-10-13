@@ -1,0 +1,10 @@
+---
+out: Whos-Using-Pamflet.html
+---
+
+誰が Pamflet を使っているか?
+--------------------------
+
+Pamflet を使っているプロジェクトのリストは[英語版](../Who%E2%80%99s+Using+Pamflet%3F.html)にある。
+
+あなたが Pamflet を使っているなら是非プロジェクトを追加して pull request を送ってほしい。
