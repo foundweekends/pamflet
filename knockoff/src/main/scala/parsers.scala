@@ -8,3 +8,4 @@ object PamfletDiscounter
   with FencedDiscounter
   with SmartyDiscounter
   with IdentifiedHeaders
+  with Html5Imgs
