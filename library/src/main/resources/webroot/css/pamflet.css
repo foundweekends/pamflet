@@ -12,11 +12,16 @@ pre, code, tt {
 div.nav {
     border-bottom: black solid 1px;
 }
-div.top.nav.title {
+div.top.nav div.title {
     text-align: center;
     font-size: 1.2em;
+    float: left;
 }
-div.top.nav.title span, .generated.nav {
+div.top.nav div.language-bar {
+    float: left;
+    margin: 0px;
+}
+div.top.nav div.title span, .generated.nav {
     font-style: italic;
 }
 div.top.nav div.outline {
