@@ -65,15 +65,29 @@ case class Printer(contents: Contents, manifest: Option[String]) {
         case _ => contents.pamflet.children
       })}</div></div>
   }
+  def comment(current: Page) = {
+    current.template.get("disqus") map { disqusName =>
+      val disqusCode = """
+        var disqus_shortname = '""" + disqusName + """';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+"""
 
+      { <div id="disqus_thread"></div> } ++
+      { <script type="text/javascript">{disqusCode}</script> }
+    } getOrElse Nil
+  }
   def prettify(page: Page) = {
     page.referencedLangs.find{ _ => true }.map { _ =>
       { <script type="text/javascript"
-          src="js/prettify/prettify.js" /> } ++
+          src="js/prettify/prettify.js"></script> } ++
       page.langs.map { br =>
         <script type="text/javascript" src={
           "js/prettify/lang-%s.js".format(br)
-        } />
+        } ></script>
       } ++
       <link type="text/css" rel="stylesheet" href="css/prettify.css"/>
       <script type="text/javascript"><!--
@@ -113,9 +127,9 @@ case class Printer(contents: Contents, manifest: Option[String]) {
         <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="css/pamflet-print.css" type="text/css" media="print"/>
         <link rel="stylesheet" href="css/pamflet-grid.css" type="text/css" media={bigScreen}/>
-        <script src="js/jquery-1.6.2.min.js"/>
-        <script src="js/jquery.collapse.js"/>
-        <script src="js/pamflet.js"/>
+        <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="js/pamflet.js"></script>
         {
           prettify(page)
         }
@@ -128,7 +142,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
         <meta content="width=device-width, initial-scale=1" name="viewport"></meta>
         {
           page.template.get("google-analytics").toList.map { uid: String => 
-            <script type="text/javascript">
+            <script type="text/javascript"><!--
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', '{xml.Unparsed(uid)}']);
             _gaq.push(['_trackPageview']);
@@ -137,7 +151,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
               ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
               var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
             }})();
-            </script>
+            --></script>
          }
         }
       </head>
@@ -177,7 +191,7 @@ case class Printer(contents: Contents, manifest: Option[String]) {
                       </div>
                     case _ =>
                       <div class="bottom nav end"></div>
-                  } ++ toc(page)
+                  } ++ toc(page) ++ comment(page)
                 case page: ScrollPage =>
                   toc(page) ++ toXHTML(page.blocks)
             } }

@@ -33,7 +33,7 @@ sealed trait Page {
   def referencedLangs: Set[String]
   def template: Template
 }
-trait AuthoredPage extends Page {
+sealed trait AuthoredPage extends Page {
   def blocks: Seq[Block]
   lazy val referencedLangs =
     (Set.empty[String] /: blocks) {
@@ -47,7 +47,7 @@ trait AuthoredPage extends Page {
                      ).openStream().close()
       true
     } catch {
-      case _ => false
+      case _: Throwable => false
     }
   }
 }
