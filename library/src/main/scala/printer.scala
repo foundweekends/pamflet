@@ -107,21 +107,28 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
       --></script>
     }.toSeq
   }
-  def languageBar(page: Page) = {
-    <div class="span-6 language-bar">
-      <ul>
-      {
-        val lis = 
-          for {
-            lang <- page.template.languages
-            p <- globalized(lang).pages.find { _.localPath == page.localPath }
-          } yield <li><a href={ relative(lang) + Printer.webify(p) } ><div class={ "lang-item lang-" + lang }></div></a></li>
-        if (lis.size < 2) Nil
-        else lis
-      }
-      </ul>
-    </div>
-  }
+
+  def languageBar(page: Page) = 
+    if (page.template.languages.size < 2) Nil
+    else {
+      def languageName(langCode: String): String =
+        page.template.get("lang-" + langCode) getOrElse {
+          Language.languageName(langCode) getOrElse langCode
+        }
+      <div class="span-6 language-bar">
+        <ul>
+        {
+          val lis = 
+            for {
+              lang <- page.template.languages
+              p <- globalized(lang).pages.find { _.localPath == page.localPath }
+            } yield <li><a href={ relative(lang) + Printer.webify(p) } ><span class={ "lang-item lang-" + lang }>{languageName(lang)}</span></a></li>
+          if (lis.size < 2) Nil
+          else lis
+        }
+        </ul>
+      </div>
+    }
 
   def print(page: Page) = {
     def lastnext(in: List[Page], last: Option[Page]): (Option[Page], Option[Page]) =
@@ -136,9 +143,6 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
     val bigScreen = "screen and (min-device-width: 800px), projection"
    
     val arrow = page.template.get("pamflet.arrow") getOrElse "❧"
-    val titleSpan = if (page.template.languages.size > 1) "span-10"
-                    else "span-16"
-
     val html = <html>
       <head>
         <title>{ "%s — %s".format(contents.title, page.name) }</title>
@@ -212,16 +216,12 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         <div class="container">
           <div class="span-16 prepend-1 append-1">
             <div class="span-16 top nav">
-              <div class={ titleSpan+" title"}>
+              <div class="span-16 title">
                 <span>{ contents.title }</span> { 
                   if (contents.title != page.name)
                     "— " + page.name
                   else "" }
               </div>
-              {
-                if (page.template.languages.size > 1) languageBar(page)
-                else Nil 
-              }
             </div>
           </div>
           <div class="span-16 prepend-1 append-1 contents">
@@ -232,12 +232,20 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
                   toXHTML(page.blocks) ++ next.collect {
                     case n: AuthoredPage =>
                       <div class="bottom nav">
-                        <em>Next Page</em>
-                        <span class="arrow">{arrow}</span>
-                        <a href={Printer.webify(n)}> {n.name} </a>
+                        <div class="span-10 nextpage">
+                          <em>Next Page</em>
+                          <span class="arrow">{arrow}</span>
+                          <a href={Printer.webify(n)}> {n.name} </a>
+                        </div>
+                        { languageBar(page) }
+                        <br/>
                       </div>
                     case _ =>
-                      <div class="bottom nav end"></div>
+                      <div class="bottom nav end">
+                        <div class="span-10 nextpage">&nbsp;</div>
+                        { languageBar(page) }
+                        <br/>
+                      </div>
                   } ++ toc(page) ++ comment(page)
                 case page: ScrollPage =>
                   toc(page) ++ toXHTML(page.blocks)
