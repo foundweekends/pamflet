@@ -96,28 +96,5 @@ div.language-bar ul li {
     margin-left: 12px;
 }
 div.lang-item {
-    width: 24px;
-    height: 24px;
     float: left;
-}
-div.language-bar div.lang-de {
-    background-image: url('../img/language/de.png');
-}
-div.language-bar div.lang-en {
-    background-image: url('../img/language/en.png');
-}
-div.language-bar div.lang-es {
-    background-image: url('../img/language/es.png');
-}
-div.language-bar div.lang-fr {
-    background-image: url('../img/language/fr.png');
-}
-div.language-bar div.lang-ja {
-    background-image: url('../img/language/ja.png');
-}
-div.language-bar div.lang-ko {
-    background-image: url('../img/language/ko.png');
-}
-div.language-bar div.lang-pt-br {
-    background-image: url('../img/language/pt-br.png');
 }

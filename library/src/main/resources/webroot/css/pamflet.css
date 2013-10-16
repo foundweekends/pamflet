@@ -15,11 +15,6 @@ div.nav {
 div.top.nav div.title {
     text-align: center;
     font-size: 1.2em;
-    float: left;
-}
-div.top.nav div.language-bar {
-    float: left;
-    margin: 0px;
 }
 div.top.nav div.title span, .generated.nav {
     font-style: italic;
@@ -33,6 +28,14 @@ div.top.nav div.outline ol {
 div.bottom.nav {
     margin-bottom: 1em;
     padding-bottom: 1em;
+}
+div.bottom.nav div.nextpage {
+    float: left;
+    margin: 0px;
+}
+div.bottom.nav div.language-bar {
+    float: left;
+    margin: 0px;
 }
 div.bottom.nav.end {
     padding-bottom: 0;
