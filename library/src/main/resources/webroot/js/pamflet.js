@@ -39,4 +39,24 @@ $(function() {
         $(".toctitle").children("a").click();
     });
     $(".collap .toctitle a").text(show_message);
+
+    var getParameterByName = function(name) {
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+    var color_scheme = getParameterByName("color_scheme");
+    if (color_scheme) {
+        $("body").attr("class", "color_scheme-" + color_scheme);
+        if (window.localStorage) {
+            window.localStorage.color_scheme = color_scheme;
+        }
+    } else {
+        if (window.localStorage) {
+            if (window.localStorage.color_scheme) {
+                $("body").attr("class", "color_scheme-" + window.localStorage.color_scheme);
+            }
+        }
+    }
 });

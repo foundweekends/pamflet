@@ -4,10 +4,12 @@ body {
     font-family: "Warnock Pro", "Goudy Old Style", "Palatino", "Book Antiqua", Georgia, serif;
 }
 pre, code, tt {
-    font-family: 'andale mono', 'lucida console', monospace
+    font-family: Consolas, 'Liberation Mono', Courier, monospace;
+}
+pre {
+    font-size: 80%;
 }
 div.top.nav {
-    background: white;
     z-index: 1;
 }
 p {
@@ -20,17 +22,12 @@ a.page {
     top: 0;
     font-size: 2em;
     text-align: right;
-    color: black;
     text-decoration: none;
     display: block;
     padding: 0 1.5em;
 }
 a.page.next {
     right: 0;
-}
-a.page:hover {
-    color: #06c;
-    background: #efefef;
 }
 a.page span.space {
     display: block;
@@ -57,7 +54,6 @@ a.tochead {
     width: 100%;
     font-size: 1.5em;
     text-align: center;
-    color: black;
     text-decoration: none;
     display: block;
     padding: 1.5em 0em 0em;

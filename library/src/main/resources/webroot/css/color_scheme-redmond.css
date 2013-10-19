@@ -1,0 +1,91 @@
+body.color_scheme-redmond {
+    color: black;
+    background: white;
+}
+body.color_scheme-redmond h1,
+body.color_scheme-redmond h2,
+body.color_scheme-redmond h3,
+body.color_scheme-redmond h4,
+body.color_scheme-redmond h5,
+body.color_scheme-redmond h6 {
+    color: black
+}
+body.color_scheme-redmond blockquote {
+  color:#666;
+}
+body.color_scheme-redmond div.nav {
+    border-bottom-color: black
+}
+body.color_scheme-redmond div.top.nav {
+    background: white;
+}
+body.color_scheme-redmond div.contents {
+    color: black;
+    background: white;
+}
+body.color_scheme-redmond div.container {
+    background: white;
+}
+body.color_scheme-redmond a:hover {
+    color: #06c
+}
+body.color_scheme-redmond a.page {
+    color: black;
+}
+body.color_scheme-redmond a.page:hover {
+    color: #06c;
+    background: #efefef;
+}
+body.color_scheme-redmond a.tochead {
+    color: black;
+}
+body.color_scheme-redmond .collap a.tochead:hover {
+    color: #06c;
+    background: #efefef;
+}
+body.color_scheme-redmond a.header-link:hover {
+    color: #06c;
+    background: #efefef;
+}
+body.color_scheme-redmond code.prettyprint span.str {
+  color:#080
+}
+body.color_scheme-redmond code.prettyprint span.kwd {
+  color:#008;
+  font-weight: bold;
+}
+body.color_scheme-redmond code.prettyprint span.com {
+  color:#800
+}
+body.color_scheme-redmond code.prettyprint span.typ {
+  color:#606;
+  font-weight: bold;
+}
+body.color_scheme-redmond code.prettyprint span.lit {
+  color:#066
+}
+body.color_scheme-redmond code.prettyprint span.pun {
+  color:#660;
+  font-weight: bold;
+}
+body.color_scheme-redmond code.prettyprint span.pln {
+  color:#000
+}
+body.color_scheme-redmond code.prettyprint span.tag {
+  color:#008
+}
+body.color_scheme-redmond code.prettyprint span.atn {
+  color:#606
+}
+body.color_scheme-redmond code.prettyprint span.atv {
+  color:#080
+}
+body.color_scheme-redmond code.prettyprint span.dec {
+  color:#606
+}
+body.color_scheme-redmond code.prettyprint span.var {
+  color: #000
+}
+body.color_scheme-redmond code.prettyprint span.fun {
+  color: #606
+}

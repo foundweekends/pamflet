@@ -143,6 +143,8 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
     val bigScreen = "screen and (min-device-width: 800px), projection"
    
     val arrow = page.template.get("pamflet.arrow") getOrElse "❧"
+    val colorScheme = page.template.get("color_scheme") map {"color_scheme-" + _} getOrElse "color_scheme-github"
+
     val html = <html>
       <head>
         <title>{ "%s — %s".format(contents.title, page.name) }</title>
@@ -168,6 +170,9 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         <link rel="stylesheet" href={ relativeBase + "css/pamflet.css" } type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href={ relativeBase + "css/pamflet-print.css" } type="text/css" media="print"/>
         <link rel="stylesheet" href={ relativeBase + "css/pamflet-grid.css" } type="text/css" media={bigScreen}/>
+        <link rel="stylesheet" href={ relativeBase + "css/color_scheme-redmond.css" } type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href={ relativeBase + "css/color_scheme-github.css" } type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href={ relativeBase + "css/color_scheme-monokai.css" } type="text/css" media="screen, projection"/>
         <script type="text/javascript" src={ relativeBase + "js/jquery-1.6.2.min.js" }></script>
         <script type="text/javascript" src={ relativeBase + "js/jquery.collapse.js" }></script>
         <script type="text/javascript" src={ relativeBase + "js/pamflet.js" }></script>
@@ -200,7 +205,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
          }
         }
       </head>
-      <body>
+      <body class={colorScheme}>
         { prev.map { p =>
           <a class="page prev nav" href={ Printer.webify(p)}>
             <span class="space">&nbsp;</span>

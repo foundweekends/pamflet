@@ -6,13 +6,21 @@ highlighter. To activate it, use github's fenced code block syntax to
 enclose your source and specify a language name known to prettify.
 
     ```scala
-    (1 to 10) /: { _ + _ }
+    // Some comment
+    case class Page(name: String) {
+      def foo: Int = (1 to 10) /: { _ + _ }
+      val bar = "wat"
+    }
     ```
 
 appears as
 
 ```scala
-(1 to 10) /: { _ + _ }
+// Some comment
+case class Page(name: String) {
+  def foo: Int = (1 to 10) /: { _ + _ }
+  val bar = "wat"
+}
 ```
 
 Really clears things up, right?
