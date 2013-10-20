@@ -91,3 +91,44 @@ div.language-bar ul li {
 div.lang-item {
     float: left;
 }
+div.highlight-outer {
+    display: block;
+    position: absolute;
+}
+div.highlight-menu {
+    display: none;
+    width: 2.5em;
+    height: 2.5em;
+    border-top-left-radius: 0.2em;
+    border-top-right-radius: 0.2em;
+    border-bottom-left-radius: 0.2em;
+    border-bottom-right-radius: 0.2em;
+    border: solid 1px rgba(80, 80, 80, 0.9);
+    background-color: rgba(50, 50, 50, 0.9);
+}
+div.highlight-menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+div.highlight-menu ul li {
+    margin: 0;
+    padding: 0;
+}
+div.highlight-menu button {
+    font: inherit;
+    color: #FFFFFF;
+    width: 2.5em;
+    height: 2.5em;
+    background-color: transparent;
+    padding: 0;
+    border: 0;
+}
+div.highlight-menu button img {
+    font: inherit;
+    width: 2em;
+    height: 2em;
+    margin: 0.25em;
+    padding: 0;
+    cursor: pointer;
+}

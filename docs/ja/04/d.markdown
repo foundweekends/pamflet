@@ -39,6 +39,14 @@ Pamflet はレポジトリへのリンクを張る。例えば:　
 
     disqus=namehere
 
+### Twitter
+
+`twitter` プロパティを定義して任意の値を指定すると、ページ内でテキストが選択されたときにツイッターボタンが表示されるようになる。
+ボタンを押すと、選択されたテキスト、プロパティの値、および URL を含んだツイートが作成される。
+`show` (表示) という値を指定することで、ボタンは表示されるが、ツイートにはその値を含めないことができる。
+
+    twitter=#pamflet
+
 ### Google Analytics
 
 `google-analytics` プロパティを定義して Google Analytics web property ID

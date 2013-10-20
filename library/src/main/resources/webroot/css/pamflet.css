@@ -73,3 +73,9 @@ a.page {
 a.fork {
     display: none;
 }
+div.highlight-outer {
+    display: none;
+}
+div.highlight-memu {
+    display: none;
+}
