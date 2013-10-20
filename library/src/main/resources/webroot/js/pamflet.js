@@ -35,11 +35,11 @@ $(function() {
         if (selected) {
             var r = selected.getRangeAt(0);
             if (r.getBoundingClientRect) {
+                $("div.highlight-menu").show();
                 var rect = r.getBoundingClientRect();
                 var left = Math.round(rect.left + window.scrollX);
-                var top = Math.round(rect.top + window.scrollY - 2 * $("body").css("line-height").replace(/\D/g,'') - 3)
+                var top = Math.round(rect.top + window.scrollY - 1.25 * $("div.highlight-menu").css("height").replace(/[^\d\.]/g,''))
                 $("div.highlight-outer").css("left", left).css("top", top);
-                $("div.highlight-menu").show();
             } else {
                 $("div.highlight-menu").hide();
             }
