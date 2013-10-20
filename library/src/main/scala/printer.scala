@@ -176,6 +176,9 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         <script type="text/javascript" src={ relativeBase + "js/jquery-1.6.2.min.js" }></script>
         <script type="text/javascript" src={ relativeBase + "js/jquery.collapse.js" }></script>
         <script type="text/javascript" src={ relativeBase + "js/pamflet.js" }></script>
+        <script type="text/javascript">
+          Pamflet.page.language = '{xml.Unparsed(contents.language)}';
+        </script>
         {
           prettify(page)
         }
@@ -203,6 +206,13 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
             }})();
             --></script>
          }
+        }
+        {
+          page.template.get("twitter").map { twt =>
+            <script type="text/javascript">
+              Pamflet.twitter = '{xml.Unparsed(twt)}';
+            </script>
+          }.toSeq
         }
       </head>
       <body class={colorScheme}>
@@ -261,6 +271,17 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
           page.template.get("github").map { repo =>
             <a href={"http://github.com/" + repo} class="fork nav"
                ><img src={ relativeBase + "img/fork.png" } alt="Fork me on GitHub"/></a>
+          }.toSeq
+        }
+        {
+          page.template.get("twitter").map { twt =>
+            <div class="highlight-outer">
+              <div class="highlight-menu">
+                <ul>
+                  <li><button id="highlight-button-twitter"><img src={ relativeBase + "img/twitter-bird-dark-bgs.png" } /></button></li>
+                </ul>
+              </div>
+            </div>
           }.toSeq
         }
       </body>
