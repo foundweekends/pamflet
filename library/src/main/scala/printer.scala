@@ -143,7 +143,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
     val bigScreen = "screen and (min-device-width: 800px), projection"
    
     val arrow = page.template.get("pamflet.arrow") getOrElse "❧"
-    val colorScheme = page.template.get("color_scheme") map {"color_scheme-" + _} getOrElse "color_scheme-github"
+    val colorScheme = page.template.get("color_scheme") map {"color_scheme-" + _} getOrElse "color_scheme-redmond"
 
     val html = <html>
       <head>

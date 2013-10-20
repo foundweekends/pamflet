@@ -4,10 +4,7 @@ body {
     font-family: "Warnock Pro", "Goudy Old Style", "Palatino", "Book Antiqua", Georgia, serif;
 }
 pre, code, tt {
-    font-family: Consolas, 'Liberation Mono', Courier, monospace;
-}
-pre {
-    font-size: 80%;
+    font-family: 'andale mono', 'lucida console', monospace
 }
 div.top.nav {
     z-index: 1;

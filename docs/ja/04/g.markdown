@@ -19,9 +19,9 @@ out: Color-Schemes.html
 
 ### デフォルトの配色スキーム
 
-デフォルトの配色スキームは github だ。これを変更するには `color_scheme` プロパティを定義する:
+デフォルトの配色スキームは redmond だ。これを変更するには `color_scheme` プロパティを定義する:
 
-    color_scheme=monokai
+    color_scheme=github
 
 ### カスタム配色スキーム
 

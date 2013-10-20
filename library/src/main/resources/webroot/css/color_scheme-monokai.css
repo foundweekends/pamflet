@@ -1,3 +1,11 @@
+body.color_scheme-monokai pre,
+body.color_scheme-monokai code,
+body.color_scheme-monokai tt {
+    font-family: Consolas, 'Liberation Mono', Courier, monospace;
+}
+body.color_scheme-monokai pre {
+    font-size: 80%
+}
 body.color_scheme-monokai {
     color: #f8f8f2;
     background: #222222;
