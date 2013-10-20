@@ -45,12 +45,10 @@ div.bottom.nav span.arrow {
 }
 div.container {
     position: relative;
-    background: white;
     height: 100%;
 }
 div.contents {
     padding-top: 1.5em;
-    background: white;
 }
 .current {
     font-weight: bold;

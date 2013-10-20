@@ -96,7 +96,8 @@ object Produce {
   }
   def filePaths(contents: Contents) =
     "img/fork.png" ::
-    ("pamflet.css" :: "pamflet-grid.css" :: "pamflet-print.css" :: Nil).map {
+    ("pamflet.css" :: "pamflet-grid.css" :: "pamflet-print.css" ::
+     "color_scheme-redmond.css" :: "color_scheme-github.css" :: "color_scheme-monokai.css" :: Nil).map {
       "css/" + _
     } :::
     ("screen.css" :: "grid.css" :: "print.css" :: "ie.css" :: Nil).map {

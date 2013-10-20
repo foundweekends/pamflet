@@ -10,13 +10,21 @@ Pamflet はとても器用な prettify.js ソースコードハイライトを�
 prettify が使用可能な言語を指定する。
 
     ```scala
-    (1 to 10) /: { _ + _ }
+    // Some comment
+    case class Page(name: String) {
+      def foo: Int = (1 to 10) /: { _ + _ }
+      val bar = "wat"
+    }
     ```
 
 これは
 
 ```scala
-(1 to 10) /: { _ + _ }
+// Some comment
+case class Page(name: String) {
+  def foo: Int = (1 to 10) /: { _ + _ }
+  val bar = "wat"
+}
 ```
 
 と表示される。読みやすくなったよね?
