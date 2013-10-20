@@ -11,6 +11,14 @@ trait SmartyDiscounter extends Discounter {
 }
 
 trait SmartySpanConverter extends SpanConverter {
+  override def apply( chunk : Chunk ) : Seq[Span] = {
+    chunk match {
+      case IndentedChunk(content)  => List( new Text(content) )
+      case FencedChunk(content, _) => List( new Text(content) )
+      case _ => convert( chunk.content, Nil )
+    }
+  }
+
   val punctClass = """[!\"#\$\%'()*+,-.\/:;<=>?\@\[\\\]\^_`{|}~]"""
   val closeClass = """[^\ \t\r\n\[\{\(\-]"""
   def smartyMatchers : List[ String => Option[SpanMatch] ] = List(

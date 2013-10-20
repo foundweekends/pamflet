@@ -19,12 +19,11 @@ trait FencedDiscounter extends Discounter {
 
 trait FencedChunkParser extends ChunkParser {
   override def chunk : Parser[ Chunk ] = {
-    horizontalRule | leadingStrongTextBlock | leadingEmTextBlock | 
-    bulletItem | numberedItem | indentedChunk | header | blockquote | 
-    linkDefinition | fencedChunk | textBlockWithBreak | textBlock | 
-    emptyLines
+    horizontalRule | leadingStrongTextBlock | leadingEmTextBlock | bulletItem |
+    numberedItem | indentedChunk | header | blockquote | linkDefinition |
+    htmlBlock | fencedChunk | textBlockWithBreak | textBlock | emptyLines | emptySpace
   }
-
+  
   def fencedChunk : Parser[ Chunk ] =
     fence ~> opt(brush) ~ emptyLine ~
       rep1(unquotedTextLine | emptyLine) <~ fence <~ emptyLine ^^ {

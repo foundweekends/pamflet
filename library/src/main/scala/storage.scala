@@ -61,7 +61,13 @@ case class FileStorage(base: File) extends Storage {
   def knock(file: File, propFiles: Seq[File]): (Seq[Block], Template) = { 
     val frontin = Frontin(read(file))
     val template = StringTemplate(propFiles, frontin header)
-    PamfletDiscounter.knockoff(template(frontin body)) -> template
+    try {
+      PamfletDiscounter.knockoff(template(frontin body)) -> template
+    } catch {
+      case e: Throwable =>
+        Console.err.println("Error while processing " + file.toString)
+        throw e
+    }
   }
   def isMarkdown(f: File) = (
     !f.isDirectory &&
