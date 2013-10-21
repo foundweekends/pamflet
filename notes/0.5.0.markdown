@@ -1,0 +1,48 @@
+  [s]: http://pamflet.databinder.net/Special+Properties.html
+  [g]: http://pamflet.databinder.net/Globalization.html
+  [c]: http://pamflet.databinder.net/Color+Schemes.html
+  [38]: https://github.com/n8han/pamflet/pull/38
+  [40]: https://github.com/n8han/pamflet/pull/40
+  [41]: https://github.com/n8han/pamflet/pull/41
+  [42]: https://github.com/n8han/pamflet/pull/42
+  [44]: https://github.com/n8han/pamflet/pull/44
+  [45]: https://github.com/n8han/pamflet/pull/45
+  [46]: https://github.com/n8han/pamflet/pull/46
+  [@eed3si9n]: https://github.com/eed3si9n
+
+### Getting Social
+
+Pamflet 0.5.0 adds optional Disqus and Twitter integration.
+With a few [special properties][s] in `template.properties`,
+you can add a comment section at the end of all pages,
+and enable hovering bird button for easy citation:
+
+    twitter=#pamflet
+
+[#40][40] and [#46][46] by [@eed3si9n][@eed3si9n].
+
+### Getting Global
+
+For projects with multilingual documentation, Pamflet 0.5.0 adds globalization support. Just list your languages in `template.properties`:
+
+    languages=en,ja
+
+See [Globalization][g] for more details. [#42][42] and [#44][44] by [@eed3si9n][@eed3si9n].
+
+### Color Schemes
+
+Pamflet 0.5.0 ships with three color schemes that can be applied dynamically:
+[`redmond`](http://pamflet.databinder.net/Color+Schemes.html?color_scheme=redmond) (default),
+[`github`](http://pamflet.databinder.net/Color+Schemes.html?color_scheme=github), and
+[`monokai`](http://pamflet.databinder.net/Color+Schemes.html?color_scheme=monokai).
+To set the default to `github`, define:
+
+    color_scheme=github
+
+[#45][45] by [@eed3si9n][@eed3si9n].
+
+#### Other UI Enhancements
+
+- `favicon.ico` support. [#38][38]
+- Hovering over a header displays "§", which links to the header itself. [#41][41]
+- Custom css files are loaded after pretify.css.
