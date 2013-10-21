@@ -1,10 +1,8 @@
 lazy val common = ls.Plugin.lsSettings ++ Seq(
   organization := "net.databinder",
-  version := "0.4.3-SNAPSHOT",
+  version := "0.5.0-alpha1",
   scalaVersion := "2.10.3",
   crossScalaVersions := Seq("2.10.3"),
-  publishTo := Some("Scala Tools Nexus" at 
-    "http://nexus.scala-tools.org/content/repositories/releases/"),
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
   homepage :=
     Some(new java.net.URL("http://pamflet.databinder.net/")),
@@ -44,7 +42,7 @@ lazy val libraryDeps = Def.setting { Seq(
   "net.databinder" %% "unfiltered-jetty" % unfilteredVersion,
   "org.antlr" % "stringtemplate" % stringtemplateVersion
 )}
-val launcherInterfaceVersion = "0.12.0"
+val launcherInterfaceVersion = "0.13.0"
 val servletApiVersion = "2.5"
 lazy val appDeps = Def.setting { Seq(
   "org.scala-sbt" % "launcher-interface" % launcherInterfaceVersion % "provided",
