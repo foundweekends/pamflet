@@ -29,14 +29,6 @@ div.bottom.nav {
     margin-bottom: 1em;
     padding-bottom: 1em;
 }
-div.bottom.nav div.nextpage {
-    float: left;
-    margin: 0px;
-}
-div.bottom.nav div.language-bar {
-    float: left;
-    margin: 0px;
-}
 div.bottom.nav.end {
     padding-bottom: 0;
 }
@@ -71,6 +63,14 @@ a.page {
     display: none;
 }
 a.fork {
+    display: none;
+}
+a.header-link {
+    color: inherit;
+    text-decoration: none;
+    margin-left: 0.1em;
+}
+ul.language-bar {
     display: none;
 }
 div.highlight-outer {

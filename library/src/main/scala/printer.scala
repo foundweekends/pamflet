@@ -115,8 +115,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         page.template.get("lang-" + langCode) getOrElse {
           Language.languageName(langCode) getOrElse langCode
         }
-      <div class="span-6 language-bar">
-        <ul>
+      <ul class="language-bar">
         {
           val lis = 
             for {
@@ -126,8 +125,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
           if (lis.size < 2) Nil
           else lis
         }
-        </ul>
-      </div>
+      </ul>
     }
 
   def print(page: Page) = {
@@ -246,20 +244,15 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
                 case page: ContentPage =>
                   toXHTML(page.blocks) ++ next.collect {
                     case n: AuthoredPage =>
-                      <div class="bottom nav">
-                        <div class="span-10 nextpage">
-                          <em>Next Page</em>
-                          <span class="arrow">{arrow}</span>
-                          <a href={Printer.webify(n)}> {n.name} </a>
-                        </div>
+                      <div class="bottom nav span-16">
+                        <em>Next Page</em>
+                        <span class="arrow">{arrow}</span>
+                        <a href={Printer.webify(n)}> {n.name} </a>                        
                         { languageBar(page) }
-                        <br/>
                       </div>
                     case _ =>
-                      <div class="bottom nav end">
-                        <div class="span-10 nextpage">&nbsp;</div>
+                      <div class="bottom nav end span-16">
                         { languageBar(page) }
-                        <br/>
                       </div>
                   } ++ toc(page) ++ comment(page)
                 case page: ScrollPage =>
