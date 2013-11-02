@@ -39,7 +39,9 @@ val unfilteredVersion = "0.7.0"
 val stringtemplateVersion = "3.2.1"
 lazy val libraryDeps = Def.setting { Seq(
   "net.databinder" %% "unfiltered-filter" % unfilteredVersion,
-  "net.databinder" %% "unfiltered-jetty" % unfilteredVersion,
+  "net.databinder" %% "unfiltered-jetty" % unfilteredVersion exclude(
+    "org.eclipse.jetty.orbit", "javax.servlet"
+  ),
   "org.antlr" % "stringtemplate" % stringtemplateVersion
 )}
 val launcherInterfaceVersion = "0.13.0"
