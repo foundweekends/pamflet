@@ -8,4 +8,5 @@
 [repositories]
   local
   sonatype-releases: https://oss.sonatype.org/service/local/repositories/releases/content/
+  javam2: http://download.java.net/maven/2
   maven-central
