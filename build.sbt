@@ -1,6 +1,6 @@
 lazy val common = ls.Plugin.lsSettings ++ Seq(
   organization := "net.databinder",
-  version := "0.5.0-beta2",
+  version := "0.5.0-beta3",
   scalaVersion := "2.10.3",
   crossScalaVersions := Seq("2.10.3"),
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
@@ -35,7 +35,7 @@ val knockoffVersion = "0.8.1"
 lazy val knockoffDeps = Def.setting { Seq(
   "com.tristanhunt" %% "knockoff" % knockoffVersion
 )}
-val unfilteredVersion = "0.7.0"
+val unfilteredVersion = "0.7.1-beta1"
 val stringtemplateVersion = "3.2.1"
 lazy val libraryDeps = Def.setting { Seq(
   "net.databinder" %% "unfiltered-filter" % unfilteredVersion,
