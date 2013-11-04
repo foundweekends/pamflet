@@ -46,3 +46,11 @@ To set the default to `github`, define:
 - `favicon.ico` support. [#38][38]
 - Hovering over a header displays "§", which links to the header itself. [#41][41]
 - Custom css files are loaded after pretify.css.
+
+#### Backend changes
+
+The preview server is now using Netty, to avoid
+[dependency resolution problems][orbit] with the Jetty servlet "orbit"
+artifact.
+
+[orbit]: https://github.com/sbt/sbt/issues/499#issuecomment-27683875
