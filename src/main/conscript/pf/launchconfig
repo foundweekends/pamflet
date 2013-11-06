@@ -1,10 +1,10 @@
 [app]
-  version: 0.4.2
+  version: 0.5.0
   org: net.databinder
   name: pamflet-app
   class: pamflet.Pamflet
 [scala]
-  version: 2.9.2
+  version: 2.10.3
 [repositories]
   local
   sonatype-releases: https://oss.sonatype.org/service/local/repositories/releases/content/
