@@ -54,3 +54,14 @@ The preview server is now using Netty, to avoid
 artifact.
 
 [orbit]: https://github.com/sbt/sbt/issues/499#issuecomment-27683875
+
+#### Upgrading
+
+Pamflet is managed through [Conscript][cs] and this version requires a
+newer sbt-launcher in order to resolve its Scala 2.10.x artifacts.
+
+    cs n8han/conscript # upgrade conscript itself
+    cs --setup         # upgrade conscript's sbt-launcher
+    cs n8han/pamflet   # upgrade pamflet
+
+[cs]: https://github.com/n8han/conscript
