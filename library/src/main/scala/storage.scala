@@ -24,7 +24,7 @@ case class FileStorage(base: File) extends Storage {
       }.map { f => (f.getName, read(f)) }
       val files = dir.listFiles.filter(_.getName=="files").
         flatMap(_.listFiles.map { f => (f.getName, f.toURI) })
-      val favicon = dir.listFiles.filter(_.getName == "favicon.ico").headOption.
+      val favicon = dir.listFiles.find(_.getName == "favicon.ico").
         map { _.toURI }
       val propFiles = if (isDefaultLang) propFile(base).toSeq
                       else propFile(base).toSeq ++ propFile(dir).toSeq
@@ -40,7 +40,7 @@ case class FileStorage(base: File) extends Storage {
   def section(localPath: String, dir: File, propFiles: Seq[File]): Seq[Section] = {
     val files: List[File] = (Option(dir.listFiles) match {
       case None        => Nil
-      case Some(files) => files.toList
+      case Some(fs) => fs.toList
     }).sortWith {
       _.getName < _.getName
     }
@@ -57,8 +57,10 @@ case class FileStorage(base: File) extends Storage {
       Section(localPath, blocks, children, template)
     }.toSeq
   }
-  def read(file: File) = scala.io.Source.fromFile(file).mkString("")
-  def knock(file: File, propFiles: Seq[File]): (Seq[Block], Template) = { 
+  def read(file: File) = doWith(scala.io.Source.fromFile(file)) { source =>
+    source.getLines().mkString("")
+  }
+  def knock(file: File, propFiles: Seq[File]): (Seq[Block], Template) = {
     val frontin = Frontin(read(file))
     val template = StringTemplate(propFiles, frontin header)
     try {
@@ -69,10 +71,17 @@ case class FileStorage(base: File) extends Storage {
         throw e
     }
   }
-  def isMarkdown(f: File) = (
+  def isMarkdown(f: File) = {
     !f.isDirectory &&
     !f.getName.startsWith(".") &&
     (f.getName.endsWith(".markdown") || f.getName.endsWith(".md"))
-  )
+  }
   def defaultTemplate = StringTemplate(propFile(base).toSeq, None)
+  def doWith[T <: { def close() }, R](toClose: T)(f: T => R): R = {
+    try {
+      f(toClose)
+    } finally {
+      toClose.close()
+    }
+  }
 }
