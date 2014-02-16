@@ -58,7 +58,7 @@ case class FileStorage(base: File) extends Storage {
     }.toSeq
   }
   def read(file: File) = doWith(scala.io.Source.fromFile(file)) { source =>
-    source.getLines().mkString("")
+    source.mkString("")
   }
   def knock(file: File, propFiles: Seq[File]): (Seq[Block], Template) = {
     val frontin = Frontin(read(file))
