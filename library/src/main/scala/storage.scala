@@ -35,6 +35,8 @@ case class FileStorage(base: File) extends Storage {
     }: _*)
     Globalized(contents, defaultTemplate)
   }
+  def isSpecialDir(dir: File): Boolean =
+    dir.isDirectory && ((dir.getName == "layouts") || (dir.getName == "files"))
   def rootSection(dir: File, propFiles: Seq[File]): Section = {
     def emptySection = Section("", Seq.empty, Nil, defaultTemplate)
     if (dir.exists) section("", dir, propFiles).headOption getOrElse emptySection
@@ -55,7 +57,8 @@ case class FileStorage(base: File) extends Storage {
       val children = childFiles.flatMap { f =>
         if (isMarkdown(f))
           Seq(Leaf(localPath + "/" + f.getName, knock(f, propFiles)))
-        else section(localPath + "/" + f.getName, f, propFiles)
+        else if (f.isDirectory && !isSpecialDir(f)) section(localPath + "/" + f.getName, f, propFiles)
+        else Seq()
       }
       Section(localPath, blocks, children, template)
     }.toSeq
