@@ -82,6 +82,7 @@ lazy val app: Project =
     name := "pamflet-app",
     description :=
       "Pamflet app for previewing and publishing project documentation",
-    libraryDependencies ++= appDeps.value
+    libraryDependencies ++= appDeps.value,
+    resolvers += Resolver.typesafeIvyRepo("releases") // for launcher interface
   ).
   dependsOn(library)
