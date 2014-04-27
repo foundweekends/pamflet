@@ -204,6 +204,8 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
 
     val html = <html>
       <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
         <title>{ "%s — %s".format(contents.title, page.name) }</title>
         {
           contents.favicon match {
@@ -264,8 +266,6 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
             <link rel="stylesheet" href={ "css/" + filename } type="text/css" media="screen, projection"/>
           })
         }
-        <meta charset="utf-8" />
-        <meta content="width=device-width, initial-scale=1" name="viewport"></meta>
         {
           page.template.get("google-analytics").toList.map { uid: String => 
             // do NOT enclose the script with XML comment. it'll disable Scala embedding {xml.Unparsed(uid)}!
