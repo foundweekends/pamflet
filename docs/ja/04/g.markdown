@@ -1,9 +1,9 @@
 ---
-out: Color-Schemes.html
+out: Changing-the-look.html
 ---
 
-配色スキーム
-----------
+装丁
+----
 
 暗めの配色で pamflet を読みたいと思うかもしれない。
 そのため Pamflet には初めから <a href="?color_scheme=github">github</a>、
@@ -37,3 +37,25 @@ body.color_scheme-zen code.prettyprint span.str {
   color: #dd1144
 }
 ```
+
+### カスタムヘッダとフッタ
+
+ヘッダを変えるには `layout.header` と `layout.header.height` プロパティを定義する:
+
+    layout.header=header.md
+    layout.header.height=2em
+
+次に、`header.md` という名前のファイルを `docs/layout/` 以下に置く:
+
+    <div class="container">
+      <div class="span-16 prepend-1 append-1">
+        <div class="span-16 top nav">
+          <div class="span-16 title">
+            <span>\$contents.title\$</span>\$if(page.title)\$ —
+             \$page.title\$ \$endif\$ (draft)
+          </div>
+        </div>
+      </div>
+    </div>
+
+これでデフォルトのヘッダに「(draft)」と追加したヘッダができた。フッタも同じように変更できる。`layout.footer` と `layout.footer.height` を指定すればいい。

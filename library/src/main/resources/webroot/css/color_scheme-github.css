@@ -24,6 +24,9 @@ body.color_scheme-github blockquote {
 body.color_scheme-github div.nav {
     border-bottom-color: black
 }
+body.color_scheme-github div.footer div.nav {
+    border-top-color: black;
+}
 body.color_scheme-github div.top.nav {
     background: white;
 }

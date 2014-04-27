@@ -35,6 +35,18 @@ div.bottom.nav.end {
 div.bottom.nav span.arrow {
     margin: 0 .5em;
 }
+div.footer div.nav {
+    border-bottom: none;
+    border-top: black solid 1px;
+}
+div.header {
+    position: fixed;
+    display: none;
+}
+div.footer {
+    position: fixed;
+    display: none;
+}
 div.container {
     position: relative;
     height: 100%;

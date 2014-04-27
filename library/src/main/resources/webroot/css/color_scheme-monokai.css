@@ -27,6 +27,9 @@ body.color_scheme-monokai div.nav {
 body.color_scheme-monokai div.top.nav {
     background: #222222;
 }
+body.color_scheme-monokai div.footer div.nav {
+    border-top-color: black;
+}
 body.color_scheme-monokai div.contents {
     color: #f8f8f2;
     background: #222222;

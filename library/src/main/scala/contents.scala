@@ -19,7 +19,8 @@ case class Contents(
   css: Seq[(String,String)],
   files: Seq[(String, URI)],
   favicon: Option[URI],
-  template: Template
+  template: Template,
+  layouts: Seq[(String,String)]
 ) {
   def traverse(incoming: List[Page], past: List[Page]): List[Page] =
     incoming match {

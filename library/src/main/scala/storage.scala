@@ -28,7 +28,10 @@ case class FileStorage(base: File) extends Storage {
         map { _.toURI }
       val propFiles = if (isDefaultLang) propFile(base).toSeq
                       else propFile(base).toSeq ++ propFile(dir).toSeq
-      lang -> Contents(lang, isDefaultLang, rootSection(dir, propFiles), css, files, favicon, defaultTemplate)
+      val layouts = dir.listFiles.filter(_.getName == "layouts").
+        flatMap(_.listFiles.map { f => (f.getName, read(f))})
+      lang -> Contents(lang, isDefaultLang, rootSection(dir, propFiles), css, files,
+        favicon, defaultTemplate, layouts)
     }: _*)
     Globalized(contents, defaultTemplate)
   }
@@ -60,23 +63,19 @@ case class FileStorage(base: File) extends Storage {
   def read(file: File) = doWith(scala.io.Source.fromFile(file)) { source =>
     source.mkString("")
   }
-  def knock(file: File, propFiles: Seq[File]): (Seq[Block], Template) = {
-    val frontin = Frontin(read(file))
-    val template = StringTemplate(propFiles, frontin header)
-    try {
-      PamfletDiscounter.knockoff(template(frontin body)) -> template
-    } catch {
-      case e: Throwable =>
+  def knock(file: File, propFiles: Seq[File]): (Seq[Block], Template) = 
+    Knock.knockEither(read(file), propFiles) match {
+      case Right(x) => x
+      case Left(x) =>
         Console.err.println("Error while processing " + file.toString)
-        throw e
+        throw x
     }
-  }
   def isMarkdown(f: File) = {
     !f.isDirectory &&
     !f.getName.startsWith(".") &&
     (f.getName.endsWith(".markdown") || f.getName.endsWith(".md"))
   }
-  def defaultTemplate = StringTemplate(propFile(base).toSeq, None)
+  def defaultTemplate = StringTemplate(propFile(base).toSeq, None, Map())
   def doWith[T <: { def close() }, R](toClose: T)(f: T => R): R = {
     try {
       f(toClose)
