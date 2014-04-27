@@ -45,7 +45,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         })
     }
     def draw: Page => xml.NodeSeq = {
-      case sect @ Section(_, blocks, children, _) =>
+      case sect @ Section(_, _, blocks, children, _) =>
         link(sect) ++ list(children)
       case page => link(page)
     }
@@ -156,7 +156,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
       else (globalized.defaultContents.layouts filter { case(k, _) => k == name } map { case(_, v) => v }).headOption
     }).getOrElse { sys.error(s"$name was not found in layouts!") }
     val m = modifiedTemplate(page)
-    val (blocks, _) = Knock.knockEither(s, m) match {
+    val (_, blocks, _) = Knock.knockEither(s, m) match {
       case Right(x) => x
       case Left(x)  =>
         Console.err.println("Error while processing " + x)
