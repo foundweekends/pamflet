@@ -4,17 +4,26 @@ import unfiltered.request._
 import unfiltered.response._
 import java.io.OutputStream
 import java.net.URI
+import collection.mutable
 
 object Preview {
+  val heightCache: mutable.Map[(String, String), String] = mutable.Map()
+
   def apply(globalized: => Globalized) = {
     def css(lang: String) = Map.empty ++ globalized(lang).css
     def files(lang: String) = Map.empty ++ globalized(lang).files
     def defaultLanguage = globalized.defaultLanguage 
     def languages = globalized.languages
+    def pamfletHeight(lang: String, name: String): String =
+      heightCache.getOrElseUpdate((lang, name), {
+        Heights.heightCssFileContent(globalized(lang), name)
+      })
     def faviconResponse(lang: String) =
       globalized(lang).favicon map { responseStreamer } getOrElse NotFound
     def cssResponse(lang: String, name: String) =
       CssContent ~> ResponseString(css(lang)(name))
+    def pamfletHeightResponse(lang: String, name: String) =
+      CssContent ~> ResponseString(pamfletHeight(lang, name))
     def fileResponse(lang: String, name: String) =
       responseStreamer(files(lang)(name))
     def pageResponse(lang: String, name: String) =
@@ -35,6 +44,8 @@ object Preview {
         faviconResponse(lang)
       case GET(Path(Seg("favicon.ico" :: Nil))) if globalized(defaultLanguage).favicon.isDefined =>
         faviconResponse(defaultLanguage)
+      case GET(Path(Seg("css" :: name :: Nil))) if name startsWith "pamfletheight" =>
+        pamfletHeightResponse(defaultLanguage, name)
       case GET(Path(Seg(lang :: "css" :: name :: Nil))) if languages.contains(lang) && css(lang).contains(name) =>
         cssResponse(lang, name)
       case GET(Path(Seg("css" :: name :: Nil))) if css(defaultLanguage).contains(name) =>

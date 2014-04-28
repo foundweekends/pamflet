@@ -129,11 +129,6 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
       </ul>
     }
 
-  def headerHeight(page: Page): xml.Unparsed =
-    xml.Unparsed(page.template.get("layout.header.height").getOrElse("2em"))
-  def footerHeight(page: Page): xml.Unparsed =
-    xml.Unparsed(page.template.get("layout.footer.height").getOrElse("2em"))
-
   def header(page: Page): xml.NodeSeq =
     page.template.get("layout.header") map { evalLayout(page)
     } getOrElse {
@@ -232,22 +227,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         <link rel="stylesheet" href={ relativeBase + "css/color_scheme-redmond.css" } type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href={ relativeBase + "css/color_scheme-github.css" } type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href={ relativeBase + "css/color_scheme-monokai.css" } type="text/css" media="screen, projection"/>
-        <style type="text/css" media={bigScreen}>
-          a.page {{
-            top: {headerHeight(page)};
-            bottom: {footerHeight(page)};
-          }}
-          div.header {{
-            height: {headerHeight(page)};
-          }}
-          div.footer {{
-            height: {footerHeight(page)};
-          }}
-          div.contentswrapper {{
-            padding-top: {headerHeight(page)};
-            padding-bottom: {footerHeight(page)};
-          }}
-        </style>
+        <link rel="stylesheet" href={ relativeBase + "css/" + Heights.heightCssFileName(page) } type="text/css" media={bigScreen}/>
         <script type="text/javascript" src={ relativeBase + "js/jquery-1.6.2.min.js" }></script>
         <script type="text/javascript" src={ relativeBase + "js/jquery.collapse.js" }></script>
         <script type="text/javascript" src={ relativeBase + "js/pamflet.js" }></script>
