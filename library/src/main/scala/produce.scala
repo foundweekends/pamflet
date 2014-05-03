@@ -84,6 +84,8 @@ object Produce {
 
       for ((path, uri) <- files ++ favicon)
         write(path, targetDir, uri.toURL.openStream)
+
+      writeString("Combined+Pages.md", contents.scrollPage.raw, targetDir)
     }
 
     writeString(manifest, (

@@ -38,7 +38,7 @@ case class FileStorage(base: File) extends Storage {
   def isSpecialDir(dir: File): Boolean =
     dir.isDirectory && ((dir.getName == "layouts") || (dir.getName == "files"))
   def rootSection(dir: File, propFiles: Seq[File]): Section = {
-    def emptySection = Section("", Seq.empty, Nil, defaultTemplate)
+    def emptySection = Section("", "", Seq.empty, Nil, defaultTemplate)
     if (dir.exists) section("", dir, propFiles).headOption getOrElse emptySection
     else emptySection
   }
@@ -50,7 +50,7 @@ case class FileStorage(base: File) extends Storage {
       _.getName < _.getName
     }
     files.find(isMarkdown).map { head =>
-      val (blocks, template) = knock(head, propFiles)
+      val (raw, blocks, template) = knock(head, propFiles)
       val childFiles = files.filterNot { _ == head } filterNot { f =>
         f.isDirectory && defaultTemplate.languages.contains(f.getName)
       }
@@ -60,13 +60,13 @@ case class FileStorage(base: File) extends Storage {
         else if (f.isDirectory && !isSpecialDir(f)) section(localPath + "/" + f.getName, f, propFiles)
         else Seq()
       }
-      Section(localPath, blocks, children, template)
+      Section(localPath, raw, blocks, children, template)
     }.toSeq
   }
   def read(file: File) = doWith(scala.io.Source.fromFile(file)) { source =>
     source.mkString("")
   }
-  def knock(file: File, propFiles: Seq[File]): (Seq[Block], Template) = 
+  def knock(file: File, propFiles: Seq[File]): (String, Seq[Block], Template) = 
     Knock.knockEither(read(file), propFiles) match {
       case Right(x) => x
       case Left(x) =>

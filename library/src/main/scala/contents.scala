@@ -24,17 +24,19 @@ case class Contents(
 ) {
   def traverse(incoming: List[Page], past: List[Page]): List[Page] =
     incoming match {
-      case (head @ Section(_,_,_,_)) :: tail =>
+      case (head @ Section(_,_,_,_,_)) :: tail =>
         traverse(head.children ::: tail, head :: past)
       case head :: tail =>
         traverse(tail, head :: past)
       case Nil => past.reverse
     }
+  val scrollPage = ScrollPage(rootSection, template)
   val pamflet = Section(rootSection.localPath,
+                        rootSection.raw,
                         rootSection.blocks,
                         rootSection.children ::: 
                         DeepContents(template) ::
-                        ScrollPage(rootSection, template) ::
+                        scrollPage ::
                         Nil,
                         rootSection.template)
   val pages = traverse(pamflet.children, pamflet :: Nil)
@@ -70,12 +72,14 @@ trait ContentPage extends AuthoredPage {
   lazy val name = BlockNames.name(blocks)
 }
 case class Leaf(localPath: String,
+                raw: String,
                 blocks: Seq[Block],
                 template: Template) extends ContentPage
 object Leaf {
-  def apply(localPath: String, t: (Seq[Block], Template)): Leaf = Leaf(localPath, t._1, t._2)
+  def apply(localPath: String, t: (String, Seq[Block], Template)): Leaf = Leaf(localPath, t._1, t._2, t._3)
 }
 case class Section(localPath: String,
+                   raw: String,
                    blocks: Seq[Block], 
                    children: List[Page],
                    template: Template) extends ContentPage
@@ -91,10 +95,18 @@ case class ScrollPage(root: Section,
   val localPath = name
   def flatten(pages: List[Page]): Seq[Block] =
     pages.view.flatMap {
-      case Leaf(_, blocks, _) => blocks
-      case Section(_, blocks, children, _) =>
+      case Leaf(_, _, blocks, _) => blocks
+      case Section(_, _, blocks, children, _) =>
         blocks ++: flatten(children)
       case _ => Seq.empty
     }
   def blocks = root.blocks ++: flatten(root.children)
+  def flattenRaw(pages: List[Page]): Seq[String] =
+    pages.view.flatMap {
+      case Leaf(_, raw, _ , _) => Seq(raw)
+      case Section(_, raw, _, children, _) =>
+        Seq(raw) ++: flattenRaw(children)
+      case _ => Seq("")
+    }
+  def raw: String = (Seq(root.raw) ++: flattenRaw(root.children)).mkString("\n")
 }
