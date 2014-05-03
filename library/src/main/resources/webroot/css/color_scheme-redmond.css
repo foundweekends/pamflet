@@ -11,6 +11,9 @@ blockquote {
 div.nav {
     border-bottom-color: black
 }
+div.footer div.nav {
+    border-top-color: black;
+}
 div.top.nav {
     background: white;
 }

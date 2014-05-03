@@ -1,5 +1,6 @@
 package pamflet
 import PamfletDiscounter.toXHTML
+import collection.immutable.Map
 
 object Printer {
   def webify(page: Page) =
@@ -128,6 +129,59 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
       </ul>
     }
 
+  def header(page: Page): xml.NodeSeq =
+    page.template.get("layout.header") map { evalLayout(page)
+    } getOrElse {
+      <div class="container">
+        <div class="span-16 prepend-1 append-1">
+          <div class="span-16 top nav">
+            <div class="span-16 title">
+              <span>{ contents.title }</span> { 
+                if (contents.title != page.name)
+                  "— " + page.name
+                else "" }
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+  def footer(page: Page): xml.NodeSeq =
+    page.template.get("layout.footer") map { evalLayout(page)
+    } getOrElse { Nil }
+
+  def evalLayout(page: Page)(name: String): xml.NodeSeq = {
+    val s = (contents.layouts filter { case(k, _) => k == name } map { case(_, v) => v }).headOption.orElse({
+      if (contents.isDefaultLang) None
+      else (globalized.defaultContents.layouts filter { case(k, _) => k == name } map { case(_, v) => v }).headOption
+    }).getOrElse { sys.error(s"$name was not found in layouts!") }
+    val m = modifiedTemplate(page)
+    val (blocks, _) = Knock.knockEither(s, m) match {
+      case Right(x) => x
+      case Left(x)  =>
+        Console.err.println("Error while processing " + x)
+        throw x
+    }
+    toXHTML(blocks)    
+  }
+
+  // https://theantlrguy.atlassian.net/wiki/display/ST/StringTemplate+2.2+Documentation
+  def modifiedTemplate(page: Page): Template = {
+    import java.util.{Map => JMap}
+    import collection.JavaConversions._
+    val contentsMap: JMap[String, String] = Map("title" -> contents.title)
+    val pageMap: JMap[String, String] =
+      Map("name" -> page.name) ++
+      (if (contents.title != page.name) Map("title" -> page.name)
+      else Map())
+    page.template.updated(
+      Map(
+        "contents" -> contentsMap,
+        "page" -> pageMap
+      )
+    )
+  }
+
   def print(page: Page) = {
     def lastnext(in: List[Page], last: Option[Page]): (Option[Page], Option[Page]) =
       (in, last) match {
@@ -145,6 +199,8 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
 
     val html = <html>
       <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
         <title>{ "%s — %s".format(contents.title, page.name) }</title>
         {
           contents.favicon match {
@@ -171,6 +227,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         <link rel="stylesheet" href={ relativeBase + "css/color_scheme-redmond.css" } type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href={ relativeBase + "css/color_scheme-github.css" } type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href={ relativeBase + "css/color_scheme-monokai.css" } type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href={ relativeBase + "css/" + Heights.heightCssFileName(page) } type="text/css" media={bigScreen}/>
         <script type="text/javascript" src={ relativeBase + "js/jquery-1.6.2.min.js" }></script>
         <script type="text/javascript" src={ relativeBase + "js/jquery.collapse.js" }></script>
         <script type="text/javascript" src={ relativeBase + "js/pamflet.js" }></script>
@@ -189,8 +246,6 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
             <link rel="stylesheet" href={ "css/" + filename } type="text/css" media="screen, projection"/>
           })
         }
-        <meta charset="utf-8" />
-        <meta content="width=device-width, initial-scale=1" name="viewport"></meta>
         {
           page.template.get("google-analytics").toList.map { uid: String => 
             // do NOT enclose the script with XML comment. it'll disable Scala embedding {xml.Unparsed(uid)}!
@@ -218,26 +273,16 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         { prev.map { p =>
           <a class="page prev nav" href={ Printer.webify(p)}>
             <span class="space">&nbsp;</span>
-            <span class="flip">{arrow}</span>
+            <span class="flip arrow">{arrow}</span>
           </a>
         }.toSeq ++
         next.map { n =>
           <a class="page next nav" href={ Printer.webify(n)}>
             <span class="space">&nbsp;</span>
-            <span>{arrow}</span>
+            <span class="arrow">{arrow}</span>
           </a>
         }.toSeq }
-        <div class="container">
-          <div class="span-16 prepend-1 append-1">
-            <div class="span-16 top nav">
-              <div class="span-16 title">
-                <span>{ contents.title }</span> { 
-                  if (contents.title != page.name)
-                    "— " + page.name
-                  else "" }
-              </div>
-            </div>
-          </div>
+        <div class="container contentswrapper">
           <div class="span-16 prepend-1 append-1 contents">
             { page match {
                 case page: DeepContents =>
@@ -260,6 +305,16 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
                   toc(page) ++ toXHTML(page.blocks)
             } }
           </div>
+        </div>
+        <div class="header">
+          {
+            header(page)
+          }
+        </div>
+        <div class="footer">
+          {
+            footer(page)
+          }
         </div>
         {
           page.template.get("github").map { repo =>

@@ -1,5 +1,5 @@
-Color Schemes
--------------
+Changing the look
+-----------------
 
 You might want to read pamflets using a dark color scheme. That's why Pamflet ships with three color schemes:
 <a href="?color_scheme=github">github</a>,
@@ -31,3 +31,25 @@ body.color_scheme-zen code.prettyprint span.str {
   color: #dd1144
 }
 ```
+
+### Custom header and footer
+
+To change the header to something else, set `layout.header` and `layout.header.height` property:
+
+    layout.header=header.md
+    layout.header.height=2em
+
+Now drop a file named `header.md` into `docs/layout/`:
+
+    <div class="container">
+      <div class="span-16 prepend-1 append-1">
+        <div class="span-16 top nav">
+          <div class="span-16 title">
+            <span>\$contents.title\$</span>\$if(page.title)\$ —
+             \$page.title\$ \$endif\$ (draft)
+          </div>
+        </div>
+      </div>
+    </div>
+
+This will add "(draft)" at the end of the default header. The footer works the same way. Just use `layout.footer` and `layout.footer.height` instead.

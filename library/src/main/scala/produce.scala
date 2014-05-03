@@ -45,6 +45,7 @@ object Produce {
     val favicon = contents.favicon.toList.map {
       case u => ("favicon.ico", u)
     }
+    val heights = Heights.distinctHeights(contents)
 
     // generate the pages in target directory and in 
     // subdirectory "offline" with html5 manifest 
@@ -69,6 +70,9 @@ object Produce {
       } 
       css.foreach { case (path, contents) =>
         writeString(path, contents, targetDir) 
+      }
+      heights foreach { case (hh, fh) =>
+        writeString("css/" + Heights.heightCssFileName(hh, fh), Heights.heightCssFileContent(hh, fh), targetDir)
       }
 
       paths.foreach { path =>

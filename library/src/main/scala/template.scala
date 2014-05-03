@@ -4,6 +4,7 @@ import java.io.{
   File,FileInputStream,ByteArrayInputStream,InputStreamReader,StringReader}
 import java.nio.charset.Charset
 import org.antlr.stringtemplate.{StringTemplate => STImpl}
+import collection.immutable.Map
 
 trait Template {
   /** Replace template values in input stream with bound properties */
@@ -12,14 +13,21 @@ trait Template {
   def get(key: String): Option[String]
   def defaultLanguage: String
   def languages: Seq[String]
+  /** Return a new instance of Template with additional pairs. */
+  def updated(s: String): Template
+  /** Return a new instance of Template with additional paris. */
+  def updated(ext: Map[String, AnyRef]): Template
 }
 
-case class StringTemplate(files: Seq[File], str: Option[String]) extends Template {
+case class StringTemplate(files: Seq[File],
+    str: Option[String],
+    extra: Map[AnyRef, AnyRef]) extends Template {
   def apply(input: CharSequence) =
     if (!files.isEmpty) {
+      import collection.JavaConversions._
       val st = new STImpl
       st.setTemplate(input.toString)
-      st.setAttributes(properties)
+      st.setAttributes(properties ++ extra)
       st.toString
     } else input
     
@@ -46,4 +54,8 @@ case class StringTemplate(files: Seq[File], str: Option[String]) extends Templat
       case Some(xs) => xs.split(",").toSeq map {_.trim}
       case None     => Seq(defaultLanguage) 
     }
+  def updated(ext: Map[String, AnyRef]): Template =
+    this.copy(extra = extra ++ ext)
+  def updated(s: String): Template = 
+    this.copy(str = Some(str.getOrElse("") + "\n" + s))
 }
