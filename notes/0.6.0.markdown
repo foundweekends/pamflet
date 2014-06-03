@@ -1,0 +1,9 @@
+* Produce combined pages markdown output [#55][55]
+* Support custom header and footer [#54][54]
+* Fix for google analytics [#53][53]
+* Fix for memory leak [#51][51]
+
+[51]: https://github.com/n8han/pamflet/pull/51
+[53]: https://github.com/n8han/pamflet/pull/53
+[54]: https://github.com/n8han/pamflet/pull/54
+[55]: https://github.com/n8han/pamflet/pull/55
