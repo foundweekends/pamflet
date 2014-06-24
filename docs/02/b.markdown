@@ -8,7 +8,7 @@ listing that appears below every page.
 Pamflet uses HTML ordered lists for *Contents*. In the default
 stylesheet, the top-level contents list is made of simple numbers.
 There is one quirk of the structure that may be surprising: The first
-markdown source found in a directory is not places in the same list
+markdown source found in a directory is not placed in the same list
 as the other sources. The title page described in the previous
 example would not appear with any number at all. Given the following
 directory:
