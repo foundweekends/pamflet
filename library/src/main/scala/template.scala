@@ -12,10 +12,11 @@ trait Template {
   /** Return property for given key if present */
   def get(key: String): Option[String]
   def defaultLanguage: String
+  def defaultEncoding: String
   def languages: Seq[String]
   /** Return a new instance of Template with additional pairs. */
   def updated(s: String): Template
-  /** Return a new instance of Template with additional paris. */
+  /** Return a new instance of Template with additional pairs. */
   def updated(ext: Map[String, AnyRef]): Template
 }
 
@@ -49,6 +50,8 @@ case class StringTemplate(files: Seq[File],
   def get(key: String) = Option(properties.get(key)) map { _.toString }
   lazy val defaultLanguage: String =
     get("language") getOrElse "en"
+  lazy val defaultEncoding: String = 
+    get("inputEncoding") getOrElse Charset.defaultCharset.name
   lazy val languages: Seq[String] =
     get("languages") match {
       case Some(xs) => xs.split(",").toSeq map {_.trim}
