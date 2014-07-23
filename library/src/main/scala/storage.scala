@@ -3,6 +3,7 @@ package pamflet
 import java.io.File
 import com.tristanhunt.knockoff._
 import collection.immutable.Map
+import java.nio.charset.Charset
 
 trait Storage {
   def globalized: Globalized
@@ -63,11 +64,11 @@ case class FileStorage(base: File) extends Storage {
       Section(localPath, raw, blocks, children, template)
     }.toSeq
   }
-  def read(file: File) = doWith(scala.io.Source.fromFile(file)) { source =>
+  def read(file: File, encoding: String = Charset.defaultCharset.name) = doWith(scala.io.Source.fromFile(file, encoding)) { source =>
     source.mkString("")
   }
   def knock(file: File, propFiles: Seq[File]): (String, Seq[Block], Template) = 
-    Knock.knockEither(read(file), propFiles) match {
+    Knock.knockEither(read(file, defaultTemplate.defaultEncoding), propFiles) match {
       case Right(x) => x
       case Left(x) =>
         Console.err.println("Error while processing " + file.toString)
