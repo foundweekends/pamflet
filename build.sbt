@@ -1,8 +1,7 @@
 lazy val common = ls.Plugin.lsSettings ++ Seq(
   organization := "net.databinder",
-  version := "0.6.0",
-  scalaVersion := "2.10.3",
-  crossScalaVersions := Seq("2.10.3"),
+  version := "0.6.1-SNAPSHOT",
+  scalaVersion := "2.11.4",
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
   homepage :=
     Some(new java.net.URL("http://pamflet.databinder.net/")),
@@ -31,11 +30,8 @@ lazy val common = ls.Plugin.lsSettings ++ Seq(
     </developers>)
 )
 
-val knockoffVersion = "0.8.1"
-lazy val knockoffDeps = Def.setting { Seq(
-  "com.tristanhunt" %% "knockoff" % knockoffVersion
-)}
-val unfilteredVersion = "0.7.0"
+val knockoffVersion = "0.8.3"
+val unfilteredVersion = "0.8.2"
 val stringtemplateVersion = "3.2.1"
 lazy val libraryDeps = Def.setting { Seq(
   "net.databinder" %% "unfiltered-netty-server" % unfilteredVersion,
@@ -57,15 +53,23 @@ lazy val pamflet: Project =
     publishArtifact := false
   ).
   aggregate(knockoff, library, app)
+
 lazy val knockoff: Project =
   (project in file("knockoff")).
   settings(common: _*).
   settings(
     name := "pamflet-knockoff",
     description := "Extensions to the Knockoff Markdown parser",
-    crossScalaVersions := Seq("2.9.0", "2.9.1", "2.10.3"),
-    libraryDependencies ++= knockoffDeps.value
+    crossScalaVersions := Seq("2.10.4", "2.11.4"),
+    libraryDependencies <<= (libraryDependencies, scalaVersion) { (deps, sv) =>
+      deps ++ Seq("com.tristanhunt" %% "knockoff" % knockoffVersion) ++ (
+        if (sv.startsWith("2.10")) None
+        else
+          Some("org.scala-lang.modules" %% "scala-xml" % "1.0.2")
+      )
+    }
   )
+
 lazy val library: Project =
   (project in file("library")).
   settings(common: _*).

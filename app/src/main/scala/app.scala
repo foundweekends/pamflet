@@ -37,7 +37,7 @@ object Pamflet {
   def preview(dir: File) = {
     Preview(storage(dir).globalized).run { server =>
       unfiltered.util.Browser.open(
-        "http://127.0.0.1:%d/".format(server.port)
+        server.portBindings.head.url
       )
       println("\nPreviewing `%s`. Press CTRL+C to stop.".format(dir))
     }

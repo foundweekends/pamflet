@@ -31,7 +31,7 @@ object Preview {
         Html5(html)
       }.getOrElse { NotFound }       
 
-    unfiltered.netty.Http.anylocal.plan(unfiltered.netty.cycle.Planify {
+    unfiltered.netty.Server.anylocal.plan(unfiltered.netty.cycle.Planify {
       case GET(Path(Seg(lang :: Nil))) if languages.contains(lang) =>
         globalized(lang).pages.headOption.map { page =>
           Redirect("/" + lang + "/" + Printer.webify(page))
