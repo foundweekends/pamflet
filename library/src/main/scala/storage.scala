@@ -9,12 +9,11 @@ trait Storage {
   def globalized: Globalized
 }
 
-case class FileStorage(base: File) extends Storage {
-  def propFile(dir: File): Option[File] =
-    new File(dir, "template.properties") match {
-      case file if file.exists => Some(file)
-      case _                   => None
-    }
+trait FileStorage extends Storage {
+  import FileStorage._
+  def base: File
+  def rootSection(dir: File, propFiles: Seq[File]): Section
+  def defaultTemplate = StringTemplate(propFile(base).toSeq, None, Map())
   def globalized = {
     val contents = Map(defaultTemplate.languages map { lang =>
       val isDefaultLang = lang == defaultTemplate.defaultLanguage
@@ -36,8 +35,16 @@ case class FileStorage(base: File) extends Storage {
     }: _*)
     Globalized(contents, defaultTemplate)
   }
-  def isSpecialDir(dir: File): Boolean =
-    dir.isDirectory && ((dir.getName == "layouts") || (dir.getName == "files"))
+  def knock(file: File, propFiles: Seq[File]): (String, Seq[Block], Template) = 
+    Knock.knockEither(read(file, defaultTemplate.defaultEncoding), propFiles) match {
+      case Right(x) => x
+      case Left(x) =>
+        Console.err.println("Error while processing " + file.toString)
+        throw x
+    }
+}
+case class StructuredFileStorage(base: File) extends FileStorage {
+  import FileStorage._
   def rootSection(dir: File, propFiles: Seq[File]): Section = {
     def emptySection = Section("", "", Seq.empty, Nil, defaultTemplate)
     if (dir.exists) section("", dir, propFiles).headOption getOrElse emptySection
@@ -64,22 +71,23 @@ case class FileStorage(base: File) extends Storage {
       Section(localPath, raw, blocks, children, template)
     }.toSeq
   }
+}
+object FileStorage {
+  def propFile(dir: File): Option[File] =
+    new File(dir, "template.properties") match {
+      case file if file.exists => Some(file)
+      case _                   => None
+    }
+  def isSpecialDir(dir: File): Boolean =
+    dir.isDirectory && ((dir.getName == "layouts") || (dir.getName == "files"))
   def read(file: File, encoding: String = Charset.defaultCharset.name) = doWith(scala.io.Source.fromFile(file, encoding)) { source =>
     source.mkString("")
   }
-  def knock(file: File, propFiles: Seq[File]): (String, Seq[Block], Template) = 
-    Knock.knockEither(read(file, defaultTemplate.defaultEncoding), propFiles) match {
-      case Right(x) => x
-      case Left(x) =>
-        Console.err.println("Error while processing " + file.toString)
-        throw x
-    }
   def isMarkdown(f: File) = {
     !f.isDirectory &&
     !f.getName.startsWith(".") &&
     (f.getName.endsWith(".markdown") || f.getName.endsWith(".md"))
   }
-  def defaultTemplate = StringTemplate(propFile(base).toSeq, None, Map())
   def doWith[T <: { def close() }, R](toClose: T)(f: T => R): R = {
     try {
       f(toClose)
