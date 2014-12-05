@@ -12,7 +12,7 @@ trait Storage {
 trait FileStorage extends Storage {
   import FileStorage._
   def base: File
-  def rootSection(dir: File, propFiles: Seq[File]): Section
+  def frontPage(dir: File, propFiles: Seq[File]): Page
   def defaultTemplate = StringTemplate(propFile(base).toSeq, None, Map())
   def globalized = {
     val contents = Map(defaultTemplate.languages map { lang =>
@@ -30,7 +30,7 @@ trait FileStorage extends Storage {
                       else propFile(base).toSeq ++ propFile(dir).toSeq
       val layouts = dir.listFiles.filter(_.getName == "layouts").
         flatMap(_.listFiles.map { f => (f.getName, read(f))})
-      lang -> Contents(lang, isDefaultLang, rootSection(dir, propFiles), css, files,
+      lang -> Contents(lang, isDefaultLang, frontPage(dir, propFiles), css, files,
         favicon, defaultTemplate, layouts)
     }: _*)
     Globalized(contents, defaultTemplate)
@@ -45,10 +45,21 @@ trait FileStorage extends Storage {
 }
 case class StructuredFileStorage(base: File) extends FileStorage {
   import FileStorage._
-  def rootSection(dir: File, propFiles: Seq[File]): Section = {
+  def frontPage(dir: File, propFiles: Seq[File]): Section = {
     def emptySection = Section("", "", Seq.empty, Nil, defaultTemplate)
-    if (dir.exists) section("", dir, propFiles).headOption getOrElse emptySection
-    else emptySection
+    if (dir.exists) {
+      val entered = section("", dir, propFiles).headOption getOrElse emptySection
+      Section(
+        entered.localPath,
+        entered.raw,
+        entered.blocks,
+        entered.children :::
+          DeepContents(template) ::
+          ScrollPage(entered, template) ::
+          Nil,
+        entered.template
+      )
+    } else emptySection
   }
   def section(localPath: String, dir: File, propFiles: Seq[File]): Seq[Section] = {
     val files: List[File] = (Option(dir.listFiles) match {
