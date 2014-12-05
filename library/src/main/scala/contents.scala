@@ -15,7 +15,7 @@ case class Globalized(
 case class Contents(
   language: String,
   val isDefaultLang: Boolean,
-  rootSection: Section,
+  pamflet: Page,
   css: Seq[(String,String)],
   files: Seq[(String, URI)],
   favicon: Option[URI],
@@ -30,15 +30,6 @@ case class Contents(
         traverse(tail, head :: past)
       case Nil => past.reverse
     }
-  val scrollPage = ScrollPage(rootSection, template)
-  val pamflet = Section(rootSection.localPath,
-                        rootSection.raw,
-                        rootSection.blocks,
-                        rootSection.children ::: 
-                        DeepContents(template) ::
-                        scrollPage ::
-                        Nil,
-                        rootSection.template)
   val pages = traverse(pamflet.children, pamflet :: Nil)
   val title = pamflet.name
   val prettifyLangs = (Set.empty[String] /: pages) { _ ++ _.prettifyLangs }
@@ -49,6 +40,7 @@ sealed trait Page {
   def referencedLangs: Set[String]
   def localPath: String
   def template: Template
+  def children: List[Page]
 }
 sealed trait AuthoredPage extends Page {
   def blocks: Seq[Block]
@@ -74,7 +66,9 @@ trait ContentPage extends AuthoredPage {
 case class Leaf(localPath: String,
                 raw: String,
                 blocks: Seq[Block],
-                template: Template) extends ContentPage
+                template: Template) extends ContentPage {
+  val children = Nil
+}
 object Leaf {
   def apply(localPath: String, t: (String, Seq[Block], Template)): Leaf = Leaf(localPath, t._1, t._2, t._3)
 }
@@ -86,6 +80,7 @@ case class Section(localPath: String,
 case class DeepContents(template: Template) extends Page {
   val name = "Contents in Depth"
   val localPath = name
+  val children = Nil
   def prettifyLangs = Set.empty
   def referencedLangs = Set.empty
 }
@@ -93,6 +88,7 @@ case class ScrollPage(root: Section,
                       template: Template) extends AuthoredPage {
   val name = "Combined Pages"
   val localPath = name
+  val children = Nil
   def flatten(pages: List[Page]): Seq[Block] =
     pages.view.flatMap {
       case Leaf(_, _, blocks, _) => blocks
@@ -109,4 +105,23 @@ case class ScrollPage(root: Section,
       case _ => Seq("")
     }
   def raw: String = (Seq(root.raw) ++: flattenRaw(root.children)).mkString("\n")
+}
+
+case class News(localPath: String,
+                raw: String,
+                blocks: Seq[Block],
+                template: Template) extends ContentPage {
+  val children = Nil
+}
+
+
+case class ChronologicalIndex(
+  pages: List[News],
+  template: Template
+) extends Page {
+  val name = "Recent News"
+  val localPath = name
+  val children = Nil
+  def prettifyLangs = Set.empty
+  def referencedLangs = Set.empty
 }

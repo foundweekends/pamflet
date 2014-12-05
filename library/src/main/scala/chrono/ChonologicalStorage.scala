@@ -2,9 +2,10 @@ package pamflet.chrono
 
 import java.io.File
 
-import pamflet.{FileStorage,Section}
+import pamflet.{FileStorage,ChronologicalIndex}
 
 case class ChronologicalStorage(base: File) extends FileStorage {
   import FileStorage._
-  def rootSection(dir: File, propFiles: Seq[File]): Section = ???
+  def frontPage(dir: File, propFiles: Seq[File]): ChronologicalIndex = ???
+  val children = Nil
 }
