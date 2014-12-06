@@ -2,6 +2,7 @@ lazy val common = ls.Plugin.lsSettings ++ Seq(
   organization := "net.databinder",
   version := "0.6.1-SNAPSHOT",
   scalaVersion := "2.11.4",
+  scalacOptions ++= Seq("-unchecked", "-deprecation"),
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
   homepage :=
     Some(new java.net.URL("http://pamflet.databinder.net/")),
