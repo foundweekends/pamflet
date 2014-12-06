@@ -1,5 +1,7 @@
 package pamflet
 import com.tristanhunt.knockoff._
+import scala.util.parsing.input.{NoPosition}
+import com.github.nscala_time.time.Imports._
 import java.net.URI
 import collection.immutable.Map
 
@@ -77,6 +79,7 @@ case class Section(localPath: String,
                    blocks: Seq[Block], 
                    children: List[Page],
                    template: Template) extends ContentPage
+
 case class DeepContents(template: Template) extends Page {
   val name = "Contents in Depth"
   val localPath = name
@@ -107,21 +110,32 @@ case class ScrollPage(root: Section,
   def raw: String = (Seq(root.raw) ++: flattenRaw(root.children)).mkString("\n")
 }
 
-case class News(localPath: String,
-                raw: String,
-                blocks: Seq[Block],
-                template: Template) extends ContentPage {
+case class NewsStory(
+  localPath: String,
+  raw: String,
+  blocks: Seq[Block],
+  date: LocalDate,
+  template: Template
+) extends ContentPage {
   val children = Nil
 }
 
 
-case class ChronologicalIndex(
-  pages: List[News],
+case class FrontPageNews
+(
+  pages: Stream[NewsStory],
   template: Template
 ) extends Page {
   val name = "Recent News"
   val localPath = name
   val children = Nil
-  def prettifyLangs = Set.empty
-  def referencedLangs = Set.empty
+  def prettifyLangs = Set.empty[String]
+  def referencedLangs = Set.empty[String]
+  val blocks = Seq(UnorderedList(pages.take(10).map(
+    p => UnorderedItem(
+      Seq(Paragraph(Seq(Text(DateTimeFormat.longDate.print(p.date))), NoPosition)),
+      NoPosition
+    )
+  )))
+
 }

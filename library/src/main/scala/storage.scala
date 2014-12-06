@@ -47,19 +47,18 @@ case class StructuredFileStorage(base: File) extends FileStorage {
   import FileStorage._
   def frontPage(dir: File, propFiles: Seq[File]): Section = {
     def emptySection = Section("", "", Seq.empty, Nil, defaultTemplate)
-    if (dir.exists) {
-      val entered = section("", dir, propFiles).headOption getOrElse emptySection
-      Section(
-        entered.localPath,
-        entered.raw,
-        entered.blocks,
-        entered.children :::
-          DeepContents(entered.template) ::
-          ScrollPage(entered, entered.template) ::
-          Nil,
-        entered.template
-      )
-    } else emptySection
+    val entered = section("", dir, propFiles).headOption getOrElse emptySection
+    Section(
+      entered.localPath,
+      entered.raw,
+      entered.blocks,
+      entered.children :::
+        DeepContents(entered.template) ::
+        ScrollPage(entered, entered.template) ::
+        Nil,
+      entered.template
+    )
+
   }
   def section(localPath: String, dir: File, propFiles: Seq[File]): Seq[Section] = {
     val files: List[File] = (Option(dir.listFiles) match {
@@ -106,4 +105,20 @@ object FileStorage {
       toClose.close()
     }
   }
+  def depthFirstFiles(parent: File, stack: List[File] = Nil): Stream[File] = {
+    if (parent.isFile) {
+      stack.headOption.fold(parent #:: Stream.empty)(
+        h => parent #:: depthFirstFiles(h, stack.tail)
+      )
+    } else {
+      val children = parent.listFiles.sorted(
+        Ordering.by((_: File).getName).reverse
+      ).toList
+      depthFirstFiles(children.head, children.tail ::: stack)
+    }
+  }
+  def parents(file: File): Stream[File] =
+    Option(file.getParentFile).fold(Stream.empty[File])(
+      p => p #:: parents(p)
+    )
 }

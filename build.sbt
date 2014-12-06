@@ -36,7 +36,8 @@ val unfilteredVersion = "0.8.2"
 val stringtemplateVersion = "3.2.1"
 lazy val libraryDeps = Def.setting { Seq(
   "net.databinder" %% "unfiltered-netty-server" % unfilteredVersion,
-  "org.antlr" % "stringtemplate" % stringtemplateVersion
+  "org.antlr" % "stringtemplate" % stringtemplateVersion,
+  "com.github.nscala-time" %% "nscala-time" % "1.6.0"
 )}
 val launcherInterfaceVersion = "0.13.0"
 val servletApiVersion = "2.5"

@@ -12,16 +12,15 @@ object Pamflet {
   def main(args: Array[String]) {
     System.exit(run(args))
   }
-  private def storage(dir: File) = StructuredFileStorage(dir)
   def run(args: Array[String]) = {
     args match {
       case Array(Dir(input), Dir(output)) =>
-        Produce(storage(input).globalized, output)
+        Produce(StructuredFileStorage(input).globalized, output)
         println("Wrote pamflet to " + output)
         0
-      case Array(Dir(dir)) => preview(dir)
       case Array(nm @ Dir(dir)) if nm == "news" =>
-        preview(dir, Chronological)
+        preview(dir, news.NewsStorage)
+      case Array(Dir(dir)) => preview(dir)
       case Array() =>
         "docs" match {
           case Dir(docs) => preview(docs)
@@ -36,8 +35,8 @@ object Pamflet {
         1
     }
   }
-  def preview(dir: File, collation: Collation = Structured) = {
-    Preview(storage(dir).globalized).run { server =>
+  def preview(dir: File, collation: Collation = StructuredFileStorage) = {
+    Preview(collation(dir).globalized).run { server =>
       unfiltered.util.Browser.open(
         server.portBindings.head.url
       )
@@ -53,7 +52,5 @@ object Pamflet {
       else None
     }
   }
-  sealed trait Collation
-  case object Structured extends Collation
-  case object Chronological extends Collation
+  type Collation = (File => FileStorage)
 }
