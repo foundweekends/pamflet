@@ -54,8 +54,8 @@ case class StructuredFileStorage(base: File) extends FileStorage {
         entered.raw,
         entered.blocks,
         entered.children :::
-          DeepContents(template) ::
-          ScrollPage(entered, template) ::
+          DeepContents(entered.template) ::
+          ScrollPage(entered, entered.template) ::
           Nil,
         entered.template
       )
