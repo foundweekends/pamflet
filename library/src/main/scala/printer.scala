@@ -303,6 +303,8 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
                   } ++ toc(page) ++ comment(page)
                 case page: ScrollPage =>
                   toc(page) ++ toXHTML(page.blocks)
+                case page: FrontPageNews =>
+                  toXHTML(page.blocks)
             } }
           </div>
         </div>
