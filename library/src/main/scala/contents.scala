@@ -120,14 +120,13 @@ case class NewsStory(
   val children = Nil
 }
 
-
 case class FrontPageNews
 (
   pages: Stream[NewsStory],
   template: Template
 ) extends Page {
-  val name = "Recent News"
-  val localPath = name
+  lazy val name = template.get("name").getOrElse("News")
+  lazy val localPath = name
   val children = Nil
   def prettifyLangs = Set.empty[String]
   def referencedLangs = Set.empty[String]
