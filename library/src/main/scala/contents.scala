@@ -118,6 +118,8 @@ case class NewsStory(
   template: Template
 ) extends ContentPage {
   val children = Nil
+  val dateFormat = DateTimeFormat.forPattern("yyyy/MM/dd")
+  def path = dateFormat.print(date) + "/" + Printer.webify(this)
 }
 
 case class FrontPageNews
@@ -130,11 +132,18 @@ case class FrontPageNews
   val children = Nil
   def prettifyLangs = Set.empty[String]
   def referencedLangs = Set.empty[String]
-  val blocks = Seq(UnorderedList(pages.take(10).map(
-    p => UnorderedItem(
-      Seq(Paragraph(Seq(Text(DateTimeFormat.longDate.print(p.date))), NoPosition)),
-      NoPosition
-    )
-  )))
-
+  val blocks = HTMLBlock(
+    (<ul class="news">
+      { pages.take(50).map { page =>
+        <li><a href={ page.path } class="button">
+          <h4>
+            <span class="name">{ page.name }</span>
+            <div class="date small">{
+              DateTimeFormat.longDate.print(page.date)
+            }</div>
+          </h4>
+        </a></li>
+      } }
+    </ul>).toString, NoPosition
+  ) :: Nil
 }
