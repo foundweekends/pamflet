@@ -26,10 +26,19 @@ object Preview {
       CssContent ~> ResponseString(pamfletHeight(lang, name))
     def fileResponse(lang: String, name: String) =
       responseStreamer(files(lang)(name))
-    def pageResponse(lang: String, name: String) =
-      Printer(globalized(lang), globalized, None).printNamed(name).map { html =>
-        Html5(html)
-      }.getOrElse { NotFound }       
+    def pageResponse(lang: String, page: Page) =
+      Html5(Printer(globalized(lang), globalized, None).print(page))
+
+    object PagePath {
+      def unapply(req: HttpRequest[_]) = {
+        val Path(Seg(segs)) = req
+        val (lang, pageSegs) =
+          if (languages.contains(segs.head)) (segs.head, segs.tail)
+          else (defaultLanguage, segs)
+        val pagePath = pageSegs.mkString("/")
+        globalized(lang).pages.find(_.webPath == pagePath).map((lang, _))
+      }
+    }
 
     unfiltered.netty.Server.anylocal.plan(unfiltered.netty.cycle.Planify {
       case GET(Path(Seg(lang :: Nil))) if languages.contains(lang) =>
@@ -54,10 +63,8 @@ object Preview {
         fileResponse(lang, name)
       case GET(Path(Seg("files" :: name :: Nil))) if files(defaultLanguage).contains(name) =>
         fileResponse(defaultLanguage, name)
-      case GET(Path(Seg(lang :: name :: Nil))) if languages.contains(lang) =>
-        pageResponse(lang, name)
-      case GET(Path(Seg(name :: Nil))) =>
-        pageResponse(defaultLanguage, name)
+      case GET(PagePath(lang, page)) =>
+          pageResponse(lang, page)
     }).resources(Shared.resources)
   }
   def responseStreamer(uri: URI) =

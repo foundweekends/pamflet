@@ -182,7 +182,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
     )
   }
 
-  def print(page: Page) = {
+  def print(page: Page): xml.Node = {
     def lastnext(in: List[Page], last: Option[Page]): (Option[Page], Option[Page]) =
       (in, last) match {
         case (List(l, `page`, n, _*), _) => (Some(l), Some(n))
@@ -341,11 +341,4 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
       html % new scala.xml.UnprefixedAttribute("manifest", mf, scala.xml.Null)
     } getOrElse { html }
   }
-
-  def named(name: String) =
-    contents.pages.find { page =>
-      Printer.webify(page) == name
-    }
-
-  def printNamed(name: String) = named(name).map(print)
 }
