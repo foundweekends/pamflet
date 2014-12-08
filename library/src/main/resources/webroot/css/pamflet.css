@@ -93,3 +93,22 @@ div.highlight-outer {
 div.highlight-memu {
     display: none;
 }
+
+ul.news {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+ul.news a.button {
+    display: block;
+    text-decoration: none;
+}
+ul.news span.name {
+    color: #06c;
+    text-decoration: underline;
+}
+ul.news div.date {
+    color: inherit;
+    font-style: italic;
+    text-decoration: none;
+}

@@ -40,7 +40,7 @@ object BlockNames {
       case h: HTMLSpan => Seq(h.html)
       case _ => Seq()
     }.mkString("")      
-  def name(blocks: Seq[Block]) =
+  def name(blocks: Seq[Block]): String =
     blocks.view.collect {
       case h: Header => textOf(h.spans)
     }.headOption.getOrElse { "Untitled" }
