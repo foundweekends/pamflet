@@ -43,6 +43,10 @@ sealed trait Page {
   def localPath: String
   def template: Template
   def children: List[Page]
+  def webPath : String
+}
+trait BasePathPage { self: Page =>
+  def webPath = Printer.webify(this)
 }
 sealed trait AuthoredPage extends Page {
   def blocks: Seq[Block]
@@ -68,7 +72,7 @@ trait ContentPage extends AuthoredPage {
 case class Leaf(localPath: String,
                 raw: String,
                 blocks: Seq[Block],
-                template: Template) extends ContentPage {
+                template: Template) extends ContentPage with BasePathPage {
   val children = Nil
 }
 object Leaf {
@@ -78,9 +82,9 @@ case class Section(localPath: String,
                    raw: String,
                    blocks: Seq[Block], 
                    children: List[Page],
-                   template: Template) extends ContentPage
+                   template: Template) extends ContentPage with BasePathPage
 
-case class DeepContents(template: Template) extends Page {
+case class DeepContents(template: Template) extends Page with BasePathPage {
   val name = "Contents in Depth"
   val localPath = name
   val children = Nil
@@ -88,7 +92,7 @@ case class DeepContents(template: Template) extends Page {
   def referencedLangs = Set.empty
 }
 case class ScrollPage(root: Section,
-                      template: Template) extends AuthoredPage {
+                      template: Template) extends AuthoredPage with BasePathPage {
   val name = "Combined Pages"
   val localPath = name
   val children = Nil
@@ -119,23 +123,23 @@ case class NewsStory(
 ) extends ContentPage {
   val children = Nil
   val dateFormat = DateTimeFormat.forPattern("yyyy/MM/dd")
-  def path = dateFormat.print(date) + "/" + Printer.webify(this)
+  def webPath = dateFormat.print(date) + "/" + Printer.webify(this)
 }
 
 case class FrontPageNews
 (
   pages: Stream[NewsStory],
   template: Template
-) extends Page {
+) extends Page with BasePathPage {
   lazy val name = template.get("name").getOrElse("News")
   lazy val localPath = name
-  val children = Nil
+  lazy val children = pages.toList
   def prettifyLangs = Set.empty[String]
   def referencedLangs = Set.empty[String]
   val blocks = HTMLBlock(
     (<ul class="news">
       { pages.take(50).map { page =>
-        <li><a href={ page.path } class="button">
+        <li><a href={ page.webPath } class="button">
           <h4>
             <span class="name">{ page.name }</span>
             <div class="date small">{
