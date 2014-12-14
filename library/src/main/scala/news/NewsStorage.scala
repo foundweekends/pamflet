@@ -21,7 +21,7 @@ case class NewsStorage(base: File) extends FileStorage {
       )
     }
 
-    FrontPageNews(newsStories, defaultTemplate)
+    FrontPageNews(newsStories, template)
   }
 
   val Y = "(\\d{4})".r

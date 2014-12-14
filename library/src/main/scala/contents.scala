@@ -5,23 +5,18 @@ import com.github.nscala_time.time.Imports._
 import java.net.URI
 import collection.immutable.Map
 
-case class Globalized(
-  contents: Map[String, Contents],
+case class GlobalContents(
+  byLanguage: Map[String, Contents],
   template: Template
-) {
-  def apply(lang: String): Contents = contents(lang)
-  def defaultLanguage: String = template.defaultLanguage
-  def languages: Seq[String] = template.languages
-  lazy val defaultContents: Contents = apply(defaultLanguage)
-}
+)
+
 case class Contents(
   language: String,
-  val isDefaultLang: Boolean,
+  isDefaultLanguage: Boolean,
   pamflet: Page,
   css: Seq[(String,String)],
   files: Seq[(String, URI)],
   favicon: Option[URI],
-  template: Template,
   layouts: Seq[(String,String)]
 ) {
   def traverse(incoming: List[Page], past: List[Page]): List[Page] =
@@ -35,6 +30,13 @@ case class Contents(
   val pages = traverse(pamflet.children, pamflet :: Nil)
   val title = pamflet.name
   val prettifyLangs = (Set.empty[String] /: pages) { _ ++ _.prettifyLangs }
+  lazy val relativeBase =
+    if (isDefaultLanguage) ""
+    else "../"
+  def pathOf(page: Page) =
+    if (isDefaultLanguage) Printer.webify(page)
+    else language + "/" + Printer.webify(page)
+  def pathTo(page: Page) = relativeBase + pathOf(page)
 }
 sealed trait Page {
   def name: String
@@ -43,10 +45,6 @@ sealed trait Page {
   def localPath: String
   def template: Template
   def children: List[Page]
-  def webPath : String
-}
-trait BasePathPage { self: Page =>
-  def webPath = Printer.webify(this)
 }
 sealed trait AuthoredPage extends Page {
   def blocks: Seq[Block]
@@ -72,7 +70,7 @@ trait ContentPage extends AuthoredPage {
 case class Leaf(localPath: String,
                 raw: String,
                 blocks: Seq[Block],
-                template: Template) extends ContentPage with BasePathPage {
+                template: Template) extends ContentPage {
   val children = Nil
 }
 object Leaf {
@@ -82,9 +80,9 @@ case class Section(localPath: String,
                    raw: String,
                    blocks: Seq[Block], 
                    children: List[Page],
-                   template: Template) extends ContentPage with BasePathPage
+                   template: Template) extends ContentPage
 
-case class DeepContents(template: Template) extends Page with BasePathPage {
+case class DeepContents(template: Template) extends Page {
   val name = "Contents in Depth"
   val localPath = name
   val children = Nil
@@ -92,7 +90,7 @@ case class DeepContents(template: Template) extends Page with BasePathPage {
   def referencedLangs = Set.empty
 }
 case class ScrollPage(root: Section,
-                      template: Template) extends AuthoredPage with BasePathPage {
+                      template: Template) extends AuthoredPage {
   val name = "Combined Pages"
   val localPath = name
   val children = Nil
@@ -130,7 +128,7 @@ case class FrontPageNews
 (
   pages: Stream[NewsStory],
   template: Template
-) extends Page with BasePathPage {
+) extends Page {
   lazy val name = template.get("name").getOrElse("News")
   lazy val localPath = name
   lazy val children = pages.toList

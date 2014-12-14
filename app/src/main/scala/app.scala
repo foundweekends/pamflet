@@ -15,7 +15,7 @@ object Pamflet {
   def run(args: Array[String]) = {
     args match {
       case Array(Dir(input), Dir(output)) =>
-        Produce(StructuredFileStorage(input).globalized, output)
+        Produce(StructuredFileStorage(input).globalContents, output)
         println("Wrote pamflet to " + output)
         0
       case Array(nm @ Dir(dir)) if nm == "news" =>
@@ -36,7 +36,7 @@ object Pamflet {
     }
   }
   def preview(dir: File, collation: Collation = StructuredFileStorage) = {
-    Preview(collation(dir).globalized).run { server =>
+    Preview(collation(dir).globalContents).run { server =>
       unfiltered.util.Browser.open(
         server.portBindings.head.url
       )

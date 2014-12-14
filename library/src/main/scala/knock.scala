@@ -7,7 +7,7 @@ import collection.immutable.Map
 object Knock {
   def knockEither(value: String, propFiles: Seq[File]): Either[Throwable, (String, Seq[Block], Template)] = {
     val frontin = Frontin(value)
-    val template = StringTemplate(propFiles, frontin header, Map())
+    val template = StringTemplate(propFiles.toSeq, frontin header, Map())
     val raw = template(frontin body)
     try {
       Right((raw.toString, PamfletDiscounter.knockoff(raw), template))

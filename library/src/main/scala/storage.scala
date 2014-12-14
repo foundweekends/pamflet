@@ -6,37 +6,55 @@ import collection.immutable.Map
 import java.nio.charset.Charset
 
 trait Storage {
-  def globalized: Globalized
+  def globalContents: GlobalContents
 }
 
 trait FileStorage extends Storage {
   import FileStorage._
   def base: File
   def frontPage(dir: File, propFiles: Seq[File]): Page
-  def defaultTemplate = StringTemplate(propFile(base).toSeq, None, Map())
-  def globalized = {
-    val contents = Map(defaultTemplate.languages map { lang =>
-      val isDefaultLang = lang == defaultTemplate.defaultLanguage
-      val dir = if (isDefaultLang) base
-                else new File(base, lang)
-      val css = dir.listFiles.filter {
-        _.getName.endsWith(".css")
-      }.map { f => (f.getName, read(f)) }
-      val files = dir.listFiles.filter(_.getName=="files").
-        flatMap(_.listFiles.map { f => (f.getName, f.toURI) })
-      val favicon = dir.listFiles.find(_.getName == "favicon.ico").
-        map { _.toURI }
-      val propFiles = if (isDefaultLang) propFile(base).toSeq
-                      else propFile(base).toSeq ++ propFile(dir).toSeq
-      val layouts = dir.listFiles.filter(_.getName == "layouts").
-        flatMap(_.listFiles.map { f => (f.getName, read(f))})
-      lang -> Contents(lang, isDefaultLang, frontPage(dir, propFiles), css, files,
-        favicon, defaultTemplate, layouts)
-    }: _*)
-    Globalized(contents, defaultTemplate)
+  def template = StringTemplate(propFile(base).toSeq, None, Map())
+  def globalContents = {
+    def css(dir: File) = dir.listFiles.filter {
+      _.getName.endsWith(".css")
+    }.map { f => (f.getName, read(f)) }
+    def files(dir: File) = dir.listFiles.filter(_.getName=="files").
+      flatMap(_.listFiles.map { f => (f.getName, f.toURI) })
+    def favicon(dir: File) = dir.listFiles.find(_.getName == "favicon.ico").
+      map { _.toURI }
+    def layouts(dir: File) = dir.listFiles.filter(_.getName == "layouts").
+      flatMap(_.listFiles.map { f => (f.getName, read(f))})
+
+    val basePropFile = propFile(base)
+    val baseContents = Contents(
+      template.defaultLanguage,
+      true,
+      frontPage(base, basePropFile.toSeq),
+      css(base),
+      files(base),
+      favicon(base),
+      layouts(base)
+    )
+    val contentsByLanguage =
+      for (lang <- template.languages if lang != template.defaultLanguage) yield {
+        val dir = new File(base, lang)
+        lang -> Contents(
+          lang,
+          false,
+          frontPage(dir, propFile(dir).toSeq ++ basePropFile),
+          css(dir) ++ baseContents.css,
+          files(dir) ++ baseContents.files,
+          favicon(dir) orElse baseContents.favicon,
+          layouts(dir) ++ baseContents.layouts
+        )
+      }
+    GlobalContents(
+      contentsByLanguage.toMap + (template.defaultLanguage -> baseContents),
+      template
+    )
   }
   def knock(file: File, propFiles: Seq[File]): (String, Seq[Block], Template) = 
-    Knock.knockEither(read(file, defaultTemplate.defaultEncoding), propFiles) match {
+    Knock.knockEither(read(file, template.defaultEncoding), propFiles) match {
       case Right(x) => x
       case Left(x) =>
         Console.err.println("Error while processing " + file.toString)
@@ -46,7 +64,7 @@ trait FileStorage extends Storage {
 case class StructuredFileStorage(base: File) extends FileStorage {
   import FileStorage._
   def frontPage(dir: File, propFiles: Seq[File]): Section = {
-    def emptySection = Section("", "", Seq.empty, Nil, defaultTemplate)
+    def emptySection = Section("", "", Seq.empty, Nil, template)
     val entered = section("", dir, propFiles).headOption getOrElse emptySection
     Section(
       entered.localPath,
@@ -70,7 +88,7 @@ case class StructuredFileStorage(base: File) extends FileStorage {
     files.find(isMarkdown).map { head =>
       val (raw, blocks, template) = knock(head, propFiles)
       val childFiles = files.filterNot { _ == head } filterNot { f =>
-        f.isDirectory && defaultTemplate.languages.contains(f.getName)
+        f.isDirectory && template.languages.contains(f.getName)
       }
       val children = childFiles.flatMap { f =>
         if (isMarkdown(f))
@@ -84,10 +102,7 @@ case class StructuredFileStorage(base: File) extends FileStorage {
 }
 object FileStorage {
   def propFile(dir: File): Option[File] =
-    new File(dir, "template.properties") match {
-      case file if file.exists => Some(file)
-      case _                   => None
-    }
+    Some(new File(dir, "template.properties")).filter(_.exists)
   def isSpecialDir(dir: File): Boolean =
     dir.isDirectory && ((dir.getName == "layouts") || (dir.getName == "files"))
   def read(file: File, encoding: String = Charset.defaultCharset.name) = doWith(scala.io.Source.fromFile(file, encoding)) { source =>
