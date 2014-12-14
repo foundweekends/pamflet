@@ -34,8 +34,8 @@ case class Contents(
     if (isDefaultLanguage) ""
     else "../"
   def pathOf(page: Page) =
-    if (isDefaultLanguage) Printer.webify(page)
-    else language + "/" + Printer.webify(page)
+    if (isDefaultLanguage) page.webPath
+    else language + "/" + page.webPath
   def pathTo(page: Page) = relativeBase + pathOf(page)
 }
 sealed trait Page {
@@ -45,6 +45,11 @@ sealed trait Page {
   def localPath: String
   def template: Template
   def children: List[Page]
+  /** path according to the page, which doesn't know about lang directories */
+  def webPath: String
+}
+trait FlatWebPaths { self: Page =>
+  def webPath = Printer.webify(this)
 }
 sealed trait AuthoredPage extends Page {
   def blocks: Seq[Block]
@@ -70,7 +75,7 @@ trait ContentPage extends AuthoredPage {
 case class Leaf(localPath: String,
                 raw: String,
                 blocks: Seq[Block],
-                template: Template) extends ContentPage {
+                template: Template) extends ContentPage with FlatWebPaths {
   val children = Nil
 }
 object Leaf {
@@ -80,9 +85,9 @@ case class Section(localPath: String,
                    raw: String,
                    blocks: Seq[Block], 
                    children: List[Page],
-                   template: Template) extends ContentPage
+                   template: Template) extends ContentPage with FlatWebPaths
 
-case class DeepContents(template: Template) extends Page {
+case class DeepContents(template: Template) extends Page with FlatWebPaths {
   val name = "Contents in Depth"
   val localPath = name
   val children = Nil
@@ -90,7 +95,7 @@ case class DeepContents(template: Template) extends Page {
   def referencedLangs = Set.empty
 }
 case class ScrollPage(root: Section,
-                      template: Template) extends AuthoredPage {
+                      template: Template) extends AuthoredPage with FlatWebPaths {
   val name = "Combined Pages"
   val localPath = name
   val children = Nil
@@ -128,7 +133,7 @@ case class FrontPageNews
 (
   pages: Stream[NewsStory],
   template: Template
-) extends Page {
+) extends Page with FlatWebPaths {
   lazy val name = template.get("name").getOrElse("News")
   lazy val localPath = name
   lazy val children = pages.toList

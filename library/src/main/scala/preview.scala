@@ -25,7 +25,7 @@ object Preview {
           )
         val pagePath = pageSegs.mkString("/")
         langContents(lang).pages.find(
-          p => Printer.webify(p) == pagePath
+          p => p.webPath == pagePath
         ).map((lang, _))
       }
     }
