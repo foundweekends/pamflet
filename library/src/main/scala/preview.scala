@@ -9,62 +9,59 @@ import collection.mutable
 object Preview {
   val heightCache: mutable.Map[(String, String), String] = mutable.Map()
 
-  def apply(globalized: => Globalized) = {
-    def css(lang: String) = Map.empty ++ globalized(lang).css
-    def files(lang: String) = Map.empty ++ globalized(lang).files
-    def defaultLanguage = globalized.defaultLanguage 
-    def languages = globalized.languages
-    def pamfletHeight(lang: String, name: String): String =
-      heightCache.getOrElseUpdate((lang, name), {
-        Heights.heightCssFileContent(globalized(lang), name)
-      })
-    def faviconResponse(lang: String) =
-      globalized(lang).favicon map { responseStreamer } getOrElse NotFound
-    def cssResponse(lang: String, name: String) =
-      CssContent ~> ResponseString(css(lang)(name))
-    def pamfletHeightResponse(lang: String, name: String) =
-      CssContent ~> ResponseString(pamfletHeight(lang, name))
-    def fileResponse(lang: String, name: String) =
-      responseStreamer(files(lang)(name))
-    def pageResponse(lang: String, page: Page) =
-      Html5(Printer(globalized(lang), globalized, None).print(page))
+  def apply(globalContents: => GlobalContents) = {
+    def languages = globalContents.template.languages
+
+    def langContents(lang: String) = globalContents.byLanguage(lang)
+    def defaultLanguage = globalContents.template.defaultLanguage
 
     object PagePath {
       def unapply(req: HttpRequest[_]) = {
         val Path(Seg(segs)) = req
         val (lang, pageSegs) =
-          if (languages.contains(segs.head)) (segs.head, segs.tail)
-          else (defaultLanguage, segs)
+          (for (seg <- segs.headOption if languages.contains(seg))
+          yield (seg -> segs.tail)).getOrElse(
+            (defaultLanguage, segs)
+          )
         val pagePath = pageSegs.mkString("/")
-        globalized(lang).pages.find(_.webPath == pagePath).map((lang, _))
+        langContents(lang).pages.find(
+          p => Printer.webify(p) == pagePath
+        ).map((lang, _))
+      }
+    }
+
+    def contentsDispatch(contents: Contents, segs: List[String]) = {
+      segs match {
+        case Nil =>
+          contents.pages.headOption.map { page =>
+            Redirect("/" + contents.pathOf(page))
+          }.getOrElse { Pass }
+        case "favicon.ico" :: Nil =>
+            contents.favicon.map(responseStreamer).getOrElse(Pass)
+        case "css" :: name :: Nil =>
+          val css: Option[String] =
+            if (name.startsWith("pamfletheight"))
+              Some(heightCache.getOrElseUpdate(
+                (contents.language, name),
+                Heights.heightCssFileContent(contents, name)
+              ))
+            else contents.css.find(_._1 == name).map(_._2)
+          css.map(str => CssContent ~> ResponseString(str)).getOrElse(Pass)
+        case "files" :: name :: Nil =>
+          contents.files.find(_._1 == name).map {
+            case (_, url) => responseStreamer(url)
+          } getOrElse Pass
+        case _ => Pass
       }
     }
 
     unfiltered.netty.Server.anylocal.plan(unfiltered.netty.cycle.Planify {
-      case GET(Path(Seg(lang :: Nil))) if languages.contains(lang) =>
-        globalized(lang).pages.headOption.map { page =>
-          Redirect("/" + lang + "/" + Printer.webify(page))
-        }.getOrElse { NotFound }
-      case GET(Path(Seg(Nil))) =>
-        globalized(defaultLanguage).pages.headOption.map { page =>
-          Redirect("/" + Printer.webify(page))
-        }.getOrElse { NotFound }
-      case GET(Path(Seg(lang :: "favicon.ico" :: Nil))) if languages.contains(lang) && globalized(lang).favicon.isDefined =>
-        faviconResponse(lang)
-      case GET(Path(Seg("favicon.ico" :: Nil))) if globalized(defaultLanguage).favicon.isDefined =>
-        faviconResponse(defaultLanguage)
-      case GET(Path(Seg("css" :: name :: Nil))) if name startsWith "pamfletheight" =>
-        pamfletHeightResponse(defaultLanguage, name)
-      case GET(Path(Seg(lang :: "css" :: name :: Nil))) if languages.contains(lang) && css(lang).contains(name) =>
-        cssResponse(lang, name)
-      case GET(Path(Seg("css" :: name :: Nil))) if css(defaultLanguage).contains(name) =>
-        cssResponse(defaultLanguage, name)
-      case GET(Path(Seg(lang :: "files" :: name :: Nil))) if languages.contains(lang) && files(lang).contains(name) =>
-        fileResponse(lang, name)
-      case GET(Path(Seg("files" :: name :: Nil))) if files(defaultLanguage).contains(name) =>
-        fileResponse(defaultLanguage, name)
       case GET(PagePath(lang, page)) =>
-          pageResponse(lang, page)
+          Html5(Printer(langContents(lang), globalContents, None).print(page))
+      case GET(Path(Seg(lang :: rest))) if languages.contains(lang) =>
+        contentsDispatch(langContents(lang), rest)
+      case GET(Path(Seg(segs))) =>
+        contentsDispatch(langContents(defaultLanguage), segs)
     }).resources(Shared.resources)
   }
   def responseStreamer(uri: URI) =
