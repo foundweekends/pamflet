@@ -7,7 +7,9 @@ import pamflet.{FileStorage,FrontPageNews,NewsStory}
 
 case class NewsStorage(base: File) extends FileStorage {
   import FileStorage._
-  def frontPage(dir: File, propFiles: Seq[File]): FrontPageNews = {
+  def frontPage(dir: File,
+                propFiles: Seq[File],
+                contentParents: List[String]): FrontPageNews = {
     // templating likely won't work if we use defaultTemplate here
 
     val newsStories = for ((date, file) <- datedStories(dir)) yield {
@@ -17,11 +19,12 @@ case class NewsStorage(base: File) extends FileStorage {
         raw,
         blocks,
         date,
-        template
+        template,
+        contentParents
       )
     }
 
-    FrontPageNews(newsStories, template)
+    FrontPageNews(newsStories, template, contentParents)
   }
 
   val Y = "(\\d{4})".r

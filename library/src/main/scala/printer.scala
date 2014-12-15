@@ -19,12 +19,11 @@ case class Printer(
   manifest: Option[String]
 ) {
   def defaultLanguage = globalContents.template.defaultLanguage
-  val relativeBase: String = contents.relativeBase
 
   def toc(current: Page) = {
     val href: Page => String = current match {
-      case ScrollPage(_, _) => (p: Page) => BlockNames.fragment(p.name)
-      case _ => (p: Page) => contents.pathOf(p)
+      case _: ScrollPage => (p: Page) => BlockNames.fragment(p.name)
+      case _ => (p: Page) => p.pathFromBase
     }
       
     val link: Page => xml.NodeSeq = {
@@ -40,7 +39,7 @@ case class Printer(
         })
     }
     def draw: Page => xml.NodeSeq = {
-      case sect @ Section(_, _, blocks, children, _) =>
+      case sect @ Section(_, _, blocks, children, _, _) =>
         link(sect) ++ list(children)
       case page => link(page)
     }
@@ -51,7 +50,7 @@ case class Printer(
        } } </ol>
     }
     def display: String = current match {
-      case DeepContents(_) | ScrollPage(_, _) => "show"
+      case _ : DeepContents | _ : ScrollPage => "show"
       case _ =>
         current.template.get("toc") match {
           case Some("hide") => "hide"
@@ -67,7 +66,7 @@ case class Printer(
       <div class="tocbody">
       {link(contents.pamflet) ++
       list(current match {
-        case ScrollPage(_, _) => contents.pamflet.children.collect{
+        case _: ScrollPage => contents.pamflet.children.collect{
           case cp: ContentPage => cp
         }
         case _ => contents.pamflet.children
@@ -91,13 +90,13 @@ case class Printer(
   def prettify(page: Page) = {
     page.referencedLangs.find{ _ => true }.map { _ =>
       { <script type="text/javascript"
-          src= { relativeBase + "js/prettify/prettify.js" } ></script> } ++
+          src= { page.pathTo("js/prettify/prettify.js") } ></script> } ++
       page.prettifyLangs.map { br =>
         <script type="text/javascript" src={
-          relativeBase + "js/prettify/lang-%s.js".format(br)
+          page.pathTo("js/prettify/lang-%s.js".format(br))
         } ></script>
       } ++
-      <link type="text/css" rel="stylesheet" href={ relativeBase + "css/prettify.css" } />
+      <link type="text/css" rel="stylesheet" href={ page.pathTo("css/prettify.css") } />
       <script type="text/javascript"><!--
         window.onload=function() { prettyPrint(); };
       --></script>
@@ -117,11 +116,11 @@ case class Printer(
             for {
               lang <- globalContents.template.languages
               otherContents <- globalContents.byLanguage.get(lang).toList
-              p <- otherContents.pages if p.localPath == page.localPath
+              otherPage <- otherContents.pages if otherPage.localPath == page.localPath
             } yield {
               val lang = otherContents.language
               <li>
-                <a href={ relativeBase + otherContents.pathOf(p) } ><span class={ "lang-item lang-" + lang }>{ languageName(lang) }</span></a>
+                <a href={ page.pathTo(otherPage) } ><span class={ "lang-item lang-" + lang }>{ languageName(lang) }</span></a>
               </li>
             }
           if (lis.size < 2) Nil
@@ -210,22 +209,22 @@ case class Printer(
             case None    => Nil
           }
         }
-        <link rel="stylesheet" href={ relativeBase + "css/blueprint/screen.css" } type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href={ relativeBase + "css/blueprint/grid.css" } type="text/css" media={bigScreen}/>
-        <link rel="stylesheet" href={ relativeBase + "css/blueprint/print.css" } type="text/css" media="print"/> 
+        <link rel="stylesheet" href={ page.pathTo("css/blueprint/screen.css") } type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href={ page.pathTo("css/blueprint/grid.css") } type="text/css" media={bigScreen}/>
+        <link rel="stylesheet" href={ page.pathTo("css/blueprint/print.css") } type="text/css" media="print"/> 
         <!--[if lt IE 8]>
-          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
+          <link rel="stylesheet" href={ page.pathTo("css/blueprint/ie.css") } type="text/css" media="screen, projection"/>
         <![endif]-->
-        <link rel="stylesheet" href={ relativeBase + "css/pamflet.css" } type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href={ relativeBase + "css/pamflet-print.css" } type="text/css" media="print"/>
-        <link rel="stylesheet" href={ relativeBase + "css/pamflet-grid.css" } type="text/css" media={bigScreen}/>
-        <link rel="stylesheet" href={ relativeBase + "css/color_scheme-redmond.css" } type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href={ relativeBase + "css/color_scheme-github.css" } type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href={ relativeBase + "css/color_scheme-monokai.css" } type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href={ relativeBase + "css/" + Heights.heightCssFileName(page) } type="text/css" media={bigScreen}/>
-        <script type="text/javascript" src={ relativeBase + "js/jquery-1.6.2.min.js" }></script>
-        <script type="text/javascript" src={ relativeBase + "js/jquery.collapse.js" }></script>
-        <script type="text/javascript" src={ relativeBase + "js/pamflet.js" }></script>
+        <link rel="stylesheet" href={ page.pathTo("css/pamflet.css") } type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href={ page.pathTo("css/pamflet-print.css") } type="text/css" media="print"/>
+        <link rel="stylesheet" href={ page.pathTo("css/pamflet-grid.css") } type="text/css" media={bigScreen}/>
+        <link rel="stylesheet" href={ page.pathTo("css/color_scheme-redmond.css") } type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href={ page.pathTo("css/color_scheme-github.css") } type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href={ page.pathTo("css/color_scheme-monokai.css") } type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href={ page.pathTo("css/" + Heights.heightCssFileName(page)) } type="text/css" media={bigScreen}/>
+        <script type="text/javascript" src={ page.pathTo("js/jquery-1.6.2.min.js") }></script>
+        <script type="text/javascript" src={ page.pathTo("js/jquery.collapse.js") }></script>
+        <script type="text/javascript" src={ page.pathTo("js/pamflet.js") }></script>
         <script type="text/javascript">
           Pamflet.page.language = '{xml.Unparsed(contents.language)}';
         </script>
@@ -265,13 +264,13 @@ case class Printer(
       </head>
       <body class={colorScheme}>
         { prev.map { p =>
-          <a class="page prev nav" href={ contents.pathTo(p) }>
+          <a class="page prev nav" href={ page.pathTo(p) }>
             <span class="space">&nbsp;</span>
             <span class="flip arrow">{arrow}</span>
           </a>
         }.toSeq ++
         next.map { n =>
-          <a class="page next nav" href={ contents.pathTo(n) }>
+          <a class="page next nav" href={ page.pathTo(n) }>
             <span class="space">&nbsp;</span>
             <span class="arrow">{arrow}</span>
           </a>
@@ -287,7 +286,7 @@ case class Printer(
                       <div class="bottom nav span-16">
                         <em>Next Page</em>
                         <span class="arrow">{arrow}</span>
-                        <a href={ contents.pathTo(n) }> {n.name} </a>
+                        <a href={ page.pathTo(n) }> {n.name} </a>
                         { languageBar(page) }
                       </div>
                     case _ =>
@@ -315,7 +314,7 @@ case class Printer(
         {
           page.template.get("github").map { repo =>
             <a href={"http://github.com/" + repo} class="fork nav"
-               ><img src={ relativeBase + "img/fork.png" } alt="Fork me on GitHub"/></a>
+               ><img src={ page.pathTo("img/fork.png") } alt="Fork me on GitHub"/></a>
           }.toSeq
         }
         {
@@ -323,7 +322,7 @@ case class Printer(
             <div class="highlight-outer">
               <div class="highlight-menu">
                 <ul>
-                  <li><button id="highlight-button-twitter"><img src={ relativeBase + "img/twitter-bird-dark-bgs.png" } /></button></li>
+                  <li><button id="highlight-button-twitter"><img src={ page.pathTo("img/twitter-bird-dark-bgs.png") } /></button></li>
                 </ul>
               </div>
             </div>
