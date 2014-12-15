@@ -21,7 +21,7 @@ case class Contents(
 ) {
   def traverse(incoming: List[Page], past: List[Page]): List[Page] =
     incoming match {
-      case (head @ Section(_,_,_,_,_)) :: tail =>
+      case (head @ Section(_,_,_,_,_,_)) :: tail =>
         traverse(head.children ::: tail, head :: past)
       case head :: tail =>
         traverse(tail, head :: past)
@@ -30,14 +30,11 @@ case class Contents(
   val pages = traverse(pamflet.children, pamflet :: Nil)
   val title = pamflet.name
   val prettifyLangs = (Set.empty[String] /: pages) { _ ++ _.prettifyLangs }
-  lazy val relativeBase =
-    if (isDefaultLanguage) ""
-    else "../"
-  def pathOf(page: Page) =
-    if (isDefaultLanguage) page.webPath
-    else language + "/" + page.webPath
-  def pathTo(page: Page) = relativeBase + pathOf(page)
+  val parents =
+    if (isDefaultLanguage) Nil
+    else language :: Nil
 }
+
 sealed trait Page {
   def name: String
   def prettifyLangs: Set[String]
@@ -45,11 +42,22 @@ sealed trait Page {
   def localPath: String
   def template: Template
   def children: List[Page]
-  /** path according to the page, which doesn't know about lang directories */
-  def webPath: String
+
+  def contentParents: List[String]
+  def parents: List[String]
+  def webname: String = Printer.webify(this)
+  def pathTo(fromBase: String) =
+    parents.map(_ => "..").mkString("", "/", "/") + fromBase
+  def pathTo(other: Page): String = {
+    val sharedlen = parents.zip(other.parents).indexWhere(p => p._1 != p._2)
+    (List.fill(parents.length - sharedlen)("..") ::: 
+      other.parents.drop(sharedlen) ::: other.webname :: Nil
+    ).mkString("/")
+  }
+  def pathFromBase = (parents ::: webname :: Nil).mkString("/")
 }
 trait FlatWebPaths { self: Page =>
-  def webPath = Printer.webify(this)
+  val parents = contentParents
 }
 sealed trait AuthoredPage extends Page {
   def blocks: Seq[Block]
@@ -75,19 +83,24 @@ trait ContentPage extends AuthoredPage {
 case class Leaf(localPath: String,
                 raw: String,
                 blocks: Seq[Block],
-                template: Template) extends ContentPage with FlatWebPaths {
+                template: Template,
+                contentParents: List[String]) extends ContentPage with FlatWebPaths {
   val children = Nil
 }
 object Leaf {
-  def apply(localPath: String, t: (String, Seq[Block], Template)): Leaf = Leaf(localPath, t._1, t._2, t._3)
+  def apply(localPath: String, t: (String, Seq[Block], Template), p: List[String]): Leaf = Leaf(localPath, t._1, t._2, t._3, p)
 }
 case class Section(localPath: String,
                    raw: String,
                    blocks: Seq[Block], 
                    children: List[Page],
-                   template: Template) extends ContentPage with FlatWebPaths
+                   template: Template,
+                   contentParents: List[String])
+extends ContentPage with FlatWebPaths
 
-case class DeepContents(template: Template) extends Page with FlatWebPaths {
+case class DeepContents(template: Template,
+                        contentParents: List[String])
+extends Page with FlatWebPaths {
   val name = "Contents in Depth"
   val localPath = name
   val children = Nil
@@ -95,22 +108,24 @@ case class DeepContents(template: Template) extends Page with FlatWebPaths {
   def referencedLangs = Set.empty
 }
 case class ScrollPage(root: Section,
-                      template: Template) extends AuthoredPage with FlatWebPaths {
+                      template: Template,
+                      contentParents: List[String])
+extends AuthoredPage with FlatWebPaths {
   val name = "Combined Pages"
   val localPath = name
   val children = Nil
   def flatten(pages: List[Page]): Seq[Block] =
     pages.view.flatMap {
-      case Leaf(_, _, blocks, _) => blocks
-      case Section(_, _, blocks, children, _) =>
+      case Leaf(_, _, blocks, _, _) => blocks
+      case Section(_, _, blocks, children, _, _) =>
         blocks ++: flatten(children)
       case _ => Seq.empty
     }
   def blocks = root.blocks ++: flatten(root.children)
   def flattenRaw(pages: List[Page]): Seq[String] =
     pages.view.flatMap {
-      case Leaf(_, raw, _ , _) => Seq(raw)
-      case Section(_, raw, _, children, _) =>
+      case Leaf(_, raw, _ , _, _) => Seq(raw)
+      case Section(_, raw, _, children, _, _) =>
         Seq(raw) ++: flattenRaw(children)
       case _ => Seq("")
     }
@@ -122,17 +137,24 @@ case class NewsStory(
   raw: String,
   blocks: Seq[Block],
   date: LocalDate,
-  template: Template
+  template: Template,
+  contentParents: List[String]
 ) extends ContentPage {
   val children = Nil
-  val dateFormat = DateTimeFormat.forPattern("yyyy/MM/dd")
-  def webPath = dateFormat.print(date) + "/" + Printer.webify(this)
+  val parents = contentParents ::: 
+    Format.y.print(date) :: Format.m.print(date) :: Format.d.print(date) ::  Nil
 }
 
+object Format {
+  val y = DateTimeFormat.forPattern("yyyy")
+  val m = DateTimeFormat.forPattern("MM")
+  val d = DateTimeFormat.forPattern("dd")
+}
 case class FrontPageNews
 (
   pages: Stream[NewsStory],
-  template: Template
+  template: Template,
+  contentParents: List[String]
 ) extends Page with FlatWebPaths {
   lazy val name = template.get("name").getOrElse("News")
   lazy val localPath = name
@@ -142,7 +164,7 @@ case class FrontPageNews
   val blocks = HTMLBlock(
     (<ul class="news">
       { pages.take(50).map { page =>
-        <li><a href={ page.webPath } class="button">
+        <li><a href={ page.pathFromBase } class="button">
           <h4>
             <span class="name">{ page.name }</span>
             <div class="date small">{

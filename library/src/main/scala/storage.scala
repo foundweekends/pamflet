@@ -12,7 +12,7 @@ trait Storage {
 trait FileStorage extends Storage {
   import FileStorage._
   def base: File
-  def frontPage(dir: File, propFiles: Seq[File]): Page
+  def frontPage(dir: File, propFiles: Seq[File], contentParents: List[String]): Page
   def template = StringTemplate(propFile(base).toSeq, None, Map())
   def globalContents = {
     def css(dir: File) = dir.listFiles.filter {
@@ -29,7 +29,7 @@ trait FileStorage extends Storage {
     val baseContents = Contents(
       template.defaultLanguage,
       true,
-      frontPage(base, basePropFile.toSeq),
+      frontPage(base, basePropFile.toSeq, Nil),
       css(base),
       files(base),
       favicon(base),
@@ -41,7 +41,7 @@ trait FileStorage extends Storage {
         lang -> Contents(
           lang,
           false,
-          frontPage(dir, propFile(dir).toSeq ++ basePropFile),
+          frontPage(dir, propFile(dir).toSeq ++ basePropFile, lang :: Nil),
           css(dir) ++ baseContents.css,
           files(dir) ++ baseContents.files,
           favicon(dir) orElse baseContents.favicon,
@@ -63,22 +63,25 @@ trait FileStorage extends Storage {
 }
 case class StructuredFileStorage(base: File) extends FileStorage {
   import FileStorage._
-  def frontPage(dir: File, propFiles: Seq[File]): Section = {
-    def emptySection = Section("", "", Seq.empty, Nil, template)
-    val entered = section("", dir, propFiles).headOption getOrElse emptySection
+  def frontPage(dir: File, propFiles: Seq[File], contentParents: List[String]): Section = {
+    def emptySection = Section("", "", Seq.empty, Nil, template, contentParents)
+    val entered = section("", dir, propFiles, contentParents).headOption.getOrElse(
+      emptySection
+    )
     Section(
       entered.localPath,
       entered.raw,
       entered.blocks,
       entered.children :::
-        DeepContents(entered.template) ::
-        ScrollPage(entered, entered.template) ::
+        DeepContents(entered.template, contentParents) ::
+        ScrollPage(entered, entered.template, contentParents) ::
         Nil,
-      entered.template
+      entered.template,
+      contentParents
     )
 
   }
-  def section(localPath: String, dir: File, propFiles: Seq[File]): Seq[Section] = {
+  def section(localPath: String, dir: File, propFiles: Seq[File], contentParents: List[String]): Seq[Section] = {
     val files: List[File] = (Option(dir.listFiles) match {
       case None        => Nil
       case Some(fs) => fs.toList
@@ -92,11 +95,11 @@ case class StructuredFileStorage(base: File) extends FileStorage {
       }
       val children = childFiles.flatMap { f =>
         if (isMarkdown(f))
-          Seq(Leaf(localPath + "/" + f.getName, knock(f, propFiles)))
-        else if (f.isDirectory && !isSpecialDir(f)) section(localPath + "/" + f.getName, f, propFiles)
+          Seq(Leaf(localPath + "/" + f.getName, knock(f, propFiles), contentParents))
+        else if (f.isDirectory && !isSpecialDir(f)) section(localPath + "/" + f.getName, f, propFiles, contentParents)
         else Seq()
       }
-      Section(localPath, raw, blocks, children, template)
+      Section(localPath, raw, blocks, children, template, contentParents)
     }.toSeq
   }
 }

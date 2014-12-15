@@ -18,14 +18,12 @@ object Preview {
     object PagePath {
       def unapply(req: HttpRequest[_]) = {
         val Path(Seg(segs)) = req
-        val (lang, pageSegs) =
+        val lang =
           (for (seg <- segs.headOption if languages.contains(seg))
-          yield (seg -> segs.tail)).getOrElse(
-            (defaultLanguage, segs)
-          )
-        val pagePath = pageSegs.mkString("/")
+          yield seg).getOrElse(defaultLanguage)
+        val pagePath = segs.mkString("/")
         langContents(lang).pages.find(
-          p => p.webPath == pagePath
+          p => p.pathFromBase == pagePath
         ).map((lang, _))
       }
     }
@@ -34,7 +32,7 @@ object Preview {
       segs match {
         case Nil =>
           contents.pages.headOption.map { page =>
-            Redirect("/" + contents.pathOf(page))
+            Redirect("/" + page.pathFromBase)
           }.getOrElse { Pass }
         case "favicon.ico" :: Nil =>
             contents.favicon.map(responseStreamer).getOrElse(Pass)
