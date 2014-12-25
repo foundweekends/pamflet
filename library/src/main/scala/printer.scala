@@ -51,6 +51,7 @@ case class Printer(
     }
     def display: String = current match {
       case _ : DeepContents | _ : ScrollPage => "show"
+      case _ : NewsStory | _: FrontPageNews => "hide"
       case _ =>
         current.template.get("toc") match {
           case Some("hide") => "hide"
@@ -280,7 +281,9 @@ case class Printer(
             { page match {
                 case page: DeepContents =>
                   toc(page)
-                case page: ContentPage =>
+                case page: ScrollPage =>
+                  toc(page) ++ toXHTML(page.blocks)
+                case page: AuthoredPage =>
                   toXHTML(page.blocks) ++ next.collect {
                     case n: AuthoredPage =>
                       <div class="bottom nav span-16">
@@ -294,10 +297,6 @@ case class Printer(
                         { languageBar(page) }
                       </div>
                   } ++ toc(page) ++ comment(page)
-                case page: ScrollPage =>
-                  toc(page) ++ toXHTML(page.blocks)
-                case page: FrontPageNews =>
-                  toXHTML(page.blocks)
             } }
           </div>
         </div>
