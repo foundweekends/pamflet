@@ -155,12 +155,10 @@ case class FrontPageNews
   pages: Stream[NewsStory],
   template: Template,
   contentParents: List[String]
-) extends Page with FlatWebPaths {
+) extends AuthoredPage with FlatWebPaths {
   lazy val name = template.get("name").getOrElse("News")
   lazy val localPath = name
   lazy val children = pages.toList
-  def prettifyLangs = Set.empty[String]
-  def referencedLangs = Set.empty[String]
   val blocks = HTMLBlock(
     (<ul class="news">
       { pages.take(50).map { page =>
