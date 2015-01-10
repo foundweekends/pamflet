@@ -14,6 +14,10 @@ object Pamflet {
   }
   def run(args: Array[String]) = {
     args match {
+      case Array(nm @ Dir(input), Dir(output)) if nm == "news"  =>
+        Produce(news.NewsStorage(input).globalContents, output)
+        println("Wrote news pamflet to " + output)
+        0
       case Array(Dir(input), Dir(output)) =>
         Produce(StructuredFileStorage(input).globalContents, output)
         println("Wrote pamflet to " + output)
