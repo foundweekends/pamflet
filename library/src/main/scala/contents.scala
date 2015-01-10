@@ -47,7 +47,7 @@ sealed trait Page {
   def parents: List[String]
   def webname: String = Printer.webify(this)
   def pathTo(fromBase: String) =
-    parents.map(_ => "..").mkString("", "/", "/") + fromBase
+    (parents.map(_ => "..") :+ fromBase).mkString("/")
   def pathTo(other: Page): String = {
     val sharedlen = parents.zip(other.parents).indexWhere(p => p._1 != p._2)
     (List.fill(parents.length - sharedlen)("..") ::: 
