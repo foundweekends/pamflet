@@ -23,7 +23,7 @@ case class Printer(
   def toc(current: Page) = {
     val href: Page => String = current match {
       case _: ScrollPage => (p: Page) => BlockNames.fragment(p.name)
-      case _ => (p: Page) => p.pathFromBase
+      case _ => (p: Page) => current.pathTo(p)
     }
       
     val link: Page => xml.NodeSeq = {
