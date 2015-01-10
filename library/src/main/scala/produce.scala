@@ -7,13 +7,8 @@ import scala.annotation.tailrec
 
 object Produce {
   def apply(globalContents: GlobalContents, target: File) {
-    for (lang <- globalContents.template.languages) {
-      val output =
-        if (lang == globalContents.template.defaultLanguage) target
-        else new File(target, lang)
-
-      apply(globalContents.byLanguage(lang), globalContents, output)
-    }
+    for (contents <- globalContents.byLanguage.values)
+      apply(contents, globalContents, target)
   }
   def apply(contents: Contents, globalContents: GlobalContents, target: File) {
     def writeString(path: String, contents: String, target:File) {
@@ -68,7 +63,9 @@ object Produce {
                         Nil
                       )
         )
-        val pagePath = Printer.fileify(page) 
+        val pagePath = (
+          page.parents :+ Printer.fileify(page)
+        ).mkString(File.separator)
         writeString(pagePath, w.toString, targetDir)
       } 
       css.foreach { case (path, contents) =>
