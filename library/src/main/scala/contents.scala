@@ -49,7 +49,7 @@ sealed trait Page {
   def pathTo(fromBase: String) =
     (parents.map(_ => "..") :+ fromBase).mkString("/")
   def pathTo(other: Page): String = {
-    val sharedlen = parents.zip(other.parents).indexWhere(p => p._1 != p._2)
+    val sharedlen = parents.zip(other.parents).takeWhile(p => p._1 == p._2).size
     (List.fill(parents.length - sharedlen)("..") ::: 
       other.parents.drop(sharedlen) ::: other.webname :: Nil
     ).mkString("/")
