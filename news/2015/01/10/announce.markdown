@@ -11,7 +11,7 @@ Pamflet has become useful to a few people for exactly that purpose, and I've lat
 A brief and personal history of news
 ------------------------------------
 
-Publishing news on the internet is perhaps the most popular problem for recreational programmers to solve. We started with static site generators, and following that the field was dominated by customized web applications. Lastly, we've seen platforms that combine social networking and publishing.
+Publishing news on the internet is perhaps the most popular problem for recreational programmers to solve. We started with static site generators, and following that the field was dominated by customized web applications. Lastly, we've moved to platforms that combine social networking and publishing, with the recreational programming part left behind.
 
 I've spent my share of time writing for the second and third incarnations of internet publishing, the personal web app and the social network. Like most bloggers, I've burned out multiple times and on different platforms. I grew tired of maintaining my own web application for blogging, and eventually used a crawler to turn that into a static site.
 
