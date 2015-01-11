@@ -14,7 +14,7 @@ object Pamflet {
   }
   def run(args: Array[String]) = {
     args match {
-      case Array(nm @ Dir(input), Dir(output)) if nm == "news"  =>
+      case Array(nm @ Dir(input), Dir(output)) if nm.endsWith("news")  =>
         Produce(news.NewsStorage(input).globalContents, output)
         println("Wrote news pamflet to " + output)
         0
