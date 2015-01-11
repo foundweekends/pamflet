@@ -5,4 +5,6 @@ Pamflet
 user documentation of open-source software. It is designed to be easy
 to write and read on any platform.
 
-> [Version $version$ Release Notes]($notes$)
+> [Version $version$ Release Notes]($notes$) - Latest release
+
+> [Pamflet News](news/Pamflet+News.html) - Updates about the Pamflet project
