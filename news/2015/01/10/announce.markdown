@@ -4,7 +4,7 @@ Extra, extra!
 Pamflet to Publish News
 -----------------------
 
-Pamflet was built to support the simple publication of documents organized into an outline-style hierarchy. It is ["like a book"][1] if the book we're talking about is technical documentation and not, say, a novel. Pamflet imitates the useful patterns of *print* publishing without the complexity of efficiently filling discreet sheets of paper. Ideally, a tool like brings the power of "serious" publishing to anyone with a computer and host for static content.
+Pamflet was built to publish documents organized into an outline-style hierarchy. It is ["like a book"][1] if the book is technical documentation and not, say, a novel. Pamflet imitates the useful patterns of *print* publishing without the complexity of efficiently filling discreet sheets of paper. Ideally, a tool like brings the power of "serious" publishing to anyone with a computer and host for static content.
 
 As Pamflet has become useful to a few people for exactly that purpose, I've become interested in applying its principles to another kind of publishing: News.
 
