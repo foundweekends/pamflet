@@ -41,7 +41,16 @@ object BlockNames {
       case _ => Seq()
     }.mkString("")      
   def name(blocks: Seq[Block]): String =
-    blocks.view.collect {
+    blocks.collectFirst {
       case h: Header => textOf(h.spans)
-    }.headOption.getOrElse { "Untitled" }
+    }.getOrElse { "Untitled" }
+
+  def insertAfterHeaders(blocks: Seq[Block])(block: Block): Seq[Block] = {
+    val idx = blocks.indexWhere {
+      case h: Header => false
+      case _ => true
+    }
+    val (before, after) = blocks.splitAt(idx)
+    before ++ (block +: after)
+  }
 }
