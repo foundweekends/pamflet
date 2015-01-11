@@ -32,7 +32,7 @@ lazy val common = ls.Plugin.lsSettings ++ Seq(
 )
 
 val knockoffVersion = "0.8.3"
-val unfilteredVersion = "0.8.2"
+val unfilteredVersion = "0.8.3"
 val stringtemplateVersion = "3.2.1"
 lazy val libraryDeps = Def.setting { Seq(
   "net.databinder" %% "unfiltered-netty-server" % unfilteredVersion,
