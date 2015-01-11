@@ -31,7 +31,7 @@ lazy val common = ls.Plugin.lsSettings ++ Seq(
     </developers>)
 )
 
-val unfilteredVersion = "0.8.2"
+val unfilteredVersion = "0.8.3"
 val stringtemplateVersion = "3.2.1"
 lazy val libraryDeps = Def.setting { Seq(
   "net.databinder" %% "unfiltered-netty-server" % unfilteredVersion,
@@ -53,7 +53,7 @@ lazy val pamflet: Project =
     ls.Plugin.LsKeys.skipWrite := true,
     publishArtifact := false
   ).
-  aggregate(knockoff, library, app)
+  aggregate(knockoff, library, app, knockoffBundled)
 lazy val knockoff: Project =
   (project in file("knockoff")).
   settings(common: _*).
