@@ -2,6 +2,8 @@ package pamflet.news
 
 import java.io.File
 import com.github.nscala_time.time.Imports._
+import com.tristanhunt.knockoff._
+import scala.util.parsing.input.{NoPosition}
 
 import pamflet.{FileStorage,FrontPageNews,NewsStory}
 
@@ -14,10 +16,14 @@ case class NewsStorage(base: File) extends FileStorage {
 
     val newsStories = for ((date, file) <- datedStories(dir)) yield {
       val (raw, blocks, template) = knock(file, propFiles)
+      val dateline = HTMLBlock((<div class="dateline">{
+        DateTimeFormat.longDate.print(date)
+      }</div>).toString, NoPosition)
+
       NewsStory(
         "what is local path",
         raw,
-        blocks,
+        pamflet.BlockNames.insertAfterHeaders(blocks)(dateline),
         date,
         template,
         contentParents

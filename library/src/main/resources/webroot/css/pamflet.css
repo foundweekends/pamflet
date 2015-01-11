@@ -112,3 +112,8 @@ ul.news div.date {
     font-style: italic;
     text-decoration: none;
 }
+
+div.dateline {
+    font-style: italic;
+    margin-bottom: 1.5em;
+}
