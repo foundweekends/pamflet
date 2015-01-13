@@ -12,5 +12,6 @@ Who's Using Pamflet?
 * [learning Scalaz](http://eed3si9n.com/learning-scalaz/)
 * [tetrix in Scala](http://eed3si9n.com/tetrix-in-scala/)
 * [sbt](http://www.scala-sbt.org/0.13/tutorial/index.html)
+* [scodec](http://scodec.org/guide/)
 
 Are you using Pamflet? Add your project and send a pull request.
