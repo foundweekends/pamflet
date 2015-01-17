@@ -223,7 +223,7 @@ case class FrontPageNews
 
   def href(page: Page, current: Page)(inner: Seq[xml.Node]) =
     if (page != current) {
-      <a href={ page.pathFromBase } class="button"> { inner } </a>
+      <a href={ current.pathTo(page) } class="button"> { inner } </a>
     } else inner
 
   def storyList(current: Page) =
