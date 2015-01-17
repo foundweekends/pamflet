@@ -28,8 +28,14 @@ case class NewsStorage(base: File) extends FileStorage {
         contentParents
       )
     }
+    val overview =
+      (
+        for (f <- dir.listFiles.find(FileStorage.isMarkdown))
+        yield knock(f, propFiles)._2
+      ) getOrElse HTMLBlock((<h1>Untitled</h1>).toString, NoPosition) :: Nil
 
-    FrontPageNews(newsStories, template, contentParents)
+
+    FrontPageNews(newsStories, overview, template, contentParents)
   }
 
   val Y = "(\\d{4})".r
@@ -37,14 +43,16 @@ case class NewsStorage(base: File) extends FileStorage {
   val D = M
 
   def datedStories(dir: File): Stream[(LocalDate,File)] = {
-    FileStorage.depthFirstFiles(dir).filter(FileStorage.isMarkdown).flatMap { f =>
+    FileStorage.depthFirstFiles(dir).filter( f =>
+      FileStorage.isMarkdown(f) && f.getParentFile != base
+    ).flatMap { f =>
       FileStorage.parents(f).take(3).map(_.getName).reverse match {
         case Seq(Y(year), M(month), D(day)) =>
           Some(new LocalDate(year.toInt, month.toInt, day.toInt) -> f)
         case dirs =>
           Console.err.println(
             "Story does not match expected (yyyy/mm/dd/) parent directories:\n" +
-              f.getPath
+              dirs //f.getPath
           )
           None
       }

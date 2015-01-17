@@ -126,15 +126,15 @@ object FileStorage {
     }
   }
   def depthFirstFiles(parent: File, stack: List[File] = Nil): Stream[File] = {
-    if (parent.isFile) {
-      stack.headOption.fold(parent #:: Stream.empty)(
-        h => parent #:: depthFirstFiles(h, stack.tail)
-      )
-    } else {
+    if (parent.isDirectory) {
       val children = parent.listFiles.sorted(
         Ordering.by((_: File).getName).reverse
       ).toList
       depthFirstFiles(children.head, children.tail ::: stack)
+    } else {
+      stack.headOption.fold(parent #:: Stream.empty)(
+        h => parent #:: depthFirstFiles(h, stack.tail)
+      )
     }
   }
   def parents(file: File): Stream[File] =
