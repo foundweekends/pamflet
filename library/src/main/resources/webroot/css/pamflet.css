@@ -103,7 +103,7 @@ ul.news a.button {
     display: block;
     text-decoration: none;
 }
-ul.news span.name {
+ul.news a.button span.name {
     color: #06c;
     text-decoration: underline;
 }

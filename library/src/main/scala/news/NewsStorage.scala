@@ -12,7 +12,6 @@ case class NewsStorage(base: File) extends FileStorage {
   def frontPage(dir: File,
                 propFiles: Seq[File],
                 contentParents: List[String]): FrontPageNews = {
-    // templating likely won't work if we use defaultTemplate here
 
     val newsStories = for ((date, file) <- datedStories(dir)) yield {
       val (raw, blocks, template) = knock(file, propFiles)
