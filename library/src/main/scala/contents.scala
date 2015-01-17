@@ -212,13 +212,13 @@ object Format {
 case class FrontPageNews
 (
   pages: Stream[NewsStory],
+  blocks: Seq[Block],
   template: Template,
   contentParents: List[String]
-) extends AuthoredPage with FlatWebPaths with FrontPage {
-  lazy val name = template.get("name").getOrElse("News")
+) extends ContentPage with FlatWebPaths with FrontPage {
   lazy val localPath = name
   lazy val children = pages.toList
-  val blocks = Nil
+
   def toc(contents: Contents, current: Page) = storyList(current)
 
   def href(page: Page, current: Page)(inner: Seq[xml.Node]) =
@@ -228,7 +228,15 @@ case class FrontPageNews
 
   def storyList(current: Page) =
     <ul class="news">
-      { pages.take(50).map { page =>
+      <li> {
+        href(this, current) {
+          <h4>
+            <span class="name">{ this.name }</span>
+          </h4>
+        }
+      } </li>
+      {
+        pages.take(50).map { page =>
         <li>
           {
             href(page, current) {
