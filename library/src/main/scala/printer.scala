@@ -20,59 +20,6 @@ case class Printer(
 ) {
   def defaultLanguage = globalContents.template.defaultLanguage
 
-  def toc(current: Page) = {
-    val href: Page => String = current match {
-      case _: ScrollPage => (p: Page) => BlockNames.fragment(p.name)
-      case _ => (p: Page) => current.pathTo(p)
-    }
-      
-    val link: Page => xml.NodeSeq = {
-      case `current` =>
-        <div class="current">{ current.name }</div>
-      case page =>
-        { <div><a href={ href(page) }>{ 
-          page.name
-        }</a></div> } ++ ((page, current) match {
-          case (page: ContentPage, c: DeepContents) =>
-            Outline(page)
-          case _ => Nil
-        })
-    }
-    def draw: Page => xml.NodeSeq = {
-      case sect @ Section(_, _, blocks, children, _, _) =>
-        link(sect) ++ list(children)
-      case page => link(page)
-    }
-    def list(pages: Seq[Page]) = {
-      <ol class="toc"> { pages.map {
-        case page: ContentPage => <li>{ draw(page) }</li>
-        case page => <li class="generated">{ draw(page) }</li>
-       } } </ol>
-    }
-    def display: String = current match {
-      case _ : DeepContents | _ : ScrollPage => "show"
-      case _ : NewsStory | _: FrontPageNews => "hide"
-      case _ =>
-        current.template.get("toc") match {
-          case Some("hide") => "hide"
-          case Some("collapse") => "collap"
-          case _ => "show"
-        }
-    }
-    if (display == "hide") Nil
-    else <div class={ "tocwrapper " + display }>
-      <a class="tochead nav" style="display: none" href="#toc">❦</a>
-      <a name="toc"></a>
-      <h4 class="toctitle">Contents</h4>
-      <div class="tocbody">
-      {link(contents.pamflet) ++
-      list(current match {
-        case _: ScrollPage => contents.pamflet.children.collect{
-          case cp: ContentPage => cp
-        }
-        case _ => contents.pamflet.children
-      })}</div></div>
-  }
   def comment(current: Page) = {
     current.template.get("disqus") map { disqusName =>
       val disqusCode = """
@@ -280,11 +227,11 @@ case class Printer(
           <div class="span-16 prepend-1 append-1 contents">
             { page match {
                 case page: DeepContents =>
-                  toc(page)
+                  contents.pamflet.toc(contents, page)
                 case page: ScrollPage =>
-                  toc(page) ++ toXHTML(page.blocks)
+                  contents.pamflet.toc(contents, page) ++ toXHTML(page.blocks)
                 case page: AuthoredPage =>
-                  toXHTML(page.blocks) ++ next.collect {
+                  toXHTML(page.blocks) ++ (next.collect {
                     case n: AuthoredPage =>
                       <div class="bottom nav span-16">
                         <em>Next Page</em>
@@ -296,7 +243,9 @@ case class Printer(
                       <div class="bottom nav end span-16">
                         { languageBar(page) }
                       </div>
-                  } ++ toc(page) ++ comment(page)
+                  } orElse {
+                    Some(<div class="bottom nav span-16">&nbsp;</div>)
+                  }) ++ contents.pamflet.toc(contents, page) ++ comment(page)
             } }
           </div>
         </div>

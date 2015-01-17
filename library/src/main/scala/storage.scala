@@ -12,7 +12,10 @@ trait Storage {
 trait FileStorage extends Storage {
   import FileStorage._
   def base: File
-  def frontPage(dir: File, propFiles: Seq[File], contentParents: List[String]): Page
+  def frontPage(
+    dir: File,
+    propFiles: Seq[File],
+    contentParents: List[String]): Page with FrontPage
   def template = StringTemplate(propFile(base).toSeq, None, Map())
   def globalContents = {
     def css(dir: File) = dir.listFiles.filter {
@@ -79,7 +82,6 @@ case class StructuredFileStorage(base: File) extends FileStorage {
       entered.template,
       contentParents
     )
-
   }
   def section(localPath: String, dir: File, propFiles: Seq[File], contentParents: List[String]): Seq[Section] = {
     val files: List[File] = (Option(dir.listFiles) match {

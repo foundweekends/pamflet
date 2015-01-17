@@ -13,7 +13,7 @@ case class GlobalContents(
 case class Contents(
   language: String,
   isDefaultLanguage: Boolean,
-  pamflet: Page,
+  pamflet: Page with FrontPage,
   css: Seq[(String,String)],
   files: Seq[(String, URI)],
   favicon: Option[URI],
@@ -56,8 +56,66 @@ sealed trait Page {
   }
   def pathFromBase = (parents ::: webname :: Nil).mkString("/")
 }
+trait FrontPage { self: Page =>
+  def toc(contents: Contents, current: Page): Seq[xml.Node]
+}
 trait FlatWebPaths { self: Page =>
   val parents = contentParents
+}
+trait StructuredContents { self: Page with FrontPage =>
+  def toc(contents: Contents, current: Page) = {
+    val href: Page => String = current match {
+      case _: ScrollPage => (p: Page) => BlockNames.fragment(p.name)
+      case _ => (p: Page) => current.pathTo(p)
+    }
+
+    val link: Page => xml.NodeSeq = {
+      case `current` =>
+        <div class="current">{ current.name }</div>
+      case page =>
+        { <div><a href={ href(page) }>{
+          page.name
+        }</a></div> } ++ ((page, current) match {
+          case (page: ContentPage, c: DeepContents) =>
+            Outline(page)
+          case _ => Nil
+        })
+    }
+    def draw: Page => xml.NodeSeq = {
+      case sect @ Section(_, _, blocks, children, _, _) =>
+        link(sect) ++ list(children)
+      case page => link(page)
+    }
+    def list(pages: Seq[Page]) = {
+      <ol class="toc"> { pages.map {
+        case page: ContentPage => <li>{ draw(page) }</li>
+        case page => <li class="generated">{ draw(page) }</li>
+       } } </ol>
+    }
+    def display: String = current match {
+      case _ : DeepContents | _ : ScrollPage => "show"
+      case _ =>
+        current.template.get("toc") match {
+          case Some("hide") => "hide"
+          case Some("collapse") => "collap"
+          case _ => "show"
+        }
+    }
+    if (display == "hide") Nil
+    else <div class={ "tocwrapper " + display }>
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      {link(contents.pamflet) ++
+      list(current match {
+        case _: ScrollPage => contents.pamflet.children.collect{
+          case cp: ContentPage => cp
+        }
+
+        case _ => contents.pamflet.children
+      })}</div></div>
+  }
 }
 sealed trait AuthoredPage extends Page {
   def blocks: Seq[Block]
@@ -96,7 +154,7 @@ case class Section(localPath: String,
                    children: List[Page],
                    template: Template,
                    contentParents: List[String])
-extends ContentPage with FlatWebPaths
+extends ContentPage with FlatWebPaths with FrontPage with StructuredContents
 
 case class DeepContents(template: Template,
                         contentParents: List[String])
@@ -150,27 +208,39 @@ object Format {
   val m = DateTimeFormat.forPattern("MM")
   val d = DateTimeFormat.forPattern("dd")
 }
+
 case class FrontPageNews
 (
   pages: Stream[NewsStory],
   template: Template,
   contentParents: List[String]
-) extends AuthoredPage with FlatWebPaths {
+) extends AuthoredPage with FlatWebPaths with FrontPage {
   lazy val name = template.get("name").getOrElse("News")
   lazy val localPath = name
   lazy val children = pages.toList
-  val blocks = HTMLBlock(
-    (<ul class="news">
+  val blocks = Nil
+  def toc(contents: Contents, current: Page) = storyList(current)
+
+  def href(page: Page, current: Page)(inner: Seq[xml.Node]) =
+    if (page != current) {
+      <a href={ page.pathFromBase } class="button"> { inner } </a>
+    } else inner
+
+  def storyList(current: Page) =
+    <ul class="news">
       { pages.take(50).map { page =>
-        <li><a href={ page.pathFromBase } class="button">
-          <h4>
-            <span class="name">{ page.name }</span>
-            <div class="date small">{
-              DateTimeFormat.longDate.print(page.date)
-            }</div>
-          </h4>
-        </a></li>
+        <li>
+          {
+            href(page, current) {
+              <h4>
+                <span class="name">{ page.name }</span>
+                <div class="date small">{
+                  DateTimeFormat.longDate.print(page.date)
+                }</div>
+              </h4>
+            }
+          }
+        </li>
       } }
-    </ul>).toString, NoPosition
-  ) :: Nil
+    </ul>
 }
