@@ -1,6 +1,6 @@
 lazy val common = ls.Plugin.lsSettings ++ Seq(
   organization := "net.databinder",
-  version := "0.7.0-alpha2d",
+  version := "0.7.0-alpha2e",
   scalaVersion := "2.11.4",
   scalacOptions ++= Seq("-unchecked", "-deprecation"),
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),

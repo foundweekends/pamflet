@@ -180,11 +180,8 @@ case class Printer(
           prettify(page)
         }
         {
-          (contents.css.map { case (filename, contents) =>
-            <link rel="stylesheet" href={ "css/" + filename } type="text/css" media="screen, projection"/>
-          }) ++
           contents.css.map { case (filename, contents) =>
-            <link rel="stylesheet" href={ "css/" + filename } type="text/css" media="screen, projection"/>
+            <link rel="stylesheet" href={ page.pathTo("css/" + filename) } type="text/css" media="screen, projection"/>
           }
         }
         {
