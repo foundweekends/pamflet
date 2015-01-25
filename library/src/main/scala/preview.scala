@@ -2,6 +2,8 @@ package pamflet
 
 import unfiltered.request._
 import unfiltered.response._
+import unfiltered.jetty.Server
+import unfiltered.filter.Plan
 import java.io.OutputStream
 import java.net.URI
 import collection.mutable
@@ -9,7 +11,7 @@ import collection.mutable
 object Preview {
   val heightCache: mutable.Map[(String, String), String] = mutable.Map()
 
-  def apply(globalized: => Globalized) = {
+  def apply(globalized: => Globalized): Server = {
     def css(lang: String) = Map.empty ++ globalized(lang).css
     def files(lang: String) = Map.empty ++ globalized(lang).files
     def defaultLanguage = globalized.defaultLanguage 
@@ -29,9 +31,8 @@ object Preview {
     def pageResponse(lang: String, name: String) =
       Printer(globalized(lang), globalized, None).printNamed(name).map { html =>
         Html5(html)
-      }.getOrElse { NotFound }       
-
-    unfiltered.netty.Http.anylocal.plan(unfiltered.netty.cycle.Planify {
+      }.getOrElse { NotFound }
+    val plan: Plan = unfiltered.filter.Planify {
       case GET(Path(Seg(lang :: Nil))) if languages.contains(lang) =>
         globalized(lang).pages.headOption.map { page =>
           Redirect("/" + lang + "/" + Printer.webify(page))
@@ -58,7 +59,9 @@ object Preview {
         pageResponse(lang, name)
       case GET(Path(Seg(name :: Nil))) =>
         pageResponse(defaultLanguage, name)
-    }).resources(Shared.resources)
+    }
+    val http = unfiltered.jetty.Server.anylocal
+    http.plan(plan).resources(Shared.resources)
   }
   def responseStreamer(uri: URI) =
     new ResponseStreamer { def stream(os:OutputStream) { 

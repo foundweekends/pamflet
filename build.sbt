@@ -38,7 +38,8 @@ lazy val knockoffDeps = Def.setting { Seq(
 val unfilteredVersion = "0.8.3"
 val stringtemplateVersion = "3.2.1"
 lazy val libraryDeps = Def.setting { Seq(
-  "net.databinder" %% "unfiltered-netty-server" % unfilteredVersion,
+  "net.databinder" %% "unfiltered-filter" % unfilteredVersion,
+  "net.databinder" %% "unfiltered-jetty" % unfilteredVersion,
   "org.antlr" % "stringtemplate" % stringtemplateVersion
 )}
 val launcherInterfaceVersion = "0.13.0"
