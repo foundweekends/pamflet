@@ -1,12 +1,42 @@
 package pamflet
 
 import java.io.File
+import java.nio.charset.Charset
 import com.tristanhunt.knockoff._
 import collection.immutable.Map
-import java.nio.charset.Charset
+import collection.concurrent.TrieMap
 
 trait Storage {
   def globalized: Globalized
+}
+
+/** Cache FileStorage based on the last modified time.
+ * This should make previewing much faster on large pamflets.
+ */
+case class CachedFileStorage(base: File) extends Storage {
+  def allFiles(f0: File): Seq[File] =
+    f0.listFiles.toVector flatMap {
+      case dir if dir.isDirectory => allFiles(dir)
+      case f => Vector(f)
+    }
+  def maxLastModified(f0: File): Long =
+    (allFiles(f0) map {_.lastModified}).max
+
+  def globalized = {
+    val lm = maxLastModified(base)
+    CachedFileStorage.cache.get(base) match {
+      case Some((lm0, gl0)) if lm == lm0 => gl0
+      case _ =>
+        val st = FileStorage(base)
+        val gl = st.globalized
+        CachedFileStorage.cache(base) = (lm, gl)
+        gl
+    }
+  }
+}
+
+object CachedFileStorage {
+  val cache: TrieMap[File, (Long, Globalized)] = TrieMap()
 }
 
 case class FileStorage(base: File) extends Storage {
