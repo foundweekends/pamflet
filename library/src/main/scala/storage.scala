@@ -13,7 +13,7 @@ trait Storage {
 /** Cache FileStorage based on the last modified time.
  * This should make previewing much faster on large pamflets.
  */
-case class CachedFileStorage(base: File) extends Storage {
+case class CachedFileStorage(base: File, ps: List[FencePlugin]) extends Storage {
   def allFiles(f0: File): Seq[File] =
     f0.listFiles.toVector flatMap {
       case dir if dir.isDirectory => allFiles(dir)
@@ -27,7 +27,7 @@ case class CachedFileStorage(base: File) extends Storage {
     CachedFileStorage.cache.get(base) match {
       case Some((lm0, gl0)) if lm == lm0 => gl0
       case _ =>
-        val st = FileStorage(base)
+        val st = FileStorage(base, ps)
         val gl = st.globalized
         CachedFileStorage.cache(base) = (lm, gl)
         gl
@@ -39,7 +39,7 @@ object CachedFileStorage {
   val cache: TrieMap[File, (Long, Globalized)] = TrieMap()
 }
 
-case class FileStorage(base: File) extends Storage {
+case class FileStorage(base: File, ps: List[FencePlugin]) extends Storage {
   def propFile(dir: File): Option[File] =
     new File(dir, "template.properties") match {
       case file if file.exists => Some(file)
@@ -69,6 +69,7 @@ case class FileStorage(base: File) extends Storage {
   def isSpecialDir(dir: File): Boolean =
     dir.isDirectory && ((dir.getName == "layouts") || (dir.getName == "files"))
   def rootSection(dir: File, propFiles: Seq[File]): Section = {
+    Knock.notifyBeginLanguage()
     def emptySection = Section("", "", Seq.empty, Nil, defaultTemplate)
     if (dir.exists) section("", dir, propFiles).headOption getOrElse emptySection
     else emptySection
@@ -98,10 +99,11 @@ case class FileStorage(base: File) extends Storage {
     source.mkString("")
   }
   def knock(file: File, propFiles: Seq[File]): (String, Seq[Block], Template) = 
-    Knock.knockEither(read(file, defaultTemplate.defaultEncoding), propFiles) match {
+    Knock.knockEither(read(file, defaultTemplate.defaultEncoding), propFiles, ps) match {
       case Right(x) => x
       case Left(x) =>
         Console.err.println("Error while processing " + file.toString)
+        // x.printStackTrace()
         throw x
     }
   def isMarkdown(f: File) = {

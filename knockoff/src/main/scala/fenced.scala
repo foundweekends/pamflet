@@ -2,19 +2,46 @@ package pamflet
 
 import com.tristanhunt.knockoff._
 import scala.util.parsing.input.{ CharSequenceReader, Position, Reader }
+import collection.mutable.ListBuffer
 
 trait FencedDiscounter extends Discounter {
+  /** List of FencePlugin */
+  def fencePlugins: List[FencePlugin]
+
   override def newChunkParser : ChunkParser =
     new ChunkParser with FencedChunkParser
-  override def blockToXHTML: Block => xml.Node = block => block match {
-    case FencedCodeBlock(text, _, language) =>
-      fencedChunkToXHTML(text, language)
-    case _ => super.blockToXHTML(block)
+  override def blockToXHTML: Block => xml.Node = {
+    val fallback: PartialFunction[Block, xml.Node] = { case x => super.blockToXHTML(x) }
+    val fs: List[PartialFunction[Block, xml.Node]] =
+      (fencePlugins map {_.blockToXHTML}) ++ List(FencePlugin.Plain.blockToXHTML, fallback)
+    fs.reduceLeft(_ orElse _)
   }
-  def fencedChunkToXHTML(text: Text, language: Option[String]) =
-    <pre><code class={
-      language.map { "prettyprint lang-" + _ }.getOrElse("")
-    }>{ text.content }</code></pre>
+
+  def notifyBeginLanguage(): Unit =
+    fencePlugins foreach {_.onBeginLanguage()}
+  def notifyBeginPage(): Unit =
+    fencePlugins foreach {_.onBeginPage()}
+
+  def fencedChunkToBlock(language: Option[String], content: String, position: Position,
+      list: ListBuffer[Block]): Block = {
+    val processors: List[PartialFunction[(Option[String], String, Position, ListBuffer[Block]), Block]] =
+      fencePlugins ++ List(FencePlugin.Plain)
+    val f = processors.reduceLeft(_ orElse _)
+    f((language, content, position, list))
+  }
+}
+
+trait MutableFencedDiscounter extends FencedDiscounter {
+  private[this] val fencePluginBuffer: ListBuffer[FencePlugin] = ListBuffer()
+  def registerFencedPlugin(p: FencePlugin): Unit = fencePluginBuffer.append(p)
+  def fencePlugins = fencePluginBuffer.toList
+  def clearFencePlugins(): Unit = fencePluginBuffer.clear()
+  def knockoffWithPlugins(source: java.lang.CharSequence, ps: List[FencePlugin]): Seq[Block] =
+    {
+      clearFencePlugins()
+      ps foreach registerFencedPlugin
+      super.knockoff(source)
+    }
 }
 
 trait FencedChunkParser extends ChunkParser {
@@ -46,11 +73,46 @@ trait FencedChunkParser extends ChunkParser {
 
 case class FencedChunk(val content: String, language: Option[String])
 extends Chunk {
-  def appendNewBlock( list : collection.mutable.ListBuffer[Block],
+  def appendNewBlock( list : ListBuffer[Block],
                       remaining : List[ (Chunk, Seq[Span], Position) ],
                       spans : Seq[Span], position : Position,
-                      discounter : Discounter ) {
-    list += FencedCodeBlock(Text(content), position, language)
+                      discounter : Discounter ): Unit = discounter match {
+    case fd: FencedDiscounter => list += fd.fencedChunkToBlock(language, content, position, list)
+    case _ => sys.error("Expected FencedDiscounter") 
+  }
+}
+
+/** A FencePlugin must implement the following methods:
+ * 1. def isDefinedAt(language: Option[String]): Boolean
+ * 2. def toBlock(language: Option[String], content: String, position: Position, list: ListBuffer[Block]): Block
+ * 3. def blockToXHTML: PartialFunction[Block, xml.Node]
+ *
+ * First, you have to declare what "language" your FencePlugin supports with `isDefinedAt`.
+ * Next, in `toBlock` evaluate the incoming content and store them in a custom case class that extends `Block`.
+ * Finally, in `blockToXHTML` turn your custom case class into an xml `Node`.
+ */
+trait FencePlugin extends PartialFunction[(Option[String], String, Position, ListBuffer[Block]), Block] {
+  def isDefinedAt(language: Option[String]): Boolean
+  def toBlock(language: Option[String], content: String, position: Position, list: ListBuffer[Block]): Block
+  def blockToXHTML: PartialFunction[Block, xml.Node]
+
+  override def isDefinedAt(x: (Option[String], String, Position, ListBuffer[Block])): Boolean = isDefinedAt(x._1)
+  override def apply(x: (Option[String], String, Position, ListBuffer[Block])): Block = toBlock(x._1, x._2, x._3, x._4)
+  def onBeginLanguage(): Unit = ()
+  def onBeginPage(): Unit = ()
+}
+object FencePlugin {
+  val Plain: FencePlugin = new FencePlugin {
+    override def isDefinedAt(language: Option[String]): Boolean = true
+    override def toBlock(language: Option[String], content: String, position: Position, list: ListBuffer[Block]): Block =
+      FencedCodeBlock(Text(content), position, language)
+    override def blockToXHTML = {
+      case FencedCodeBlock(text, _, language) => fencedChunkToXHTML(text, language)
+    }
+    def fencedChunkToXHTML(text: Text, language: Option[String]) =
+      <pre><code class={
+        language.map { "prettyprint lang-" + _ }.getOrElse("")
+      }>{ text.content }</code></pre>    
   }
 }
 

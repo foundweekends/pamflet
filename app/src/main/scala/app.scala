@@ -12,11 +12,11 @@ object Pamflet {
   def main(args: Array[String]) {
     System.exit(run(args))
   }
-  private def storage(dir: File) = CachedFileStorage(dir)
+  private def storage(dir: File, ps: List[FencePlugin]) = CachedFileStorage(dir, ps)
   def run(args: Array[String]) = {
     args match {
       case Array(Dir(input), Dir(output)) =>
-        Produce(storage(input).globalized, output)
+        Produce(storage(input, fencePlugins).globalized, output)
         println("Wrote pamflet to " + output)
         0
       case Array(Dir(dir)) => preview(dir)
@@ -34,8 +34,9 @@ object Pamflet {
         1
     }
   }
+  def fencePlugins: List[FencePlugin] = Nil
   def preview(dir: File): Int = {
-    Preview(storage(dir).globalized).run { server =>
+    Preview(storage(dir, fencePlugins).globalized).run { server =>
       unfiltered.util.Browser.open(
         "http://127.0.0.1:%d/".format(server.portBindings.head.port)
       )

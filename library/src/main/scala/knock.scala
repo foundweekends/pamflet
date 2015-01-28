@@ -5,18 +5,17 @@ import com.tristanhunt.knockoff._
 import collection.immutable.Map
 
 object Knock {
-  def knockEither(value: String, propFiles: Seq[File]): Either[Throwable, (String, Seq[Block], Template)] = {
-    val frontin = Frontin(value)
-    val template = StringTemplate(propFiles, frontin header, Map())
-    val raw = template(frontin body)
-    try {
-      Right((raw.toString, PamfletDiscounter.knockoff(raw), template))
-    } catch {
-      case e: Throwable => Left(e)
-    }
-  }
+  lazy val discounter = PamfletDiscounter
+  def notifyBeginLanguage(): Unit = discounter.notifyBeginLanguage()
+  def notifyBeginPage(): Unit = discounter.notifyBeginPage()
 
-  def knockEither(value: String, template0: Template): Either[Throwable, (String, Seq[Block], Template)] = {
+  def knockEither(value: String, propFiles: Seq[File], ps: List[FencePlugin]): Either[Throwable, (String, Seq[Block], Template)] = 
+    knockEither(value, StringTemplate(propFiles, None, Map()), ps)
+
+  def knockEither(value: String, template0: Template): Either[Throwable, (String, Seq[Block], Template)] =
+    knockEither(value, template0, List())
+
+  def knockEither(value: String, template0: Template, ps: List[FencePlugin]): Either[Throwable, (String, Seq[Block], Template)] = {
     val frontin = Frontin(value)
     val template = frontin.header match {
       case None    => template0
@@ -24,7 +23,7 @@ object Knock {
     }
     val raw = template(frontin body)
     try {
-      Right((raw.toString, PamfletDiscounter.knockoff(raw), template))
+      Right((raw.toString, discounter.knockoffWithPlugins(raw, ps), template))
     } catch {
       case e: Throwable => Left(e)
     }
