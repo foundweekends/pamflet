@@ -3,33 +3,74 @@ package pamflet
 import unfiltered.request._
 import unfiltered.response._
 import java.io.OutputStream
+import java.net.URI
+import collection.mutable
 
 object Preview {
-  def apply(contents: => Contents) = {
-    def css = Map.empty ++ contents.css
-    def files = Map.empty ++ contents.files 
-    unfiltered.jetty.Http.anylocal.filter(unfiltered.filter.Planify {
-      case GET(Path(Seg(Nil))) =>
-        contents.pages.headOption.map { page =>
-          Redirect("/" + Printer.webify(page))
-        }.getOrElse { NotFound }
-      case GET(Path(Seg(name :: Nil))) =>
-        Printer(contents, None).printNamed(name).map { html =>
-          Html5(html)
-        }.getOrElse { NotFound }
-      case GET(Path(Seg("css" :: name :: Nil))) if css.contains(name) =>
-        CssContent ~> ResponseString(css(name))
-      case GET(Path(Seg("files" :: name :: Nil))) if files.contains(name) =>
-        new ResponseStreamer { def stream(os:OutputStream) { 
-          val is = files(name).toURL.openStream
-          try {
-            val buf = new Array[Byte](1024)
-            Iterator.continually(is.read(buf)).takeWhile(_ != -1)
-              .foreach(os.write(buf, 0, _))
-          } finally {
-            is.close
-          }
-        } }
+  val heightCache: mutable.Map[(String, String), String] = mutable.Map()
+
+  def apply(globalContents: => GlobalContents) = {
+    def languages = globalContents.template.languages
+
+    def langContents(lang: String) = globalContents.byLanguage(lang)
+    def defaultLanguage = globalContents.template.defaultLanguage
+
+    object PagePath {
+      def unapply(req: HttpRequest[_]) = {
+        val Path(Seg(segs)) = req
+        val lang =
+          (for (seg <- segs.headOption if languages.contains(seg))
+          yield seg).getOrElse(defaultLanguage)
+        val pagePath = segs.mkString("/")
+        langContents(lang).pages.find(
+          p => p.pathFromBase == pagePath
+        ).map((lang, _))
+      }
+    }
+
+    def contentsDispatch(contents: Contents, segs: List[String]) = {
+      segs match {
+        case Nil =>
+          contents.pages.headOption.map { page =>
+            Redirect("/" + page.pathFromBase)
+          }.getOrElse { Pass }
+        case "favicon.ico" :: Nil =>
+            contents.favicon.map(responseStreamer).getOrElse(Pass)
+        case "css" :: name :: Nil =>
+          val css: Option[String] =
+            if (name.startsWith("pamfletheight"))
+              Some(heightCache.getOrElseUpdate(
+                (contents.language, name),
+                Heights.heightCssFileContent(contents, name)
+              ))
+            else contents.css.find(_._1 == name).map(_._2)
+          css.map(str => CssContent ~> ResponseString(str)).getOrElse(Pass)
+        case "files" :: name :: Nil =>
+          contents.files.find(_._1 == name).map {
+            case (_, url) => responseStreamer(url)
+          } getOrElse Pass
+        case _ => Pass
+      }
+    }
+
+    unfiltered.netty.Server.anylocal.plan(unfiltered.netty.cycle.Planify {
+      case GET(PagePath(lang, page)) =>
+          Html5(Printer(langContents(lang), globalContents, None).print(page))
+      case GET(Path(Seg(lang :: rest))) if languages.contains(lang) =>
+        contentsDispatch(langContents(lang), rest)
+      case GET(Path(Seg(segs))) =>
+        contentsDispatch(langContents(defaultLanguage), segs)
     }).resources(Shared.resources)
   }
+  def responseStreamer(uri: URI) =
+    new ResponseStreamer { def stream(os:OutputStream) { 
+      val is = uri.toURL.openStream
+      try {
+        val buf = new Array[Byte](1024)
+        Iterator.continually(is.read(buf)).takeWhile(_ != -1)
+          .foreach(os.write(buf, 0, _))
+      } finally {
+        is.close
+      }
+    } }
 }

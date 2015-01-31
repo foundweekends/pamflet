@@ -6,7 +6,11 @@ import java.io.{File,FileOutputStream,InputStream,
 import scala.annotation.tailrec
 
 object Produce {
-  def apply(contents: Contents, target: File) {
+  def apply(globalContents: GlobalContents, target: File) {
+    for (contents <- globalContents.byLanguage.values)
+      apply(contents, globalContents, target)
+  }
+  def apply(contents: Contents, globalContents: GlobalContents, target: File) {
     def writeString(path: String, contents: String, target:File) {
       write(path, target, new ByteArrayInputStream(contents.getBytes("utf-8")))
     }
@@ -33,17 +37,20 @@ object Produce {
     val offlineTarget = new File(target + "/offline/")
     val css = contents.css.map { case (nm, v) => ("css/" + nm, v) }.toList
     val paths = filePaths(contents)
-
     val files = contents.files.toList.map {
       case (nm, u) => ("files/" + nm, u)
     }
+    val favicon = contents.favicon.toList.map {
+      case u => ("favicon.ico", u)
+    }
+    val heights = Heights.distinctHeights(contents)
 
     // generate the pages in target directory and in 
     // subdirectory "offline" with html5 manifest 
     List(Some(manifest), None).foreach { manifestOpt =>
       val offline = ! manifestOpt.isEmpty
       val targetDir = (if (offline) offlineTarget else target)
-      val printer = Printer(contents, manifestOpt)
+      val printer = Printer(contents, globalContents, manifestOpt)
       contents.pages.foreach { page => 
         val w = new java.io.StringWriter()
         xml.XML.write(w, 
@@ -56,11 +63,16 @@ object Produce {
                         Nil
                       )
         )
-        val pagePath = Printer.fileify(page) 
+        val pagePath = (
+          page.parents :+ Printer.fileify(page)
+        ).mkString(File.separator)
         writeString(pagePath, w.toString, targetDir)
       } 
       css.foreach { case (path, contents) =>
         writeString(path, contents, targetDir) 
+      }
+      heights foreach { case (hh, fh) =>
+        writeString("css/" + Heights.heightCssFileName(hh, fh), Heights.heightCssFileContent(hh, fh), targetDir)
       }
 
       paths.foreach { path =>
@@ -70,8 +82,9 @@ object Produce {
         )
       }
 
-      for ((path, uri) <- files)
+      for ((path, uri) <- files ++ favicon)
         write(path, targetDir, uri.toURL.openStream)
+
     }
 
     writeString(manifest, (
@@ -81,14 +94,17 @@ object Produce {
       css.map { case (n,_) => n } :::
       contents.pages.map { p => Printer.webify(p) } :::
       files.map { case (n, _) => n } :::
+      favicon.map { case (n, _) => n } :::
       paths).mkString("\n"),
       offlineTarget
     )
   }
-
   def filePaths(contents: Contents) =
-    "img/fork.png" ::
-    ("pamflet.css" :: "pamflet-grid.css" :: "pamflet-print.css" :: Nil).map {
+    ("fork.png" :: "twitter-bird-dark-bgs.png" :: Nil).map {
+      "img/" + _
+    } :::
+    ("pamflet.css" :: "pamflet-grid.css" :: "pamflet-print.css" ::
+     "color_scheme-redmond.css" :: "color_scheme-github.css" :: "color_scheme-monokai.css" :: Nil).map {
       "css/" + _
     } :::
     ("screen.css" :: "grid.css" :: "print.css" :: "ie.css" :: Nil).map {
@@ -100,7 +116,7 @@ object Produce {
     ).map { "js/" + _ } :::
     "css/prettify.css" ::
     ("prettify.js" ::
-      contents.langs.map { l => "lang-%s.js".format(l) }.toList
+      contents.prettifyLangs.map { l => "lang-%s.js".format(l) }.toList
     ).map {
       "js/prettify/" + _
     }

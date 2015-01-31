@@ -1,3 +1,5 @@
+@charset "utf-8";
+
 body {
     font-size: 100%;
     font-family: Georgia, serif;
@@ -12,11 +14,11 @@ pre, code, tt {
 div.nav {
     border-bottom: black solid 1px;
 }
-div.top.nav.title {
+div.top.nav div.title {
     text-align: center;
     font-size: 1.2em;
 }
-div.top.nav.title span, .generated.nav {
+div.top.nav div.title span, .generated.nav {
     font-style: italic;
 }
 div.top.nav div.outline {
@@ -35,14 +37,24 @@ div.bottom.nav.end {
 div.bottom.nav span.arrow {
     margin: 0 .5em;
 }
+div.footer div.nav {
+    border-bottom: none;
+    border-top: black solid 1px;
+}
+div.header {
+    position: fixed;
+    display: none;
+}
+div.footer {
+    position: fixed;
+    display: none;
+}
 div.container {
     position: relative;
-    background: white;
     height: 100%;
 }
 div.contents {
     padding-top: 1.5em;
-    background: white;
 }
 .current {
     font-weight: bold;
@@ -68,6 +80,46 @@ a.fork {
     display: none;
 }
 
+a.header-link {
+    color: inherit;
+    text-decoration: none;
+    margin-left: 0.1em;
+}
+ul.language-bar {
+    display: none;
+}
+div.highlight-outer {
+    display: none;
+}
+div.highlight-memu {
+    display: none;
+}
+
+ul.news {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+ul.news a.button {
+    display: block;
+    text-decoration: none;
+}
+ul.news a.button span.name {
+    color: #06c;
+    text-decoration: underline;
+}
+ul.news div.date {
+    color: inherit;
+    font-style: italic;
+    text-decoration: none;
+}
+
+div.dateline {
+    font-style: italic;
+    margin-bottom: 1.5em;
+}
+
 body.present .nav, body.present .tocwrapper, body.present p {
     display: none;
 }
+

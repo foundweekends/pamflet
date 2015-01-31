@@ -24,13 +24,6 @@ Since Pamflets are meant to be carried around, having a good mobile
 appearance and behavior is vital. When viewed on a phone, tablet, or
 other small-screen device, pamflets take the full screen width.
 
-#### Can Touch This
-
-Pamflet doesn't skimp on the linear navigation for this mode,
-either. Readers can **swipe left and right** to flip pages forward and
-backward. Just be sure to start your swipe at the edge of the screen
-and carry it past the half-way point.
-
 #### Radio Silent
 
 And because mobile devices aren't always connected, an

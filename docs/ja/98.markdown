@@ -1,0 +1,11 @@
+---
+out: For-Your-Perusal.html
+---
+
+この pamflet のソース
+-------------------
+
+この pamflet で説明されているテクニックを使ってこの pamflet は書かれている。
+[GitHub][gh] で Pamflet の `docs/` ディレクトリを開いて眺めてみてほしい。
+
+[gh]: https://github.com/n8han/pamflet/tree/master/docs

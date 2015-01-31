@@ -12,18 +12,18 @@ object Pamflet {
   def main(args: Array[String]) {
     System.exit(run(args))
   }
-  private def storage(dir: File) =
-    FileStorage(dir, 
-                new File(dir, "template.properties") match {
-                  case file if file.exists => Some(file)
-                  case _ => None
-                })
   def run(args: Array[String]) = {
     args match {
+      case Array(nm @ Dir(input), Dir(output)) if nm.endsWith("news")  =>
+        Produce(news.NewsStorage(input).globalContents, output)
+        println("Wrote news pamflet to " + output)
+        0
       case Array(Dir(input), Dir(output)) =>
-        Produce(storage(input).contents, output)
+        Produce(StructuredFileStorage(input).globalContents, output)
         println("Wrote pamflet to " + output)
         0
+      case Array(nm @ Dir(dir)) if nm == "news" =>
+        preview(dir, news.NewsStorage)
       case Array(Dir(dir)) => preview(dir)
       case Array() =>
         "docs" match {
@@ -39,10 +39,10 @@ object Pamflet {
         1
     }
   }
-  def preview(dir: File) = {
-    Preview(storage(dir).contents).run { server =>
+  def preview(dir: File, collation: Collation = StructuredFileStorage) = {
+    Preview(collation(dir).globalContents).run { server =>
       unfiltered.util.Browser.open(
-        "http://127.0.0.1:%d/".format(server.port)
+        server.portBindings.head.url
       )
       println("\nPreviewing `%s`. Press CTRL+C to stop.".format(dir))
     }
@@ -56,4 +56,5 @@ object Pamflet {
       else None
     }
   }
+  type Collation = (File => FileStorage)
 }

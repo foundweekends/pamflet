@@ -11,14 +11,16 @@ trait IdentifiedHeaders extends Discounter { self: TextWriter =>
     return stringWriter.toString        
   }
   override def headerToXHTML = (level, spans) => {
-    val spanned = spans.map(spanToXHTML)
     val name = BlockNames.encode(BlockNames.textOf(spans))
+    val spanned = spans.map(spanToXHTML)
+    val anchored = spanned ++
+      <a href={ "#" + name } class="header-link"><span class="header-link-content">&nbsp;</span></a>
     level match {
-      case 1 => <h1 id={name}>{ spanned }</h1>
-      case 2 => <h2 id={name}>{ spanned }</h2>
-      case 3 => <h3 id={name}>{ spanned }</h3>
-      case 4 => <h4 id={name}>{ spanned }</h4>
-      case 5 => <h5 id={name}>{ spanned }</h5>
+      case 1 => <h1 id={name}>{ anchored }</h1>
+      case 2 => <h2 id={name}>{ anchored }</h2>
+      case 3 => <h3 id={name}>{ anchored }</h3>
+      case 4 => <h4 id={name}>{ anchored }</h4>
+      case 5 => <h5 id={name}>{ anchored }</h5>
       case 6 => <h6>{ spanned }</h6>
       case _ =>
         <div class={ "header" + level }>{ spanned }</div>
@@ -38,8 +40,17 @@ object BlockNames {
       case h: HTMLSpan => Seq(h.html)
       case _ => Seq()
     }.mkString("")      
-  def name(blocks: Seq[Block]) =
-    blocks.view.collect {
+  def name(blocks: Seq[Block]): String =
+    blocks.collectFirst {
       case h: Header => textOf(h.spans)
-    }.headOption.getOrElse { "Untitled" }
+    }.getOrElse { "Untitled" }
+
+  def insertAfterHeaders(blocks: Seq[Block])(block: Block): Seq[Block] = {
+    val idx = blocks.indexWhere {
+      case h: Header => false
+      case _ => true
+    }
+    val (before, after) = blocks.splitAt(idx)
+    before ++ (block +: after)
+  }
 }

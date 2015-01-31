@@ -21,3 +21,7 @@ Becomes
 > ![some svg](files/an.svg)
 
 It's worth a thousand words, give or take.
+
+### favicon
+
+To customize the favicon, place `favicon.ico` in the source directory.

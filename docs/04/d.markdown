@@ -32,6 +32,21 @@ It is intended to be used in the properties front matter of the page:
 is displayed at the end of each page.
 The allowed values are `show`, `hide`, and `collapse`.
 
+### Disqus
+
+Defining `disqus` property with a disqus short name will add a comment section at the end of all your pages.
+
+    disqus=namehere
+
+### Twitter
+
+Defining `twitter` property with any value will pop up a twitter button
+when some text is selected on any page. The button will compose a tweet including
+the selected text, the property, and the URL.
+The value `show` would display the button, but will not be included in the tweet.
+
+    twitter=#pamflet
+
 ### Google Analytics
 
 Defining `google-analytics` with a Google Analytics web property ID will 

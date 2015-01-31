@@ -1,1 +1,0 @@
-seq(conscriptSettings :_*)
