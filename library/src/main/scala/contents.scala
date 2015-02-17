@@ -52,8 +52,9 @@ sealed trait Page {
 }
 sealed trait AuthoredPage extends Page {
   def blocks: Seq[Block]
+  // Always reference Scala for fenced plugin purpose
   lazy val referencedLangs =
-    (Set.empty[String] /: blocks) {
+    (Set("scala") /: blocks) {
       case (s, FencedCodeBlock(_, _, Some(lang))) => s + lang
       case (s, _) => s
     }

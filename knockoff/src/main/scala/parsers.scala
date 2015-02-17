@@ -5,7 +5,7 @@ import scala.util.parsing.input.{ CharSequenceReader, Position, Reader }
 
 object PamfletDiscounter
   extends Discounter 
-  with FencedDiscounter
+  with MutableFencedDiscounter
   with SmartyDiscounter
   with IdentifiedHeaders
   with Html5Imgs

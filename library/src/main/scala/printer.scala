@@ -1,5 +1,5 @@
 package pamflet
-import PamfletDiscounter.toXHTML
+import Knock.discounter.toXHTML
 import collection.immutable.Map
 
 object Printer {
@@ -160,6 +160,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
       case Right(x) => x
       case Left(x)  =>
         Console.err.println("Error while processing " + x)
+        // x.printStackTrace()
         throw x
     }
     toXHTML(blocks)    

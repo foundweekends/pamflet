@@ -1,8 +1,8 @@
 lazy val common = ls.Plugin.lsSettings ++ Seq(
   organization := "net.databinder",
-  version := "0.6.0",
-  scalaVersion := "2.10.3",
-  crossScalaVersions := Seq("2.10.3"),
+  version := "0.7.0-SNAPSHOT",
+  scalaVersion := "2.10.4",
+  crossScalaVersions := Seq("2.11.5", "2.10.4"),
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
   homepage :=
     Some(new java.net.URL("http://pamflet.databinder.net/")),
@@ -31,21 +31,22 @@ lazy val common = ls.Plugin.lsSettings ++ Seq(
     </developers>)
 )
 
-val knockoffVersion = "0.8.1"
+val knockoffVersion = "0.8.3"
 lazy val knockoffDeps = Def.setting { Seq(
   "com.tristanhunt" %% "knockoff" % knockoffVersion
 )}
-val unfilteredVersion = "0.7.0"
+val unfilteredVersion = "0.8.3"
 val stringtemplateVersion = "3.2.1"
 lazy val libraryDeps = Def.setting { Seq(
-  "net.databinder" %% "unfiltered-netty-server" % unfilteredVersion,
+  "net.databinder" %% "unfiltered-filter" % unfilteredVersion,
+  "net.databinder" %% "unfiltered-jetty" % unfilteredVersion,
   "org.antlr" % "stringtemplate" % stringtemplateVersion
 )}
 val launcherInterfaceVersion = "0.13.0"
-val servletApiVersion = "2.5"
+val servletApiVersion = "3.0.1"
 lazy val appDeps = Def.setting { Seq(
   "org.scala-sbt" % "launcher-interface" % launcherInterfaceVersion % "provided",
-  "javax.servlet" % "servlet-api" % servletApiVersion
+  "javax.servlet" % "javax.servlet-api" % servletApiVersion
 )}
 
 lazy val pamflet: Project =
@@ -63,7 +64,6 @@ lazy val knockoff: Project =
   settings(
     name := "pamflet-knockoff",
     description := "Extensions to the Knockoff Markdown parser",
-    crossScalaVersions := Seq("2.9.0", "2.9.1", "2.10.3"),
     libraryDependencies ++= knockoffDeps.value
   )
 lazy val library: Project =
