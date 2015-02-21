@@ -1,6 +1,6 @@
 lazy val common = ls.Plugin.lsSettings ++ Seq(
   organization := "net.databinder",
-  version := "0.7.0-alpha2e",
+  version := "0.7.0-alpha3",
   scalaVersion := "2.11.4",
   scalacOptions ++= Seq("-unchecked", "-deprecation"),
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
@@ -82,6 +82,7 @@ lazy val library: Project =
     libraryDependencies ++= libraryDeps.value
   ).
   dependsOn(knockoff)
+
 lazy val app: Project =
   (project in file("app")).
   settings(common: _*).
