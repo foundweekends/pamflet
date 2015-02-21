@@ -15,11 +15,11 @@ object Pamflet {
   def run(args: Array[String]) = {
     args match {
       case Array(nm @ Dir(input), Dir(output)) if nm.endsWith("news")  =>
-        Produce(news.NewsStorage(input).globalContents, output)
+        Produce(news.NewsStorage(input, fencePlugins).globalContents, output)
         println("Wrote news pamflet to " + output)
         0
       case Array(Dir(input), Dir(output)) =>
-        Produce(StructuredFileStorage(input).globalContents, output)
+        Produce(StructuredFileStorage(input, fencePlugins).globalContents, output)
         println("Wrote pamflet to " + output)
         0
       case Array(nm @ Dir(dir)) if nm == "news" =>
@@ -39,8 +39,11 @@ object Pamflet {
         1
     }
   }
+
+  def fencePlugins: List[FencePlugin] = Nil
+
   def preview(dir: File, collation: Collation = StructuredFileStorage) = {
-    Preview(collation(dir).globalContents).run { server =>
+    Preview(collation(dir, fencePlugins).globalContents).run { server =>
       unfiltered.util.Browser.open(
         server.portBindings.head.url
       )
@@ -56,5 +59,5 @@ object Pamflet {
       else None
     }
   }
-  type Collation = (File => FileStorage)
+  type Collation = ((File, List[FencePlugin]) => FileStorage)
 }

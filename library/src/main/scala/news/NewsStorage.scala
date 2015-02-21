@@ -5,9 +5,10 @@ import com.github.nscala_time.time.Imports._
 import com.tristanhunt.knockoff._
 import scala.util.parsing.input.{NoPosition}
 
-import pamflet.{FileStorage,FrontPageNews,NewsStory}
+import pamflet.{FileStorage,FrontPageNews,NewsStory,FencePlugin}
 
-case class NewsStorage(base: File) extends FileStorage {
+case class NewsStorage(base: File, fencePlugins: List[FencePlugin])
+extends FileStorage {
   import FileStorage._
   def frontPage(dir: File,
                 propFiles: Seq[File],

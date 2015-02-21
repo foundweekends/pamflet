@@ -1,23 +1,25 @@
 package pamflet
 
 import java.io.File
+import java.nio.charset.Charset
 import com.tristanhunt.knockoff._
 import collection.immutable.Map
-import java.nio.charset.Charset
+import collection.concurrent.TrieMap
 
 trait Storage {
   def globalContents: GlobalContents
 }
 
-trait FileStorage extends Storage {
+trait FileStorage extends Storage with CachedFileStorage {
   import FileStorage._
   def base: File
+  def fencePlugins: List[FencePlugin]
   def frontPage(
     dir: File,
     propFiles: Seq[File],
     contentParents: List[String]): Page with FrontPage
   def template = StringTemplate(propFile(base).toSeq, None, Map())
-  def globalContents = {
+  def rawGlobalContents = {
     def css(dir: File) = dir.listFiles.filter {
       _.getName.endsWith(".css")
     }.map { f => (f.getName, read(f)) }
@@ -57,14 +59,15 @@ trait FileStorage extends Storage {
     )
   }
   def knock(file: File, propFiles: Seq[File]): (String, Seq[Block], Template) = 
-    Knock.knockEither(read(file, template.defaultEncoding), propFiles) match {
+    Knock.knockEither(read(file, template.defaultEncoding), propFiles, fencePlugins) match {
       case Right(x) => x
       case Left(x) =>
         Console.err.println("Error while processing " + file.toString)
+        // x.printStackTrace()
         throw x
     }
 }
-case class StructuredFileStorage(base: File) extends FileStorage {
+case class StructuredFileStorage(base: File, fencePlugins: List[FencePlugin]) extends FileStorage {
   import FileStorage._
   def frontPage(dir: File, propFiles: Seq[File], contentParents: List[String]): Section = {
     def emptySection = Section("", "", Seq.empty, Nil, template, contentParents)
@@ -105,6 +108,36 @@ case class StructuredFileStorage(base: File) extends FileStorage {
     }.toSeq
   }
 }
+
+/** Cache FileStorage based on the last modified time.
+ * This should make previewing much faster on large pamflets.
+ */
+trait CachedFileStorage { self: FileStorage =>
+
+  def allFiles(f0: File): Seq[File] =
+    f0.listFiles.toVector flatMap {
+      case dir if dir.isDirectory => allFiles(dir)
+      case f => Vector(f)
+    }
+  def maxLastModified(f0: File): Long =
+    (allFiles(f0) map {_.lastModified}).max
+
+  def globalContents = {
+    val lm = maxLastModified(base)
+    CachedFileStorage.cache.get(base) match {
+      case Some((lm0, gl0)) if lm == lm0 => gl0
+      case _ =>
+        val raw = rawGlobalContents
+        CachedFileStorage.cache(base) = (lm, raw)
+        raw
+    }
+  }
+}
+
+object CachedFileStorage {
+  val cache: TrieMap[File, (Long, GlobalContents)] = TrieMap()
+}
+
 object FileStorage {
   def propFile(dir: File): Option[File] =
     Some(new File(dir, "template.properties")).filter(_.exists)
@@ -113,6 +146,7 @@ object FileStorage {
   def read(file: File, encoding: String = Charset.defaultCharset.name) = doWith(scala.io.Source.fromFile(file, encoding)) { source =>
     source.mkString("")
   }
+
   def isMarkdown(f: File) = {
     !f.isDirectory &&
     !f.getName.startsWith(".") &&

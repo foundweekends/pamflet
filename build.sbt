@@ -35,15 +35,16 @@ val knockoffVersion = "0.8.3"
 val unfilteredVersion = "0.8.4"
 val stringtemplateVersion = "3.2.1"
 lazy val libraryDeps = Def.setting { Seq(
-  "net.databinder" %% "unfiltered-netty-server" % unfilteredVersion,
+  "net.databinder" %% "unfiltered-filter" % unfilteredVersion,
+  "net.databinder" %% "unfiltered-jetty" % unfilteredVersion,
   "org.antlr" % "stringtemplate" % stringtemplateVersion,
   "com.github.nscala-time" %% "nscala-time" % "1.6.0"
 )}
 val launcherInterfaceVersion = "0.13.0"
-val servletApiVersion = "2.5"
+val servletApiVersion = "3.0.1"
 lazy val appDeps = Def.setting { Seq(
   "org.scala-sbt" % "launcher-interface" % launcherInterfaceVersion % "provided",
-  "javax.servlet" % "servlet-api" % servletApiVersion
+  "javax.servlet" % "javax.servlet-api" % servletApiVersion
 )}
 
 lazy val pamflet: Project =
@@ -62,7 +63,7 @@ lazy val knockoff: Project =
   settings(
     name := "pamflet-knockoff",
     description := "Extensions to the Knockoff Markdown parser",
-    crossScalaVersions := Seq("2.10.4", "2.11.4"),
+    crossScalaVersions := Seq("2.11.4", "2.10.4"),
     libraryDependencies <<= (libraryDependencies, scalaVersion) { (deps, sv) =>
       deps ++ Seq("com.tristanhunt" %% "knockoff" % knockoffVersion) ++ (
         if (sv.startsWith("2.10")) None

@@ -1,5 +1,5 @@
 package pamflet
-import PamfletDiscounter.toXHTML
+import Knock.discounter.toXHTML
 import collection.immutable.Map
 
 object Printer {
@@ -105,10 +105,11 @@ case class Printer(
       case(_, v) => v
     }).headOption.getOrElse { sys.error(s"$name was not found in layouts!") }
     val m = modifiedTemplate(page)
-    val (_, blocks, _) = Knock.knockEither(s, m) match {
+    val (_, blocks, _) = Knock.knockEither(Frontin(s), m, Nil) match {
       case Right(x) => x
       case Left(x)  =>
         Console.err.println("Error while processing " + x)
+        // x.printStackTrace()
         throw x
     }
     toXHTML(blocks)    

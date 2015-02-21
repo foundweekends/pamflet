@@ -2,6 +2,8 @@ package pamflet
 
 import unfiltered.request._
 import unfiltered.response._
+import unfiltered.jetty.Server
+import unfiltered.filter.Plan
 import java.io.OutputStream
 import java.net.URI
 import collection.mutable
@@ -53,7 +55,7 @@ object Preview {
       }
     }
 
-    unfiltered.netty.Server.anylocal.plan(unfiltered.netty.cycle.Planify {
+    unfiltered.jetty.Server.anylocal.plan(unfiltered.filter.Planify {
       case GET(PagePath(lang, page)) =>
           Html5(Printer(langContents(lang), globalContents, None).print(page))
       case GET(Path(Seg(lang :: rest))) if languages.contains(lang) =>
