@@ -28,7 +28,7 @@ a properties front matter at the beginning of the page as follows:
     dispatch=0.8.5
     ---
 
-Properties in the front patter takes precedence over the ones in
+Properties in the front matter takes precedence over the ones in
 `template.properties`.
 
 ###### Note
