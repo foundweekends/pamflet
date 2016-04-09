@@ -8,11 +8,11 @@ out: On-the-Command-Line.html
 Pamflet は Scala アプリケーション用の汎用インストーラ兼アップデータである [conscript][conscript] によってインストールされる。
 conscript のセットアップは簡単なので、まだセットアップしていなければ[今すぐやってきて][conscript]ほしい。
 
-[conscript]: https://github.com/n8han/conscript#readme
+[conscript]: https://github.com/foundweekends/conscript#readme
 
 conscript がセットアップされて、`~/bin` にパスが通っているとすると、Pamflet は以下のようにインストールできる:
 
-    cs n8han/pamflet
+    cs foundweekends/pamflet
 
 これで Pamflet の `pf` コマンドがインストールされた。このコマンドを使って pamflet のプレビューと公開を行う。
 

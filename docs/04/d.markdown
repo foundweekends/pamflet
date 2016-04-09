@@ -11,7 +11,7 @@ GitHub repository, etc.
 If you define a `github` property with the repo owner and name,
 Pamflet constructs a link to the repository. For example:
 
-    github=n8han/pamflet
+    github=foundweekends/pamflet
 
 This is the property that produces the link to GitHub from Pamflet's
 own documentation. Note that there is only one slash.

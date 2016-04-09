@@ -14,7 +14,7 @@ GitHub リポジトリへリンクを張ったりする。
 `github` プロパティを定義してレポジトリのオーナーと名前を書くことで
 Pamflet はレポジトリへのリンクを張る。例えば:　
 
-    github=n8han/pamflet
+    github=foundweekends/pamflet
 
 これは Pamflet そのもののドキュメントから GitHub へのリンクを生成しているプロパティだ。
 スラッシュは 1つであることに注意。

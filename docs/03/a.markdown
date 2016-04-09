@@ -5,12 +5,12 @@ Pamflet is installed with [conscript][conscript], a general installer
 and updater for Scala applications. Conscript is pretty easy to set
 up, so please [do that and come back][conscript] if you haven't yet.
 
-[conscript]: https://github.com/n8han/conscript#readme
+[conscript]: https://github.com/foundweekends/conscript#readme
 
 Once you have conscript setup, and assuming that `~/bin` is on your
 executable search path, you can install Pamflet like so:
 
-    cs n8han/pamflet
+    cs foundweekends/pamflet
 
 That installs Pamflet's `pf` command, which is used to both preview
 and publish pamflets. 
