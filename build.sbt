@@ -14,8 +14,8 @@ lazy val common = ls.Plugin.lsSettings ++ Seq(
   publishArtifact in Test := false,
   pomExtra := (
     <scm>
-      <url>git@github.com:n8han/pamflet.git</url>
-      <connection>scm:git:git@github.com:n8han/pamflet.git</connection>
+      <url>git@github.com:foundweekends/pamflet.git</url>
+      <connection>scm:git:git@github.com:foundweekends/pamflet.git</connection>
     </scm>
     <developers>
       <developer>
