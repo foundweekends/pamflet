@@ -6,7 +6,7 @@ trait IdentifiedHeaders extends Discounter { self: TextWriter =>
   def headerText( spans : Seq[Span] ) : String = {
     val stringWriter = new java.io.StringWriter
     spans.map( self.spanToText(_)(stringWriter) )
-    return stringWriter.toString        
+    stringWriter.toString
   }
   override def headerToXHTML = (level, spans) => {
     val name = BlockNames.encode(BlockNames.textOf(spans))
