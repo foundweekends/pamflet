@@ -1,7 +1,7 @@
 package pamflet
 
 import java.io.{
-  File,FileInputStream,ByteArrayInputStream,InputStreamReader,StringReader}
+  File,FileInputStream,InputStreamReader,StringReader}
 import java.nio.charset.Charset
 import org.antlr.stringtemplate.{StringTemplate => STImpl}
 import collection.immutable.Map

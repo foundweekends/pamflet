@@ -1,8 +1,6 @@
 package pamflet
 
-import scala.xml.Node
 import com.tristanhunt.knockoff._
-import java.net.URLEncoder
 
 trait IdentifiedHeaders extends Discounter { self: TextWriter =>
   def headerText( spans : Seq[Span] ) : String = {

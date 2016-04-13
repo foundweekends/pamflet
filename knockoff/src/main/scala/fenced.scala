@@ -1,7 +1,7 @@
 package pamflet
 
 import com.tristanhunt.knockoff._
-import scala.util.parsing.input.{ CharSequenceReader, Position, Reader }
+import scala.util.parsing.input.Position
 import collection.mutable.ListBuffer
 
 trait FencedDiscounter extends Discounter {

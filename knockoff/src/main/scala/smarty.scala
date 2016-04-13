@@ -1,7 +1,6 @@
 package pamflet
 
 import com.tristanhunt.knockoff._
-import scala.util.parsing.input.{ CharSequenceReader, Position, Reader }
 import scala.util.matching.Regex
 
 trait SmartyDiscounter extends Discounter {

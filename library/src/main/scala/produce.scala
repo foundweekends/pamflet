@@ -1,7 +1,7 @@
 package pamflet
 
 import java.io.{File,FileOutputStream,InputStream,
-                OutputStream,ByteArrayInputStream,Reader,StringReader}
+                OutputStream,ByteArrayInputStream}
 
 import scala.annotation.tailrec
 
