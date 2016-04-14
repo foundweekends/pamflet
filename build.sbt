@@ -1,8 +1,8 @@
 lazy val common = ls.Plugin.lsSettings ++ Seq(
   organization := "net.databinder",
   version := "0.7.0-SNAPSHOT",
-  scalaVersion := "2.10.4",
-  crossScalaVersions := Seq("2.11.5", "2.10.4"),
+  scalaVersion := "2.10.6",
+  crossScalaVersions := Seq("2.11.8", "2.10.6"),
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
   homepage :=
     Some(new java.net.URL("http://pamflet.databinder.net/")),
@@ -35,14 +35,14 @@ val knockoffVersion = "0.8.3"
 lazy val knockoffDeps = Def.setting { Seq(
   "com.tristanhunt" %% "knockoff" % knockoffVersion
 )}
-val unfilteredVersion = "0.8.3"
+val unfilteredVersion = "0.8.4"
 val stringtemplateVersion = "3.2.1"
 lazy val libraryDeps = Def.setting { Seq(
   "net.databinder" %% "unfiltered-filter" % unfilteredVersion,
   "net.databinder" %% "unfiltered-jetty" % unfilteredVersion,
   "org.antlr" % "stringtemplate" % stringtemplateVersion
 )}
-val launcherInterfaceVersion = "0.13.0"
+val launcherInterfaceVersion = "1.0.0"
 val servletApiVersion = "3.0.1"
 lazy val appDeps = Def.setting { Seq(
   "org.scala-sbt" % "launcher-interface" % launcherInterfaceVersion % "provided",
@@ -82,7 +82,6 @@ lazy val app: Project =
     name := "pamflet-app",
     description :=
       "Pamflet app for previewing and publishing project documentation",
-    libraryDependencies ++= appDeps.value,
-    resolvers += Resolver.typesafeIvyRepo("releases") // for launcher interface
+    libraryDependencies ++= appDeps.value
   ).
   dependsOn(library)
