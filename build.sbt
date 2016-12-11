@@ -1,4 +1,4 @@
-lazy val common = ls.Plugin.lsSettings ++ Seq(
+lazy val common = Seq(
   organization := "net.databinder",
   version := "0.7.0-SNAPSHOT",
   scalaVersion := "2.10.4",
@@ -54,7 +54,6 @@ lazy val pamflet: Project =
   settings(common: _*).
   settings(
     name := "pamflet",
-    ls.Plugin.LsKeys.skipWrite := true,
     publishArtifact := false
   ).
   aggregate(knockoff, library, app)
