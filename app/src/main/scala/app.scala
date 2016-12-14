@@ -12,13 +12,18 @@ object Pamflet {
   def main(args: Array[String]) {
     System.exit(run(args))
   }
-  private def storage(dir: File, ps: List[FencePlugin]) = CachedFileStorage(dir, ps)
   def run(args: Array[String]) = {
     args match {
+      case Array(nm @ Dir(input), Dir(output)) if nm.endsWith("news")  =>
+        Produce(news.NewsStorage(input, fencePlugins).globalContents, output)
+        println("Wrote news pamflet to " + output)
+        0
       case Array(Dir(input), Dir(output)) =>
-        Produce(storage(input, fencePlugins).globalized, output)
+        Produce(StructuredFileStorage(input, fencePlugins).globalContents, output)
         println("Wrote pamflet to " + output)
         0
+      case Array(nm @ Dir(dir)) if nm == "news" =>
+        preview(dir, news.NewsStorage)
       case Array(Dir(dir)) => preview(dir)
       case Array() =>
         "docs" match {
@@ -34,11 +39,13 @@ object Pamflet {
         1
     }
   }
+
   def fencePlugins: List[FencePlugin] = Nil
-  def preview(dir: File): Int = {
-    Preview(storage(dir, fencePlugins).globalized).run { server =>
+
+  def preview(dir: File, collation: Collation = StructuredFileStorage) = {
+    Preview(collation(dir, fencePlugins).globalContents).run { server =>
       unfiltered.util.Browser.open(
-        "http://127.0.0.1:%d/".format(server.portBindings.head.port)
+        server.portBindings.head.url
       )
       println("\nPreviewing `%s`. Press CTRL+C to stop.".format(dir))
     }
@@ -52,4 +59,5 @@ object Pamflet {
       else None
     }
   }
+  type Collation = ((File, List[FencePlugin]) => FileStorage)
 }

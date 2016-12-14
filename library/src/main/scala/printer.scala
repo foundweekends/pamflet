@@ -13,71 +13,13 @@ object Printer {
       page.name + ".html"
     }).replace(' ', '+')
 }
-case class Printer(contents: Contents, globalized: Globalized, manifest: Option[String]) {
-  def defaultLanguage = globalized.defaultLanguage
-  val relativeBase: String = relative(defaultLanguage)
-  def relative(lang: String): String =
-    if (contents.isDefaultLang) {
-      if (lang == defaultLanguage) ""
-      else lang + "/"
-    }
-    else {
-      if (lang == defaultLanguage) "../"
-      else "../" + lang + "/"
-    }
+case class Printer(
+  contents: Contents,
+  globalContents: GlobalContents,
+  manifest: Option[String]
+) {
+  def defaultLanguage = globalContents.template.defaultLanguage
 
-  def toc(current: Page) = {
-    val href: Page => String = current match {
-      case ScrollPage(_, _) => (p: Page) => BlockNames.fragment(p.name)
-      case _ => Printer.webify
-    }
-      
-    val link: Page => xml.NodeSeq = {
-      case `current` =>
-        <div class="current">{ current.name }</div>
-      case page =>
-        { <div><a href={ href(page) }>{ 
-          page.name
-        }</a></div> } ++ ((page, current) match {
-          case (page: ContentPage, c: DeepContents) =>
-            Outline(page)
-          case _ => Nil
-        })
-    }
-    def draw: Page => xml.NodeSeq = {
-      case sect @ Section(_, _, blocks, children, _) =>
-        link(sect) ++ list(children)
-      case page => link(page)
-    }
-    def list(pages: Seq[Page]) = {
-      <ol class="toc"> { pages.map {
-        case page: ContentPage => <li>{ draw(page) }</li>
-        case page => <li class="generated">{ draw(page) }</li>
-       } } </ol>
-    }
-    def display: String = current match {
-      case DeepContents(_) | ScrollPage(_, _) => "show"
-      case _ =>
-        current.template.get("toc") match {
-          case Some("hide") => "hide"
-          case Some("collapse") => "collap"
-          case _ => "show"
-        }
-    }
-    if (display == "hide") Nil
-    else <div class={ "tocwrapper " + display }>
-      <a class="tochead nav" style="display: none" href="#toc">❦</a>
-      <a name="toc"></a>
-      <h4 class="toctitle">Contents</h4>
-      <div class="tocbody">
-      {link(contents.pamflet) ++
-      list(current match {
-        case ScrollPage(_, _) => contents.pamflet.children.collect{
-          case cp: ContentPage => cp
-        }
-        case _ => contents.pamflet.children
-      })}</div></div>
-  }
   def comment(current: Page) = {
     current.template.get("disqus") map { disqusName =>
       val disqusCode = """
@@ -96,13 +38,13 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
   def prettify(page: Page) = {
     page.referencedLangs.find{ _ => true }.map { _ =>
       { <script type="text/javascript"
-          src= { relativeBase + "js/prettify/prettify.js" } ></script> } ++
+          src= { page.pathTo("js/prettify/prettify.js") } ></script> } ++
       page.prettifyLangs.map { br =>
         <script type="text/javascript" src={
-          relativeBase + "js/prettify/lang-%s.js".format(br)
+          page.pathTo("js/prettify/lang-%s.js".format(br))
         } ></script>
       } ++
-      <link type="text/css" rel="stylesheet" href={ relativeBase + "css/prettify.css" } />
+      <link type="text/css" rel="stylesheet" href={ page.pathTo("css/prettify.css") } />
       <script type="text/javascript"><!--
         window.onload=function() { prettyPrint(); };
       --></script>
@@ -120,9 +62,15 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         {
           val lis = 
             for {
-              lang <- page.template.languages
-              p <- globalized(lang).pages.find { _.localPath == page.localPath }
-            } yield <li><a href={ relative(lang) + Printer.webify(p) } ><span class={ "lang-item lang-" + lang }>{languageName(lang)}</span></a></li>
+              lang <- globalContents.template.languages
+              otherContents <- globalContents.byLanguage.get(lang).toList
+              otherPage <- otherContents.pages if otherPage.localPath == page.localPath
+            } yield {
+              val lang = otherContents.language
+              <li>
+                <a href={ page.pathTo(otherPage) } ><span class={ "lang-item lang-" + lang }>{ languageName(lang) }</span></a>
+              </li>
+            }
           if (lis.size < 2) Nil
           else lis
         }
@@ -151,12 +99,13 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
     } getOrElse { Nil }
 
   def evalLayout(page: Page)(name: String): xml.NodeSeq = {
-    val s = (contents.layouts filter { case(k, _) => k == name } map { case(_, v) => v }).headOption.orElse({
-      if (contents.isDefaultLang) None
-      else (globalized.defaultContents.layouts filter { case(k, _) => k == name } map { case(_, v) => v }).headOption
-    }).getOrElse { sys.error(s"$name was not found in layouts!") }
+    val s = (contents.layouts filter {
+      case(k, _) => k == name
+    } map {
+      case(_, v) => v
+    }).headOption.getOrElse { sys.error(s"$name was not found in layouts!") }
     val m = modifiedTemplate(page)
-    val (_, blocks, _) = Knock.knockEither(s, m) match {
+    val (_, blocks, _) = Knock.knockEither(Frontin(s), m, Nil) match {
       case Right(x) => x
       case Left(x)  =>
         Console.err.println("Error while processing " + x)
@@ -183,7 +132,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
     )
   }
 
-  def print(page: Page) = {
+  def print(page: Page): xml.Node = {
     def lastnext(in: List[Page], last: Option[Page]): (Option[Page], Option[Page]) =
       (in, last) match {
         case (List(l, `page`, n, _*), _) => (Some(l), Some(n))
@@ -206,32 +155,25 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         {
           contents.favicon match {
             case Some(x) => <link rel="shortcut icon" href="favicon.ico" />
-            case None    =>
-              if (contents.isDefaultLang) Nil
-              else {
-                globalized.defaultContents.favicon match {
-                  case Some(x) => <link rel="shortcut icon" href= { relativeBase + "favicon.ico" } />
-                  case None    => Nil
-                }
-              }
+            case None    => Nil
           }
         }
-        <link rel="stylesheet" href={ relativeBase + "css/blueprint/screen.css" } type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href={ relativeBase + "css/blueprint/grid.css" } type="text/css" media={bigScreen}/>
-        <link rel="stylesheet" href={ relativeBase + "css/blueprint/print.css" } type="text/css" media="print"/> 
+        <link rel="stylesheet" href={ page.pathTo("css/blueprint/screen.css") } type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href={ page.pathTo("css/blueprint/grid.css") } type="text/css" media={bigScreen}/>
+        <link rel="stylesheet" href={ page.pathTo("css/blueprint/print.css") } type="text/css" media="print"/> 
         <!--[if lt IE 8]>
-          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
+          <link rel="stylesheet" href={ page.pathTo("css/blueprint/ie.css") } type="text/css" media="screen, projection"/>
         <![endif]-->
-        <link rel="stylesheet" href={ relativeBase + "css/pamflet.css" } type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href={ relativeBase + "css/pamflet-print.css" } type="text/css" media="print"/>
-        <link rel="stylesheet" href={ relativeBase + "css/pamflet-grid.css" } type="text/css" media={bigScreen}/>
-        <link rel="stylesheet" href={ relativeBase + "css/color_scheme-redmond.css" } type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href={ relativeBase + "css/color_scheme-github.css" } type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href={ relativeBase + "css/color_scheme-monokai.css" } type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href={ relativeBase + "css/" + Heights.heightCssFileName(page) } type="text/css" media={bigScreen}/>
-        <script type="text/javascript" src={ relativeBase + "js/jquery-1.6.2.min.js" }></script>
-        <script type="text/javascript" src={ relativeBase + "js/jquery.collapse.js" }></script>
-        <script type="text/javascript" src={ relativeBase + "js/pamflet.js" }></script>
+        <link rel="stylesheet" href={ page.pathTo("css/pamflet.css") } type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href={ page.pathTo("css/pamflet-print.css") } type="text/css" media="print"/>
+        <link rel="stylesheet" href={ page.pathTo("css/pamflet-grid.css") } type="text/css" media={bigScreen}/>
+        <link rel="stylesheet" href={ page.pathTo("css/color_scheme-redmond.css") } type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href={ page.pathTo("css/color_scheme-github.css") } type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href={ page.pathTo("css/color_scheme-monokai.css") } type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href={ page.pathTo("css/" + Heights.heightCssFileName(page)) } type="text/css" media={bigScreen}/>
+        <script type="text/javascript" src={ page.pathTo("js/jquery-1.6.2.min.js") }></script>
+        <script type="text/javascript" src={ page.pathTo("js/jquery.collapse.js") }></script>
+        <script type="text/javascript" src={ page.pathTo("js/pamflet.js") }></script>
         <script type="text/javascript">
           Pamflet.page.language = '{xml.Unparsed(contents.language)}';
         </script>
@@ -239,13 +181,9 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
           prettify(page)
         }
         {
-          (globalized.defaultContents.css.map { case (filename, contents) =>
-            <link rel="stylesheet" href={ relativeBase + "css/" + filename } type="text/css" media="screen, projection"/>
-          }) ++
-          (if (contents.isDefaultLang) Nil
-          else contents.css.map { case (filename, contents) =>
-            <link rel="stylesheet" href={ "css/" + filename } type="text/css" media="screen, projection"/>
-          })
+          contents.css.map { case (filename, contents) =>
+            <link rel="stylesheet" href={ page.pathTo("css/" + filename) } type="text/css" media="screen, projection"/>
+          }
         }
         {
           page.template.get("google-analytics").toList.map { uid: String => 
@@ -272,13 +210,13 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
       </head>
       <body class={colorScheme}>
         { prev.map { p =>
-          <a class="page prev nav" href={ Printer.webify(p)}>
+          <a class="page prev nav" href={ page.pathTo(p) }>
             <span class="space">&nbsp;</span>
             <span class="flip arrow">{arrow}</span>
           </a>
         }.toSeq ++
         next.map { n =>
-          <a class="page next nav" href={ Printer.webify(n)}>
+          <a class="page next nav" href={ page.pathTo(n) }>
             <span class="space">&nbsp;</span>
             <span class="arrow">{arrow}</span>
           </a>
@@ -287,23 +225,25 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
           <div class="span-16 prepend-1 append-1 contents">
             { page match {
                 case page: DeepContents =>
-                  toc(page)
-                case page: ContentPage =>
-                  toXHTML(page.blocks) ++ next.collect {
+                  contents.pamflet.toc(contents, page)
+                case page: ScrollPage =>
+                  contents.pamflet.toc(contents, page) ++ toXHTML(page.blocks)
+                case page: AuthoredPage =>
+                  toXHTML(page.blocks) ++ (next.collect {
                     case n: AuthoredPage =>
                       <div class="bottom nav span-16">
                         <em>Next Page</em>
                         <span class="arrow">{arrow}</span>
-                        <a href={Printer.webify(n)}> {n.name} </a>                        
+                        <a href={ page.pathTo(n) }> {n.name} </a>
                         { languageBar(page) }
                       </div>
                     case _ =>
                       <div class="bottom nav end span-16">
                         { languageBar(page) }
                       </div>
-                  } ++ toc(page) ++ comment(page)
-                case page: ScrollPage =>
-                  toc(page) ++ toXHTML(page.blocks)
+                  } orElse {
+                    Some(<div class="bottom nav span-16">&nbsp;</div>)
+                  }) ++ contents.pamflet.toc(contents, page) ++ comment(page)
             } }
           </div>
         </div>
@@ -320,7 +260,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         {
           page.template.get("github").map { repo =>
             <a href={"http://github.com/" + repo} class="fork nav"
-               ><img src={ relativeBase + "img/fork.png" } alt="Fork me on GitHub"/></a>
+               ><img src={ page.pathTo("img/fork.png") } alt="Fork me on GitHub"/></a>
           }.toSeq
         }
         {
@@ -328,7 +268,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
             <div class="highlight-outer">
               <div class="highlight-menu">
                 <ul>
-                  <li><button id="highlight-button-twitter"><img src={ relativeBase + "img/twitter-bird-dark-bgs.png" } /></button></li>
+                  <li><button id="highlight-button-twitter"><img src={ page.pathTo("img/twitter-bird-dark-bgs.png") } /></button></li>
                 </ul>
               </div>
             </div>
@@ -340,11 +280,4 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
       html % new scala.xml.UnprefixedAttribute("manifest", mf, scala.xml.Null)
     } getOrElse { html }
   }
-
-  def named(name: String) =
-    contents.pages.find { page =>
-      Printer.webify(page) == name
-    }
-
-  def printNamed(name: String) = named(name).map(print)
 }

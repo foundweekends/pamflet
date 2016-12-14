@@ -9,24 +9,17 @@ object Knock {
   def notifyBeginLanguage(): Unit = discounter.notifyBeginLanguage()
   def notifyBeginPage(): Unit = discounter.notifyBeginPage()
 
-  def knockEither(value: String, propFiles: Seq[File], ps: List[FencePlugin]): Either[Throwable, (String, Seq[Block], Template)] = 
-    knockEither(value, StringTemplate(propFiles, None, Map()), ps)
-
-  def knockEither(value: String, template0: Template): Either[Throwable, (String, Seq[Block], Template)] =
-    knockEither(value, template0, List())
-
-  def knockEither(value: String, template0: Template, ps: List[FencePlugin]): Either[Throwable, (String, Seq[Block], Template)] = {
+  def knockEither(value: String, propFiles: Seq[File], fencePlugins: List[FencePlugin]): Either[Throwable, (String, Seq[Block], Template)] = {
     val frontin = Frontin(value)
-    val template = frontin.header match {
-      case None    => template0
-      case Some(h) => template0.updated(h)
-    }
+    val template = StringTemplate(propFiles.toSeq, frontin header, Map())
+    knockEither(frontin, template, fencePlugins)
+  }
+  def knockEither(frontin: Frontin, template: Template, fencePlugins: List[FencePlugin]): Either[Throwable, (String, Seq[Block], Template)] = {
     val raw = template(frontin body)
     try {
-      Right((raw.toString, discounter.knockoffWithPlugins(raw, ps), template))
+      Right((raw.toString, discounter.knockoffWithPlugins(raw, fencePlugins), template))
     } catch {
       case e: Throwable => Left(e)
     }
   }
-
 }

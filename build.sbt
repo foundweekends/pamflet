@@ -1,8 +1,8 @@
 lazy val common = Seq(
   organization := "net.databinder",
-  version := "0.7.0-SNAPSHOT",
-  scalaVersion := "2.10.4",
-  crossScalaVersions := Seq("2.11.5", "2.10.4"),
+  version := "0.7.0-alpha3",
+  scalaVersion := "2.11.4",
+  scalacOptions ++= Seq("-unchecked", "-deprecation"),
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
   homepage :=
     Some(new java.net.URL("http://pamflet.databinder.net/")),
@@ -32,15 +32,13 @@ lazy val common = Seq(
 )
 
 val knockoffVersion = "0.8.3"
-lazy val knockoffDeps = Def.setting { Seq(
-  "com.tristanhunt" %% "knockoff" % knockoffVersion
-)}
-val unfilteredVersion = "0.8.3"
+val unfilteredVersion = "0.8.4"
 val stringtemplateVersion = "3.2.1"
 lazy val libraryDeps = Def.setting { Seq(
   "net.databinder" %% "unfiltered-filter" % unfilteredVersion,
   "net.databinder" %% "unfiltered-jetty" % unfilteredVersion,
-  "org.antlr" % "stringtemplate" % stringtemplateVersion
+  "org.antlr" % "stringtemplate" % stringtemplateVersion,
+  "com.github.nscala-time" %% "nscala-time" % "1.6.0"
 )}
 val launcherInterfaceVersion = "0.13.0"
 val servletApiVersion = "3.0.1"
@@ -57,14 +55,23 @@ lazy val pamflet: Project =
     publishArtifact := false
   ).
   aggregate(knockoff, library, app)
+
 lazy val knockoff: Project =
   (project in file("knockoff")).
   settings(common: _*).
   settings(
     name := "pamflet-knockoff",
     description := "Extensions to the Knockoff Markdown parser",
-    libraryDependencies ++= knockoffDeps.value
+    crossScalaVersions := Seq("2.11.4", "2.10.4"),
+    libraryDependencies <<= (libraryDependencies, scalaVersion) { (deps, sv) =>
+      deps ++ Seq("com.tristanhunt" %% "knockoff" % knockoffVersion) ++ (
+        if (sv.startsWith("2.10")) None
+        else
+          Some("org.scala-lang.modules" %% "scala-xml" % "1.0.2")
+      )
+    }
   )
+
 lazy val library: Project =
   (project in file("library")).
   settings(common: _*).
@@ -74,6 +81,7 @@ lazy val library: Project =
     libraryDependencies ++= libraryDeps.value
   ).
   dependsOn(knockoff)
+
 lazy val app: Project =
   (project in file("app")).
   settings(common: _*).
