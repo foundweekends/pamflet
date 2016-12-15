@@ -8,4 +8,4 @@ out: For-Your-Perusal.html
 この pamflet で説明されているテクニックを使ってこの pamflet は書かれている。
 [GitHub][gh] で Pamflet の `docs/` ディレクトリを開いて眺めてみてほしい。
 
-[gh]: https://github.com/foundweekends/pamflet/tree/master/docs
+[gh]: $github_docs$
