@@ -54,6 +54,7 @@ lazy val pamflet: Project =
   settings(common: _*).
   settings(
     ghpages.settings,
+    sourceDirectory in Pamflet := file("docs"),
     git.remoteRepo := "git@github.com:foundweekends/pamflet.git",
     name := "pamflet",
     publishArtifact := false
