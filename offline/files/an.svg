@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="200" height="200" stroke="black" stroke-width="0.5">
-    <circle cx="50" cy="50" r="40" fill="#FF8080"/>
-    <rect x="60" y="60" height="50" width="100" fill="#4040FF" fill-opacity=".75"/>
-    <polyline points="100,10 130,50 70,50 100,10" fill="green" fill-opacity="0.8"/>
-    <text x="30" y="40" stroke-width="0">tasty!</text>
-</svg>
