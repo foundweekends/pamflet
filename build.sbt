@@ -5,7 +5,7 @@ lazy val common = Seq(
   crossScalaVersions := Seq("2.11.8", "2.10.6"),
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
   homepage :=
-    Some(new java.net.URL("http://www.foundweekends.org/pamflet/Pamflet")),
+    Some(new java.net.URL("http://www.foundweekends.org/pamflet/")),
   licenses := Seq("LGPL v3" -> url("http://www.gnu.org/licenses/lgpl.txt")),
   publishMavenStyle := true,
   publishTo :=
