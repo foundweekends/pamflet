@@ -4,4 +4,4 @@ write and read on any platform.
 
 [See Pamflet's pamflet for the full story][pf].
 
-[pf]: http://www.foundweekends.org/pamflet/Pamflet
+[pf]: http://www.foundweekends.org/pamflet/
