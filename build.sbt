@@ -54,6 +54,13 @@ lazy val pamflet: Project =
   settings(common: _*).
   settings(
     ghpages.settings,
+    includeFilter in Pamflet := {
+      new FileFilter{
+        override def accept(file: File) = {
+          !file.getCanonicalPath.contains("offline/")
+        }
+      }
+    },
     sourceDirectory in Pamflet := file("docs"),
     git.remoteRepo := "git@github.com:foundweekends/pamflet.git",
     name := "pamflet",
