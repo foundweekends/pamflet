@@ -566,8 +566,7 @@ Who's Using Pamflet?
 --------------------
 
 * [Dispatch](http://dispatch.databinder.net/)
-* [Pamflet](http://pamflet.databinder.net/)
-* [Unfiltered](http://unfiltered.databinder.net/)
+* [Pamflet](http://www.foundweekends.org/pamflet/Pamflet)
 * [Subset](http://osinka.github.com/subset/Subset.html)
 * [Lifty](http://lifty.github.com/Lifty.html)
 * [treehugger.scala](http://eed3si9n.com/treehugger/)
