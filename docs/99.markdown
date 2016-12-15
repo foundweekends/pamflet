@@ -2,7 +2,7 @@ Who's Using Pamflet?
 --------------------
 
 * [Dispatch](http://dispatch.databinder.net/)
-* [Pamflet](http://pamflet.databinder.net/)
+* [Pamflet](http://www.foundweekends.org/pamflet/Pamflet)
 * [Unfiltered](http://unfiltered.databinder.net/)
 * [Subset](http://osinka.github.com/subset/Subset.html)
 * [Lifty](http://lifty.github.com/Lifty.html)
