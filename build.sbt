@@ -53,10 +53,13 @@ lazy val pamflet: Project =
   (project in file(".")).
   settings(common: _*).
   settings(
+    ghpages.settings,
+    git.remoteRepo := "git@github.com:foundweekends/pamflet.git",
     name := "pamflet",
     publishArtifact := false
   ).
-  aggregate(knockoff, library, app)
+  aggregate(knockoff, library, app).
+  enablePlugins(PamfletPlugin)
 lazy val knockoff: Project =
   (project in file("knockoff")).
   settings(common: _*).

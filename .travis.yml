@@ -19,7 +19,11 @@ jdk:
 
 script:
   - sbt ++$TRAVIS_SCALA_VERSION -Dfile.encoding=UTF8 test
+  - if [[ "${TRAVIS_SCALA_VERSION}" == "2.11.8" ]]; then ./publish.sh; fi
 
   # Tricks to avoid unnecessary cache updates
   - find $HOME/.sbt -name "*.lock" | xargs rm
   - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
+env:
+  global:
+    secure: Pdcegq79mokfGhVVEAvOINWXnE1NgBYXb+jDlWZQxCPMJN1LmCRuQsAlDEE76X5gTsZx/3IBEweCGR1scFQOl2c9WnrOrFtH54PFSw6kf0IN8u85RyrK6PaxYc4CYJisVmAMU0HP6a4/UBj+RD+4IAxpKBeqSEcxJpU6deW6P9s=
