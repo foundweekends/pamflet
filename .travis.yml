@@ -11,8 +11,8 @@ cache:
 
 # Cross built for 2.10 and 2.11
 scala:
-   - 2.10.4
-   - 2.11.5
+   - 2.10.6
+   - 2.11.8
 
 jdk:
   - openjdk7

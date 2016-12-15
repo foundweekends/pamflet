@@ -1,8 +1,8 @@
 lazy val common = Seq(
   organization := "net.databinder",
   version := "0.7.0-SNAPSHOT",
-  scalaVersion := "2.10.4",
-  crossScalaVersions := Seq("2.11.5", "2.10.4"),
+  scalaVersion := "2.10.6",
+  crossScalaVersions := Seq("2.11.8", "2.10.6"),
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
   homepage :=
     Some(new java.net.URL("http://pamflet.databinder.net/")),
