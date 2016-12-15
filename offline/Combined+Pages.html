@@ -1,0 +1,410 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html manifest="pamflet.manifest">
+      <head>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <title>Pamflet — Combined Pages</title>
+        
+        <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/blueprint/grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamflet-print.css" type="text/css" media="print"/>
+        <link rel="stylesheet" href="css/pamflet-grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/color_scheme-redmond.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/color_scheme-github.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamfletheight_2em_2em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="js/pamflet.js"></script>
+        <script type="text/javascript">
+          Pamflet.page.language = 'en';
+        </script>
+        <script type="text/javascript" src="js/prettify/prettify.js"></script><script type="text/javascript" src="js/prettify/lang-scala.js"></script><script type="text/javascript" src="js/prettify/lang-css.js"></script><link type="text/css" rel="stylesheet" href="css/prettify.css"/><script type="text/javascript"><!--
+        window.onload=function() { prettyPrint(); };
+      --></script>
+        <link rel="stylesheet" href="css/custom.css" type="text/css" media="screen, projection"/>
+        
+        <script type="text/javascript">
+              Pamflet.twitter = '#pamflet';
+            </script>
+      </head>
+      <body class="color_scheme-redmond">
+        <a class="page prev nav" href="Contents+in+Depth.html">
+            <span class="space">&nbsp;</span>
+            <span class="flip arrow">❧</span>
+          </a>
+        <div class="container contentswrapper">
+          <div class="span-16 prepend-1 append-1 contents">
+            <div class="tocwrapper show">
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      <div><a href="#Pamflet">Pamflet</a></div><ol class="toc"> <li><div><a href="#Like+a+Book">Like a Book</a></div></li><li><div><a href="#Writing+and+Organizing">Writing and Organizing</a></div><ol class="toc"> <li><div><a href="#Filenames+and+Page+Names">Filenames and Page Names</a></div></li><li><div><a href="#Shaping+the+Contents+Tree">Shaping the Contents Tree</a></div></li><li><div><a href="#Going+Deep">Going Deep</a></div></li> </ol></li><li><div><a href="#Pamflet+in+a+Project">Pamflet in a Project</a></div><ol class="toc"> <li><div><a href="#On+the+Command+Line">On the Command Line</a></div></li><li><div><a href="#Git+Hooks">Git Hooks</a></div></li><li><div><a href="#Apache+Setup">Apache Setup</a></div></li> </ol></li><li><div><a href="#Fancy+Techniques">Fancy Techniques</a></div><ol class="toc"> <li><div><a href="#Source+Code+Highlighting">Source Code Highlighting</a></div></li><li><div><a href="#Custom+Stylesheets">Custom Stylesheets</a></div></li><li><div><a href="#Template+Properties">Template Properties</a></div></li><li><div><a href="#Special+Properties">Special Properties</a></div></li><li><div><a href="#Additional+resources">Additional resources</a></div></li><li><div><a href="#Globalization">Globalization</a></div></li><li><div><a href="#Changing+the+look">Changing the look</a></div></li> </ol></li><li><div><a href="#For+Your+Perusal">For Your Perusal</a></div></li><li><div><a href="#Who%E2%80%99s+Using+Pamflet%3F">Who’s Using Pamflet?</a></div></li> </ol></div></div><h1 id="Pamflet">Pamflet<a href="#Pamflet" class="header-link"><span class="header-link-content">&nbsp;</span></a></h1><p><em>Pamflet</em> is a publishing application for short texts, particularly
+user documentation of open-source software. It is designed to be easy
+to write and read on any platform.
+</p><blockquote><p><a href="http://notes.implicit.ly/post/87661053009/pamflet-0-6-0">Version 0.6.0 Release Notes</a>
+</p></blockquote><h2 id="Like+a+Book">Like a Book<a href="#Like+a+Book" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Pamflet generates a linked sets of pages called “pamflets”. Although
+hierarchical organization of pages is supported, the primary means of
+navigation is linear and authors are encouraged to write pamflets that
+progress logically when read front to back.
+</p><p>The table of contents appears at the bottom of every page. The first
+page of a pamflet should be brief so that the generated contents
+listing will appear above the fold. Think of it as a title page, with
+a few sentences of description.
+</p><h3 id="On+the+Big+Screen">On the Big Screen<a href="#On+the+Big+Screen" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>On devices with large screens—typically, laptop and desktop
+computers—pamflet texts appear in a fixed-width center column.  The
+margins are giant <strong>clickable regions</strong> for page flipping. The left
+and right <strong>keyboard arrows</strong> may also be used for the same purpose.
+</p><h3 id="Going+Mobile">Going Mobile<a href="#Going+Mobile" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Since Pamflets are meant to be carried around, having a good mobile
+appearance and behavior is vital. When viewed on a phone, tablet, or
+other small-screen device, pamflets take the full screen width.
+</p><h4 id="Radio+Silent">Radio Silent<a href="#Radio+Silent" class="header-link"><span class="header-link-content">&nbsp;</span></a></h4><p>And because mobile devices aren’t always connected, an
+<a href="http://diveintohtml5.org/offline.html">HTML5 cache manifest</a> is generated for all pamflets. Add a
+bookmark for a pamflet to your home screen so you can read it
+anywhere.
+</p><h2 id="Writing+and+Organizing">Writing and Organizing<a href="#Writing+and+Organizing" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Pamflet’s purpose is to make it so easy to write decent project
+documentation that everyone will do it. This section tells you
+everything there is to know about writing pamflets.
+</p><h2 id="Filenames+and+Page+Names">Filenames and Page Names<a href="#Filenames+and+Page+Names" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Pamflet reads source files from the source directory and produces
+finished web files at the destination. Sources with a <code>markdown</code> or
+<code>md</code> extension correspond to one <code>html</code> output file.
+</p><p>Filenames are used only for ordering pages and sections; the display
+titles and page URLs are determined instead by the first heading
+element in the source of the page.
+</p><h3 id="Naming+Conventions">Naming Conventions<a href="#Naming+Conventions" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>It is suggested that you name your sources with a simple numeric or
+alphabetical prefix to control ordering; after that you can include
+some portion of the title, or nothing, and end with the markdown
+extension.
+</p><p>For example, the title page of a pamflet could be named <code>00.markdown</code>
+to ensure that is the first source in the ordered list. The contents
+might look like this:
+</p><pre><code>Pamflet
+=======
+
+*Pamflet* is a publishing application...
+</code></pre><p>This tells the processor that “Pamflet” is the name of the page. If
+this source is indeed the first one in the ordered list, it is
+interpreted as the name of the entire pamflet.
+</p><h4 id="Output+Names">Output Names<a href="#Output+Names" class="header-link"><span class="header-link-content">&nbsp;</span></a></h4><p>The output <code>html</code> filenames are URL-encoded versions of the page
+names; the have no relationship to the input filenames. Page names
+must therefore be unique across the pamflet.
+</p><h2 id="Shaping+the+Contents+Tree">Shaping the Contents Tree<a href="#Shaping+the+Contents+Tree" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>As mentioned on the previous page, pages are ordered alphabetically
+by their source filenames. This ordering also affects the <em>Contents</em>
+listing that appears below every page.
+</p><p>Pamflet uses HTML ordered lists for <em>Contents</em>. In the default
+stylesheet, the top-level contents list is made of simple numbers.
+There is one quirk of the structure that may be surprising: The first
+markdown source found in a directory is not placed in the same list
+as the other sources. The title page described in the previous
+example would not appear with any number at all. Given the following
+directory:
+</p><pre><code>docs/
+  00.markdown
+  01.markdown
+  02.markdown
+</code></pre><p>The <em>Contents</em> will appear in this manner, with the actual names
+and links derived from the first header found in each page:
+</p><pre><code>&lt;00.markdown&gt;
+1. &lt;01.markdown&gt;
+2. &lt;02.markdown&gt;
+</code></pre><p>For this reason, we consider the title page to be the zeroth page and
+typically name it as such.
+</p><h2 id="Going+Deep">Going Deep<a href="#Going+Deep" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Even the simplest pamflet can often benefit from grouping related
+pages into sections—in fact, you’re reading a section right now.
+</p><p>Pamflet supports arbitrarily many nested sections, defined by
+directories beneath the primary source directory. These directories
+participate in the same name-based ordering as their adjacent markdown
+sources.
+</p><pre><code>docs/
+  00.markdown
+  01/
+    00.markdown
+    a.markdown
+    b.markdown
+  02.markdown
+</code></pre><p>Given valid sources containing page headings, the above structure will
+produce the following <em>Contents</em> listing:
+</p><pre><code>&lt;00.markdown&gt;
+1. &lt;01/00.markdown&gt;
+  a. &lt;01/a.markdown&gt;
+  b. &lt;01/b.markdown&gt;
+2, &lt;02.markdown&gt;
+</code></pre><p>Here you can see how the first ordered source in a directory,
+<code>00.markdown</code>, always acts as a title page whether it is for a the
+entire pamflet or just one section. It is numbered and positioned
+according on the higher level numbering; at the top level, this is
+simply the absense of any number.
+</p><p>You can also see in this example that Pamflet’s second level numbering
+is lowercase letters. The third is lowercase roman numerals, and and
+after that it is back to the browser default. You can override these
+for any level using a custom stylesheet.
+</p><h6>Note</h6><p>Nesting is reflected only in the <em>Contents</em> listing. The pamflet page
+namespace is flat, with all output <code>html</code> under a single path.
+</p><h2 id="Pamflet+in+a+Project">Pamflet in a Project<a href="#Pamflet+in+a+Project" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Although it can be applied for any purpose, Pamflet is tailored to
+produce open-source project documentation. This section explores the
+workflow from drafting to publication.
+</p><h2 id="On+the+Command+Line">On the Command Line<a href="#On+the+Command+Line" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Pamflet is installed with <a href="https://github.com/foundweekends/conscript#readme">conscript</a>, a general installer
+and updater for Scala applications. Conscript is pretty easy to set
+up, so please <a href="https://github.com/foundweekends/conscript#readme">do that and come back</a> if you haven’t yet.
+</p><p>Once you have conscript setup, and assuming that <code>~/bin</code> is on your
+executable search path, you can install Pamflet like so:
+</p><pre><code>cs foundweekends/pamflet
+</code></pre><p>That installs Pamflet’s <code>pf</code> command, which is used to both preview
+and publish pamflets. 
+</p><pre><code>Usage: pf [SRC] [DEST]
+</code></pre><h3 id="Preview">Preview<a href="#Preview" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Pamflet’s preview mode allows you to check the layout and text
+rendering as much as you like while editing project documentation.
+</p><p>When you call <code>pf</code> with no arguments, <code>SRC</code> is assumed to be “docs”
+under the working directory—typically, your project’s base
+directory. When you call <code>pf</code> with one argument, you are specifying
+the <code>SRC</code> directory. In both these cases where no <code>DEST</code> is specified,
+Pamflet goes into preview mode.
+</p><pre><code>2011-07-15 09:29:38.033:INFO::jetty-7.2.2.v20101205
+2011-07-15 09:29:38.066:INFO::Started SocketConnector@127.0.0.1:44449
+
+Previewing `docs`. Press CTRL+C to stop.
+</code></pre><p>Preview mode starts an <a href="http://unfiltered.databinder.net/">Unfiltered</a> web server bound to the
+loopback interface on some available port. It also requests that a
+local web browser open the relevant URL; this occurs in a background
+or foreground window depending on your platform and browser.
+</p><p>If a usable pamflet is found in the <code>docs</code> or other specified
+directory, you will see its title page in the browser. Linear
+navigation and the <em>Contents</em> listing will work exactly as in the
+published pamflet. But the best thing about preview is that any
+changes to the pamflet source are reflected immediately: just hit
+reload.
+</p><h3 id="Publish">Publish<a href="#Publish" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>To publish Pamflet sources into web sources, call the <code>pf</code> command
+with both <code>SRC</code> and <code>DEST</code> parameters. If <code>SRC</code> has Pamflet sources
+and <code>DEST</code> is some directory that the current user can write to,
+you’ll find all the output files written to it after the command
+completes.
+</p><h2 id="Git+Hooks">Git Hooks<a href="#Git+Hooks" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Git hooks turn Pamflet from a cute toy into digital printing
+press. Set them up on a server under your control (you do have one,
+yes?) and have your published documentation updated every time you
+push.
+</p><p>Assuming your have a <code>--bare</code> git repository on your server, it should
+already have a <code>hooks/</code> subdirectory. In <code>hooks/</code>, create or edit a
+file <code>post-update</code> that is similar to the following:
+</p><pre><code class="prettyprint lang-sh">#!/bin/sh
+HOME=/home/me
+DOCB=$HOME/app/my_doc_build
+PUB=$HOME/app/my_pub
+cd $DOCB
+env -i git pull
+cd -
+$HOME/bin/pf $DOCB/docs $PUB
+</code></pre><p><code>DOCB</code> is a clone of the same repo, but with a working tree. <code>PUB</code> is the
+directory where the finished <code>html</code> and other files will be
+placed. <code>HOME</code> is your home directory, because git runs the hook in a
+weird environment and it’s best to be explicit.
+</p><p>Set all that up, and make the hook script executable <em>or it will not
+run and you’ll be very confused for a while</em>. Also, make sure that
+<code>~/bin/pf</code> runs normally on the server.
+</p><p>When you push to the bare repo from elsewhere, you’ll see the normal
+git output along with a success or error message from Pamflet. (And
+yes, this is some pretty lame scripting. Fork this pamflet, that’s
+what it’s here for.)
+</p><h2 id="Apache+Setup">Apache Setup<a href="#Apache+Setup" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>You probably know all this already, but to save the rest of us some
+time, Apache can be pointed to your pamflet directory like this:
+</p><pre><code class="prettyprint lang-xml">&lt;VirtualHost *:80&gt;
+        ServerName pamflet.databinder.net
+        DocumentRoot /home/me/app/pamflet
+        RewriteEngine On
+        RewriteRule ^/$ /Pamflet.html [L,R=permanent]
+&lt;/VirtualHost&gt;
+</code></pre><h6>Note</h6><p>You do need a root redirect if you want requests to the root path to
+resolve. The title page is assigned an output name like any other.
+</p><h2 id="Fancy+Techniques">Fancy Techniques<a href="#Fancy+Techniques" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>We’ve covered how to write and publish pamflets. This is how to write
+and publish even fancier pamflets.
+</p><h2 id="Source+Code+Highlighting">Source Code Highlighting<a href="#Source+Code+Highlighting" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Pamflet hooks into the very slick prettify.js source code
+highlighter. To activate it, use github’s fenced code block syntax to
+enclose your source and specify a language name known to prettify.
+</p><pre><code>```scala
+// Some comment
+case class Page(name: String) {
+  def foo: Int = (1 to 10) /: { _ + _ }
+  val bar = &quot;wat&quot;
+}
+```
+</code></pre><p>appears as
+</p><pre><code class="prettyprint lang-scala">// Some comment
+case class Page(name: String) {
+  def foo: Int = (1 to 10) /: { _ + _ }
+  val bar = &quot;wat&quot;
+}
+</code></pre><p>Really clears things up, right?
+</p><h2 id="Custom+Stylesheets">Custom Stylesheets<a href="#Custom+Stylesheets" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>To give your project that special edge, you will surely want to set
+all headings to Copperplate MT or Bank Gothic.
+</p><p>Not to worry, Pamflet supports this. All files in the source directory
+with the extension <code>css</code> will be packaged with the pamflet. These will
+be loaded after all other stylesheets, so go crazy.
+</p><h2 id="Template+Properties">Template Properties<a href="#Template+Properties" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Because you probably have a few current version numbers and things
+repeated throughout your documentation, Pamflet supports template
+properties through StringTemplate.
+</p><p>If a file <code>template.properties</code> is found in the pamflet source
+directory, all Markdown sources are passed through StringTemplate with
+the properties as read by <code>java.util.Properties</code>. This is an example
+<code>template.properties</code>:
+</p><pre><code>version=0.3.4
+vrsn=034
+scala=2.8.1
+</code></pre><p>Properties are referenced in sources by bracketing them with the
+dollar sign. In this example, occurrences of <code>$version$</code> in the
+Markdown source would be replaced by <code>0.3.4</code> in the HTML output.
+</p><h3 id="Properties+Front+Matter">Properties Front Matter<a href="#Properties+Front+Matter" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>In addition, each page may add its own properties by including
+a properties front matter at the beginning of the page as follows:
+</p><pre><code>---
+version=0.2.5
+dispatch=0.8.5
+---
+</code></pre><p>Properties in the front matter takes precedence over the ones in
+<code>template.properties</code>.
+</p><h6>Note</h6><p>Once activated by the presence of the .properties file, StringTemplate
+will be confused by any stray <code>$</code> in your source. Always escape
+dollar signs that are not template properties with a backslash: <code>\$</code>
+</p><h2 id="Special+Properties">Special Properties<a href="#Special+Properties" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>While <a href="Template+Properties.html">template properties</a> exist generally
+for you to define and use as in your own markdown sources, Pamflet
+also checks for a special, optional property that links to a project’s
+GitHub repository, etc.
+</p><h3 id="Fork+Me+on+GitHub">Fork Me on GitHub<a href="#Fork+Me+on+GitHub" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>If you define a <code>github</code> property with the repo owner and name,
+Pamflet constructs a link to the repository. For example:
+</p><pre><code>github=foundweekends/pamflet
+</code></pre><p>This is the property that produces the link to GitHub from Pamflet’s
+own documentation. Note that there is only one slash.
+</p><h3 id="I+Want+Out">I Want Out<a href="#I+Want+Out" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>If you define an <code>out</code> property with a file name,
+Pamflet uses it to generate the file for the page.
+It is intended to be used in the properties front matter of the page:
+</p><pre><code>---
+out: index.html
+---
+</code></pre><h3 id="Collapsible+table+of+contents">Collapsible table of contents<a href="#Collapsible+table+of+contents" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>toc</code> property may be used to control how the table of contents
+is displayed at the end of each page.
+The allowed values are <code>show</code>, <code>hide</code>, and <code>collapse</code>.
+</p><h3 id="Disqus">Disqus<a href="#Disqus" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Defining <code>disqus</code> property with a disqus short name will add a comment section at the end of all your pages.
+</p><pre><code>disqus=namehere
+</code></pre><h3 id="Twitter">Twitter<a href="#Twitter" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Defining <code>twitter</code> property with any value will pop up a twitter button
+when some text is selected on any page. The button will compose a tweet including
+the selected text, the property, and the URL.
+The value <code>show</code> would display the button, but will not be included in the tweet.
+</p><pre><code>twitter=#pamflet
+</code></pre><h3 id="Google+Analytics">Google Analytics<a href="#Google+Analytics" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Defining <code>google-analytics</code> with a Google Analytics web property ID will 
+insert <a href="http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html">tracking Javascript</a> in the head of all your pages. For
+example:
+</p><pre><code>google-analytics=UA-12345-6
+</code></pre><h2 id="Additional+resources">Additional resources<a href="#Additional+resources" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>If you want your pamflet to carry your favorite image or any other
+resource, add it to a <code>files</code> directory just below <code>docs</code>. Then, link
+to it as if this directory were beside your pamflet page.
+</p><p>Supposing you drop a file named <code>a.txt</code> into <code>docs/files/</code> then
+<code>[some file](files/a.txt)</code> becomes <a href="files/a.txt">some file</a>. Try it!
+</p><h3 id="Embedding+images">Embedding images<a href="#Embedding+images" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Of course, the trick works great for images using usual markdown:
+</p><pre><code class="">![some svg](files/an.svg)
+</code></pre><p>Becomes
+</p><blockquote><p><img src="files/an.svg" alt="some svg"/>
+</p></blockquote><p>It’s worth a thousand words, give or take.
+</p><h3 id="favicon">favicon<a href="#favicon" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>To customize the favicon, place <code>favicon.ico</code> in the source directory.
+</p><h2 id="Globalization">Globalization<a href="#Globalization" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>If you want to translate your pamflet into multiple languages, 
+there are special <a href="Template+Properties.html">template properties</a> that enable globalization.
+</p><h3 id="Default+Language">Default Language<a href="#Default+Language" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>language</code> property is used to specify the language used at the root level.
+By default, it is set to <code>en</code>, which is ISO 639-1 code for English.
+</p><pre><code>language=en
+</code></pre><h3 id="List+of+Languages">List of Languages<a href="#List+of+Languages" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>languages</code> property is used to specify the list of languages used in your pamflet.
+Use ISO 639-1 two-letter language codes or IETF language tags separated by comma:
+</p><pre><code>languages=en,ja
+</code></pre><p>Then place non-default language contents under the folder named after the language code.
+</p><pre><code>docs/
+  00.markdown
+  01/
+    00.markdown
+    a.markdown
+  ja/
+    00.markdown
+    01/
+      00.markdown
+      a.markdown
+</code></pre><p>This will generate Japanese contents under <code>ja/</code> folder. 
+</p><h3 id="Language+Labels">Language Labels<a href="#Language+Labels" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Contents are assumed to be a translation when the relative path is the same. When they are detected,
+the language links appears at the bottom of each page to link to all translations.
+</p><p>Pamflet is able to resolve some of the language codes, but you can
+provide custom language labels using <code>lang-</code> properties if it doesn’t or
+just to change it:
+</p><pre><code>lang-pt-BR=Português (Brasil)
+</code></pre><h2 id="Changing+the+look">Changing the look<a href="#Changing+the+look" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>You might want to read pamflets using a dark color scheme. That’s why Pamflet ships with three color schemes:
+<a href="?color_scheme=github">github</a>,
+<a href="?color_scheme=monokai">monokai</a>, and
+<a href="?color_scheme=redmond">redmond</a>.
+</p><h3 id="Applying+a+color+scheme">Applying a color scheme<a href="#Applying+a+color+scheme" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>To apply a dark color scheme, open your pamflet with query string
+<nobr><code>?color_scheme=monokai</code></nobr>. This will store <code>&quot;monokai&quot;</code> to the HTML5 local storage, and apply the scheme to the pamflet.
+</p><h3 id="Default+color+scheme">Default color scheme<a href="#Default+color+scheme" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>The default scheme is redmond. To change it to something else, set <code>color_scheme</code> property:
+</p><pre><code>color_scheme=github
+</code></pre><h3 id="Custom+color+scheme">Custom color scheme<a href="#Custom+color+scheme" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>To create your own custom color scheme, for example named “zen”, create <code>color_scheme-zen.css</code>
+and declare css properties under <code>body.color_scheme-zen</code>:
+</p><pre><code class="prettyprint lang-css">body.color_scheme-zen {
+    color: black;
+    background: white;
+}
+body.color_scheme-zen code.prettyprint span.str {
+  color: #dd1144
+}
+</code></pre><h3 id="Custom+header+and+footer">Custom header and footer<a href="#Custom+header+and+footer" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>To change the header to something else, set <code>layout.header</code> and <code>layout.header.height</code> property:
+</p><pre><code>layout.header=header.md
+layout.header.height=2em
+</code></pre><p>Now drop a file named <code>header.md</code> into <code>docs/layout/</code>:
+</p><pre><code>&lt;div class=&quot;container&quot;&gt;
+  &lt;div class=&quot;span-16 prepend-1 append-1&quot;&gt;
+    &lt;div class=&quot;span-16 top nav&quot;&gt;
+      &lt;div class=&quot;span-16 title&quot;&gt;
+        &lt;span&gt;$contents.title$&lt;/span&gt;$if(page.title)$ —
+         $page.title$ $endif$ (draft)
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p>This will add ”(draft)” at the end of the default header. The footer works the same way. Just use <code>layout.footer</code> and <code>layout.footer.height</code> instead.
+</p><h2 id="For+Your+Perusal">For Your Perusal<a href="#For+Your+Perusal" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>All techniques described in this pamflet are used to produce it. Take
+a look through Pamflet’s <code>docs/</code> directory <a href="https://github.com/foundweekends/pamflet/tree/master/docs">on github</a>.
+</p><h2 id="Who%E2%80%99s+Using+Pamflet%3F">Who’s Using Pamflet?<a href="#Who%E2%80%99s+Using+Pamflet%3F" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><ul><li><a href="http://dispatch.databinder.net/">Dispatch</a>
+</li><li><a href="http://pamflet.databinder.net/">Pamflet</a>
+</li><li><a href="http://unfiltered.databinder.net/">Unfiltered</a>
+</li><li><a href="http://osinka.github.com/subset/Subset.html">Subset</a>
+</li><li><a href="http://lifty.github.com/Lifty.html">Lifty</a>
+</li><li><a href="http://eed3si9n.com/treehugger/">treehugger.scala</a>
+</li><li><a href="http://azavea.github.com/geotrellis/getting_started/GeoTrellis.html">GeoTrellis</a>
+</li><li><a href="http://bnd-book.duck-asteroid.cloudbees.net/BND.html">BND book</a>
+</li><li><a href="http://eed3si9n.com/learning-scalaz/">learning Scalaz</a>
+</li><li><a href="http://eed3si9n.com/tetrix-in-scala/">tetrix in Scala</a>
+</li><li><a href="http://www.scala-sbt.org/0.13/tutorial/index.html">sbt</a>
+</li><li><a href="http://scodec.org/guide/">scodec</a>
+</li></ul><p>Are you using Pamflet? Add your project and send a pull request.
+</p>
+          </div>
+        </div>
+        <div class="header">
+          <div class="container">
+        <div class="span-16 prepend-1 append-1">
+          <div class="span-16 top nav">
+            <div class="span-16 title">
+              <span>Pamflet</span> — Combined Pages
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="footer">
+          
+        </div>
+        <a href="http://github.com/foundweekends/pamflet" class="fork nav"><img src="img/fork.png" alt="Fork me on GitHub"/></a>
+        <div class="highlight-outer">
+              <div class="highlight-menu">
+                <ul>
+                  <li><button id="highlight-button-twitter"><img src="img/twitter-bird-dark-bgs.png"/></button></li>
+                </ul>
+              </div>
+            </div>
+      </body>
+    </html>

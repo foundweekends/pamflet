@@ -1,0 +1,111 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html>
+      <head>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <title>Pamflet — コマンドライン</title>
+        
+        <link rel="stylesheet" href="../css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/blueprint/grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="../css/blueprint/print.css" type="text/css" media="print"/> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link rel="stylesheet" href="../css/pamflet.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/pamflet-print.css" type="text/css" media="print"/>
+        <link rel="stylesheet" href="../css/pamflet-grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="../css/color_scheme-redmond.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/color_scheme-github.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/pamfletheight_2em_2em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <script type="text/javascript" src="../js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="../js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="../js/pamflet.js"></script>
+        <script type="text/javascript">
+          Pamflet.page.language = 'ja';
+        </script>
+        
+        <link rel="stylesheet" href="../css/custom.css" type="text/css" media="screen, projection"/>
+        
+        <script type="text/javascript">
+              Pamflet.twitter = '#pamflet';
+            </script>
+      </head>
+      <body class="color_scheme-redmond">
+        <a class="page prev nav" href="Pamflet-in-a-Project.html">
+            <span class="space">&nbsp;</span>
+            <span class="flip arrow">❧</span>
+          </a><a class="page next nav" href="Git-Hooks.html">
+            <span class="space">&nbsp;</span>
+            <span class="arrow">❧</span>
+          </a>
+        <div class="container contentswrapper">
+          <div class="span-16 prepend-1 append-1 contents">
+            <h2 id="%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3">コマンドライン<a href="#%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Pamflet は Scala アプリケーション用の汎用インストーラ兼アップデータである <a href="https://github.com/foundweekends/conscript#readme">conscript</a> によってインストールされる。
+conscript のセットアップは簡単なので、まだセットアップしていなければ<a href="https://github.com/foundweekends/conscript#readme">今すぐやってきて</a>ほしい。
+</p><p>conscript がセットアップされて、<code>~/bin</code> にパスが通っているとすると、Pamflet は以下のようにインストールできる:
+</p><pre><code>cs foundweekends/pamflet
+</code></pre><p>これで Pamflet の <code>pf</code> コマンドがインストールされた。このコマンドを使って pamflet のプレビューと公開を行う。
+</p><pre><code>使用例: pf [SRC] [DEST]
+</code></pre><h3 id="%E3%83%97%E3%83%AC%E3%83%93%E3%83%A5%E3%83%BC">プレビュー<a href="#%E3%83%97%E3%83%AC%E3%83%93%E3%83%A5%E3%83%BC" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Pamflet のプレビューモードを使ってプロジェクトのドキュメントを書き直しながら
+レイアウトやテキストのレンダリングを何回でも確認できる。
+<code>pf</code> を引数無しで呼び出すと、<code>SRC</code> はワーキングディレクトリ内の docs
+ディレクトリに指定される。
+<code>pf</code> を1つの引数だけを渡して呼び出すことで <code>SRC</code> ディレクトリを指定できる。
+どちらの場合も <code>DEST</code> が指定されなければ Pamflet はプレビューモードになる。
+</p><pre><code>2011-07-15 09:29:38.033:INFO::jetty-7.2.2.v20101205
+2011-07-15 09:29:38.066:INFO::Started SocketConnector@127.0.0.1:44449
+
+Previewing `docs`. Press CTRL+C to stop.
+</code></pre><p>プレビューモードはループバックインターフェイスの空いているポートを使って
+<a href="http://unfiltered.databinder.net/">Unfiltered</a> web サーバを開始する。
+さらにローカルの web ブラウザで使われてる URL を開く。
+プラットフォームやブラウザによってウィンドウはバックグラウンドまたは前面で開く。
+</p><p><code>docs</code> もしくは指定されたディレクトリに pamflet
+が見つかるとブラウザにタイトルページが表示されていることが確認できるはずだ。
+線形ナビゲーションや目次も公開される pamflet 同様に動作するはずだ。
+プレビューの一番良い所は pamflet のソースへの変更が即座に反映されることだ。
+ブラウザを再読み込みするだけでいい。
+</p><h3 id="%E5%85%AC%E9%96%8B">公開<a href="#%E5%85%AC%E9%96%8B" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>pamflet のソースを web ソースとして公開するには <code>pf</code>
+コマンドを <code>SRC</code> と <code>DEST</code> の両方のパラメータを指定して呼び出す。
+<code>SRC</code> に pamflet のソースを指定して、<code>DEST</code> にユーザが書き込み可能な
+ディレクトリを指定すれば、出力ファイルは全てそこに書き込まれる。
+</p><div class="bottom nav span-16">
+                        <em>Next Page</em>
+                        <span class="arrow">❧</span>
+                        <a href="Git-Hooks.html"> git フック </a>                        
+                        <ul class="language-bar">
+        <li><a href="../On+the+Command+Line.html"><span class="lang-item lang-en">English</span></a></li><li><a href="../ja/On-the-Command-Line.html"><span class="lang-item lang-ja">日本語</span></a></li>
+      </ul>
+                      </div><div class="tocwrapper show">
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      <div><a href="Pamflet.html">Pamflet</a></div><ol class="toc"> <li><div><a href="Like-a-Book.html">本のように</a></div></li><li><div><a href="Writing-and-Organizing.html">文書の整理と書き方</a></div><ol class="toc"> <li><div><a href="Filenames-and-Page-Names.html">ファイル名とページ名</a></div></li><li><div><a href="Shaping-the-Contents-Tree.html">目次の形</a></div></li><li><div><a href="Going-Deep.html">さらに深く</a></div></li> </ol></li><li><div><a href="Pamflet-in-a-Project.html">プロジェクトの中での Pamflet</a></div><ol class="toc"> <li><div class="current">コマンドライン</div></li><li><div><a href="Git-Hooks.html">git フック</a></div></li><li><div><a href="Apache-Setup.html">Apache の設定</a></div></li> </ol></li><li><div><a href="Fancy-Techniques.html">高度なテクニック</a></div><ol class="toc"> <li><div><a href="Source-Code-Hilighting.html">ソースコードのハイライト</a></div></li><li><div><a href="Custom-Stylesheets.html">カスタムスタイルシート</a></div></li><li><div><a href="Template-Properties.html">テンプレート・プロパティ</a></div></li><li><div><a href="Special-Properties.html">特殊プロパティ</a></div></li><li><div><a href="Globalization.html">グローバリゼーション</a></div></li><li><div><a href="Changing-the-look.html">装丁</a></div></li> </ol></li><li><div><a href="For-Your-Perusal.html">この pamflet のソース</a></div></li><li><div><a href="Whos-Using-Pamflet.html">誰が Pamflet を使っているか?</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div></div>
+          </div>
+        </div>
+        <div class="header">
+          <div class="container">
+        <div class="span-16 prepend-1 append-1">
+          <div class="span-16 top nav">
+            <div class="span-16 title">
+              <span>Pamflet</span> — コマンドライン
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="footer">
+          
+        </div>
+        <a href="http://github.com/foundweekends/pamflet" class="fork nav"><img src="../img/fork.png" alt="Fork me on GitHub"/></a>
+        <div class="highlight-outer">
+              <div class="highlight-menu">
+                <ul>
+                  <li><button id="highlight-button-twitter"><img src="../img/twitter-bird-dark-bgs.png"/></button></li>
+                </ul>
+              </div>
+            </div>
+      </body>
+    </html>

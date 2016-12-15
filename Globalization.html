@@ -1,0 +1,108 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html>
+      <head>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <title>Pamflet — Globalization</title>
+        
+        <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/blueprint/grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamflet-print.css" type="text/css" media="print"/>
+        <link rel="stylesheet" href="css/pamflet-grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/color_scheme-redmond.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/color_scheme-github.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamfletheight_2em_2em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="js/pamflet.js"></script>
+        <script type="text/javascript">
+          Pamflet.page.language = 'en';
+        </script>
+        
+        <link rel="stylesheet" href="css/custom.css" type="text/css" media="screen, projection"/>
+        
+        <script type="text/javascript">
+              Pamflet.twitter = '#pamflet';
+            </script>
+      </head>
+      <body class="color_scheme-redmond">
+        <a class="page prev nav" href="Additional+resources.html">
+            <span class="space">&nbsp;</span>
+            <span class="flip arrow">❧</span>
+          </a><a class="page next nav" href="Changing+the+look.html">
+            <span class="space">&nbsp;</span>
+            <span class="arrow">❧</span>
+          </a>
+        <div class="container contentswrapper">
+          <div class="span-16 prepend-1 append-1 contents">
+            <h2 id="Globalization">Globalization<a href="#Globalization" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>If you want to translate your pamflet into multiple languages, 
+there are special <a href="Template+Properties.html">template properties</a> that enable globalization.
+</p><h3 id="Default+Language">Default Language<a href="#Default+Language" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>language</code> property is used to specify the language used at the root level.
+By default, it is set to <code>en</code>, which is ISO 639-1 code for English.
+</p><pre><code>language=en
+</code></pre><h3 id="List+of+Languages">List of Languages<a href="#List+of+Languages" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>languages</code> property is used to specify the list of languages used in your pamflet.
+Use ISO 639-1 two-letter language codes or IETF language tags separated by comma:
+</p><pre><code>languages=en,ja
+</code></pre><p>Then place non-default language contents under the folder named after the language code.
+</p><pre><code>docs/
+  00.markdown
+  01/
+    00.markdown
+    a.markdown
+  ja/
+    00.markdown
+    01/
+      00.markdown
+      a.markdown
+</code></pre><p>This will generate Japanese contents under <code>ja/</code> folder. 
+</p><h3 id="Language+Labels">Language Labels<a href="#Language+Labels" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Contents are assumed to be a translation when the relative path is the same. When they are detected,
+the language links appears at the bottom of each page to link to all translations.
+</p><p>Pamflet is able to resolve some of the language codes, but you can
+provide custom language labels using <code>lang-</code> properties if it doesn’t or
+just to change it:
+</p><pre><code>lang-pt-BR=Português (Brasil)
+</code></pre><div class="bottom nav span-16">
+                        <em>Next Page</em>
+                        <span class="arrow">❧</span>
+                        <a href="Changing+the+look.html"> Changing the look </a>                        
+                        <ul class="language-bar">
+        <li><a href="Globalization.html"><span class="lang-item lang-en">English</span></a></li><li><a href="ja/Globalization.html"><span class="lang-item lang-ja">日本語</span></a></li>
+      </ul>
+                      </div><div class="tocwrapper show">
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      <div><a href="Pamflet.html">Pamflet</a></div><ol class="toc"> <li><div><a href="Like+a+Book.html">Like a Book</a></div></li><li><div><a href="Writing+and+Organizing.html">Writing and Organizing</a></div><ol class="toc"> <li><div><a href="Filenames+and+Page+Names.html">Filenames and Page Names</a></div></li><li><div><a href="Shaping+the+Contents+Tree.html">Shaping the Contents Tree</a></div></li><li><div><a href="Going+Deep.html">Going Deep</a></div></li> </ol></li><li><div><a href="Pamflet+in+a+Project.html">Pamflet in a Project</a></div><ol class="toc"> <li><div><a href="On+the+Command+Line.html">On the Command Line</a></div></li><li><div><a href="Git+Hooks.html">Git Hooks</a></div></li><li><div><a href="Apache+Setup.html">Apache Setup</a></div></li> </ol></li><li><div><a href="Fancy+Techniques.html">Fancy Techniques</a></div><ol class="toc"> <li><div><a href="Source+Code+Highlighting.html">Source Code Highlighting</a></div></li><li><div><a href="Custom+Stylesheets.html">Custom Stylesheets</a></div></li><li><div><a href="Template+Properties.html">Template Properties</a></div></li><li><div><a href="Special+Properties.html">Special Properties</a></div></li><li><div><a href="Additional+resources.html">Additional resources</a></div></li><li><div class="current">Globalization</div></li><li><div><a href="Changing+the+look.html">Changing the look</a></div></li> </ol></li><li><div><a href="For+Your+Perusal.html">For Your Perusal</a></div></li><li><div><a href="Who%E2%80%99s+Using+Pamflet%3F.html">Who’s Using Pamflet?</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div></div>
+          </div>
+        </div>
+        <div class="header">
+          <div class="container">
+        <div class="span-16 prepend-1 append-1">
+          <div class="span-16 top nav">
+            <div class="span-16 title">
+              <span>Pamflet</span> — Globalization
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="footer">
+          
+        </div>
+        <a href="http://github.com/foundweekends/pamflet" class="fork nav"><img src="img/fork.png" alt="Fork me on GitHub"/></a>
+        <div class="highlight-outer">
+              <div class="highlight-menu">
+                <ul>
+                  <li><button id="highlight-button-twitter"><img src="img/twitter-bird-dark-bgs.png"/></button></li>
+                </ul>
+              </div>
+            </div>
+      </body>
+    </html>

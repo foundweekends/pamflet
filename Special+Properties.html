@@ -1,0 +1,111 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html>
+      <head>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <title>Pamflet — Special Properties</title>
+        
+        <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/blueprint/grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamflet-print.css" type="text/css" media="print"/>
+        <link rel="stylesheet" href="css/pamflet-grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/color_scheme-redmond.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/color_scheme-github.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamfletheight_2em_2em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="js/pamflet.js"></script>
+        <script type="text/javascript">
+          Pamflet.page.language = 'en';
+        </script>
+        
+        <link rel="stylesheet" href="css/custom.css" type="text/css" media="screen, projection"/>
+        
+        <script type="text/javascript">
+              Pamflet.twitter = '#pamflet';
+            </script>
+      </head>
+      <body class="color_scheme-redmond">
+        <a class="page prev nav" href="Template+Properties.html">
+            <span class="space">&nbsp;</span>
+            <span class="flip arrow">❧</span>
+          </a><a class="page next nav" href="Additional+resources.html">
+            <span class="space">&nbsp;</span>
+            <span class="arrow">❧</span>
+          </a>
+        <div class="container contentswrapper">
+          <div class="span-16 prepend-1 append-1 contents">
+            <h2 id="Special+Properties">Special Properties<a href="#Special+Properties" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>While <a href="Template+Properties.html">template properties</a> exist generally
+for you to define and use as in your own markdown sources, Pamflet
+also checks for a special, optional property that links to a project’s
+GitHub repository, etc.
+</p><h3 id="Fork+Me+on+GitHub">Fork Me on GitHub<a href="#Fork+Me+on+GitHub" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>If you define a <code>github</code> property with the repo owner and name,
+Pamflet constructs a link to the repository. For example:
+</p><pre><code>github=foundweekends/pamflet
+</code></pre><p>This is the property that produces the link to GitHub from Pamflet’s
+own documentation. Note that there is only one slash.
+</p><h3 id="I+Want+Out">I Want Out<a href="#I+Want+Out" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>If you define an <code>out</code> property with a file name,
+Pamflet uses it to generate the file for the page.
+It is intended to be used in the properties front matter of the page:
+</p><pre><code>---
+out: index.html
+---
+</code></pre><h3 id="Collapsible+table+of+contents">Collapsible table of contents<a href="#Collapsible+table+of+contents" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>toc</code> property may be used to control how the table of contents
+is displayed at the end of each page.
+The allowed values are <code>show</code>, <code>hide</code>, and <code>collapse</code>.
+</p><h3 id="Disqus">Disqus<a href="#Disqus" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Defining <code>disqus</code> property with a disqus short name will add a comment section at the end of all your pages.
+</p><pre><code>disqus=namehere
+</code></pre><h3 id="Twitter">Twitter<a href="#Twitter" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Defining <code>twitter</code> property with any value will pop up a twitter button
+when some text is selected on any page. The button will compose a tweet including
+the selected text, the property, and the URL.
+The value <code>show</code> would display the button, but will not be included in the tweet.
+</p><pre><code>twitter=#pamflet
+</code></pre><h3 id="Google+Analytics">Google Analytics<a href="#Google+Analytics" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Defining <code>google-analytics</code> with a Google Analytics web property ID will 
+insert <a href="http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html">tracking Javascript</a> in the head of all your pages. For
+example:
+</p><pre><code>google-analytics=UA-12345-6
+</code></pre><div class="bottom nav span-16">
+                        <em>Next Page</em>
+                        <span class="arrow">❧</span>
+                        <a href="Additional+resources.html"> Additional resources </a>                        
+                        <ul class="language-bar">
+        <li><a href="Special+Properties.html"><span class="lang-item lang-en">English</span></a></li><li><a href="ja/Special-Properties.html"><span class="lang-item lang-ja">日本語</span></a></li>
+      </ul>
+                      </div><div class="tocwrapper show">
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      <div><a href="Pamflet.html">Pamflet</a></div><ol class="toc"> <li><div><a href="Like+a+Book.html">Like a Book</a></div></li><li><div><a href="Writing+and+Organizing.html">Writing and Organizing</a></div><ol class="toc"> <li><div><a href="Filenames+and+Page+Names.html">Filenames and Page Names</a></div></li><li><div><a href="Shaping+the+Contents+Tree.html">Shaping the Contents Tree</a></div></li><li><div><a href="Going+Deep.html">Going Deep</a></div></li> </ol></li><li><div><a href="Pamflet+in+a+Project.html">Pamflet in a Project</a></div><ol class="toc"> <li><div><a href="On+the+Command+Line.html">On the Command Line</a></div></li><li><div><a href="Git+Hooks.html">Git Hooks</a></div></li><li><div><a href="Apache+Setup.html">Apache Setup</a></div></li> </ol></li><li><div><a href="Fancy+Techniques.html">Fancy Techniques</a></div><ol class="toc"> <li><div><a href="Source+Code+Highlighting.html">Source Code Highlighting</a></div></li><li><div><a href="Custom+Stylesheets.html">Custom Stylesheets</a></div></li><li><div><a href="Template+Properties.html">Template Properties</a></div></li><li><div class="current">Special Properties</div></li><li><div><a href="Additional+resources.html">Additional resources</a></div></li><li><div><a href="Globalization.html">Globalization</a></div></li><li><div><a href="Changing+the+look.html">Changing the look</a></div></li> </ol></li><li><div><a href="For+Your+Perusal.html">For Your Perusal</a></div></li><li><div><a href="Who%E2%80%99s+Using+Pamflet%3F.html">Who’s Using Pamflet?</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div></div>
+          </div>
+        </div>
+        <div class="header">
+          <div class="container">
+        <div class="span-16 prepend-1 append-1">
+          <div class="span-16 top nav">
+            <div class="span-16 title">
+              <span>Pamflet</span> — Special Properties
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="footer">
+          
+        </div>
+        <a href="http://github.com/foundweekends/pamflet" class="fork nav"><img src="img/fork.png" alt="Fork me on GitHub"/></a>
+        <div class="highlight-outer">
+              <div class="highlight-menu">
+                <ul>
+                  <li><button id="highlight-button-twitter"><img src="img/twitter-bird-dark-bgs.png"/></button></li>
+                </ul>
+              </div>
+            </div>
+      </body>
+    </html>

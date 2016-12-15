@@ -1,0 +1,6 @@
+@media (min-device-width: 800px) {
+    h1,h2,h3,h4,h5,.title {
+        /* prefix with some that have ligatures */
+        font-family: "DejaVu Serif", Didot, "Warnock Pro", "Goudy Old Style", "Palatino", "Book Antiqua", Georgia, serif;
+    }
+}

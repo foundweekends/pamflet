@@ -1,0 +1,116 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html manifest="pamflet.manifest">
+      <head>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <title>Pamflet — Changing the look</title>
+        
+        <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/blueprint/grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamflet-print.css" type="text/css" media="print"/>
+        <link rel="stylesheet" href="css/pamflet-grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/color_scheme-redmond.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/color_scheme-github.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamfletheight_2em_2em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="js/pamflet.js"></script>
+        <script type="text/javascript">
+          Pamflet.page.language = 'en';
+        </script>
+        <script type="text/javascript" src="js/prettify/prettify.js"></script><script type="text/javascript" src="js/prettify/lang-css.js"></script><link type="text/css" rel="stylesheet" href="css/prettify.css"/><script type="text/javascript"><!--
+        window.onload=function() { prettyPrint(); };
+      --></script>
+        <link rel="stylesheet" href="css/custom.css" type="text/css" media="screen, projection"/>
+        
+        <script type="text/javascript">
+              Pamflet.twitter = '#pamflet';
+            </script>
+      </head>
+      <body class="color_scheme-redmond">
+        <a class="page prev nav" href="Globalization.html">
+            <span class="space">&nbsp;</span>
+            <span class="flip arrow">❧</span>
+          </a><a class="page next nav" href="For+Your+Perusal.html">
+            <span class="space">&nbsp;</span>
+            <span class="arrow">❧</span>
+          </a>
+        <div class="container contentswrapper">
+          <div class="span-16 prepend-1 append-1 contents">
+            <h2 id="Changing+the+look">Changing the look<a href="#Changing+the+look" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>You might want to read pamflets using a dark color scheme. That’s why Pamflet ships with three color schemes:
+<a href="?color_scheme=github">github</a>,
+<a href="?color_scheme=monokai">monokai</a>, and
+<a href="?color_scheme=redmond">redmond</a>.
+</p><h3 id="Applying+a+color+scheme">Applying a color scheme<a href="#Applying+a+color+scheme" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>To apply a dark color scheme, open your pamflet with query string
+<nobr><code>?color_scheme=monokai</code></nobr>. This will store <code>&quot;monokai&quot;</code> to the HTML5 local storage, and apply the scheme to the pamflet.
+</p><h3 id="Default+color+scheme">Default color scheme<a href="#Default+color+scheme" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>The default scheme is redmond. To change it to something else, set <code>color_scheme</code> property:
+</p><pre><code>color_scheme=github
+</code></pre><h3 id="Custom+color+scheme">Custom color scheme<a href="#Custom+color+scheme" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>To create your own custom color scheme, for example named “zen”, create <code>color_scheme-zen.css</code>
+and declare css properties under <code>body.color_scheme-zen</code>:
+</p><pre><code class="prettyprint lang-css">body.color_scheme-zen {
+    color: black;
+    background: white;
+}
+body.color_scheme-zen code.prettyprint span.str {
+  color: #dd1144
+}
+</code></pre><h3 id="Custom+header+and+footer">Custom header and footer<a href="#Custom+header+and+footer" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>To change the header to something else, set <code>layout.header</code> and <code>layout.header.height</code> property:
+</p><pre><code>layout.header=header.md
+layout.header.height=2em
+</code></pre><p>Now drop a file named <code>header.md</code> into <code>docs/layout/</code>:
+</p><pre><code>&lt;div class=&quot;container&quot;&gt;
+  &lt;div class=&quot;span-16 prepend-1 append-1&quot;&gt;
+    &lt;div class=&quot;span-16 top nav&quot;&gt;
+      &lt;div class=&quot;span-16 title&quot;&gt;
+        &lt;span&gt;$contents.title$&lt;/span&gt;$if(page.title)$ —
+         $page.title$ $endif$ (draft)
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p>This will add ”(draft)” at the end of the default header. The footer works the same way. Just use <code>layout.footer</code> and <code>layout.footer.height</code> instead.
+</p><div class="bottom nav span-16">
+                        <em>Next Page</em>
+                        <span class="arrow">❧</span>
+                        <a href="For+Your+Perusal.html"> For Your Perusal </a>                        
+                        <ul class="language-bar">
+        <li><a href="Changing+the+look.html"><span class="lang-item lang-en">English</span></a></li><li><a href="ja/Changing-the-look.html"><span class="lang-item lang-ja">日本語</span></a></li>
+      </ul>
+                      </div><div class="tocwrapper show">
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      <div><a href="Pamflet.html">Pamflet</a></div><ol class="toc"> <li><div><a href="Like+a+Book.html">Like a Book</a></div></li><li><div><a href="Writing+and+Organizing.html">Writing and Organizing</a></div><ol class="toc"> <li><div><a href="Filenames+and+Page+Names.html">Filenames and Page Names</a></div></li><li><div><a href="Shaping+the+Contents+Tree.html">Shaping the Contents Tree</a></div></li><li><div><a href="Going+Deep.html">Going Deep</a></div></li> </ol></li><li><div><a href="Pamflet+in+a+Project.html">Pamflet in a Project</a></div><ol class="toc"> <li><div><a href="On+the+Command+Line.html">On the Command Line</a></div></li><li><div><a href="Git+Hooks.html">Git Hooks</a></div></li><li><div><a href="Apache+Setup.html">Apache Setup</a></div></li> </ol></li><li><div><a href="Fancy+Techniques.html">Fancy Techniques</a></div><ol class="toc"> <li><div><a href="Source+Code+Highlighting.html">Source Code Highlighting</a></div></li><li><div><a href="Custom+Stylesheets.html">Custom Stylesheets</a></div></li><li><div><a href="Template+Properties.html">Template Properties</a></div></li><li><div><a href="Special+Properties.html">Special Properties</a></div></li><li><div><a href="Additional+resources.html">Additional resources</a></div></li><li><div><a href="Globalization.html">Globalization</a></div></li><li><div class="current">Changing the look</div></li> </ol></li><li><div><a href="For+Your+Perusal.html">For Your Perusal</a></div></li><li><div><a href="Who%E2%80%99s+Using+Pamflet%3F.html">Who’s Using Pamflet?</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div></div>
+          </div>
+        </div>
+        <div class="header">
+          <div class="container">
+        <div class="span-16 prepend-1 append-1">
+          <div class="span-16 top nav">
+            <div class="span-16 title">
+              <span>Pamflet</span> — Changing the look
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="footer">
+          
+        </div>
+        <a href="http://github.com/foundweekends/pamflet" class="fork nav"><img src="img/fork.png" alt="Fork me on GitHub"/></a>
+        <div class="highlight-outer">
+              <div class="highlight-menu">
+                <ul>
+                  <li><button id="highlight-button-twitter"><img src="img/twitter-bird-dark-bgs.png"/></button></li>
+                </ul>
+              </div>
+            </div>
+      </body>
+    </html>

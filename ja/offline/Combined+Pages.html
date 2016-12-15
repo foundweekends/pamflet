@@ -1,0 +1,350 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html manifest="pamflet.manifest">
+      <head>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <title>Pamflet — Combined Pages</title>
+        
+        <link rel="stylesheet" href="../css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/blueprint/grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="../css/blueprint/print.css" type="text/css" media="print"/> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link rel="stylesheet" href="../css/pamflet.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/pamflet-print.css" type="text/css" media="print"/>
+        <link rel="stylesheet" href="../css/pamflet-grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="../css/color_scheme-redmond.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/color_scheme-github.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="../css/pamfletheight_2em_2em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <script type="text/javascript" src="../js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="../js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="../js/pamflet.js"></script>
+        <script type="text/javascript">
+          Pamflet.page.language = 'ja';
+        </script>
+        <script type="text/javascript" src="../js/prettify/prettify.js"></script><script type="text/javascript" src="../js/prettify/lang-scala.js"></script><script type="text/javascript" src="../js/prettify/lang-css.js"></script><link type="text/css" rel="stylesheet" href="../css/prettify.css"/><script type="text/javascript"><!--
+        window.onload=function() { prettyPrint(); };
+      --></script>
+        <link rel="stylesheet" href="../css/custom.css" type="text/css" media="screen, projection"/>
+        
+        <script type="text/javascript">
+              Pamflet.twitter = '#pamflet';
+            </script>
+      </head>
+      <body class="color_scheme-redmond">
+        <a class="page prev nav" href="Contents+in+Depth.html">
+            <span class="space">&nbsp;</span>
+            <span class="flip arrow">❧</span>
+          </a>
+        <div class="container contentswrapper">
+          <div class="span-16 prepend-1 append-1 contents">
+            <div class="tocwrapper show">
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      <div><a href="#Pamflet">Pamflet</a></div><ol class="toc"> <li><div><a href="#%E6%9C%AC%E3%81%AE%E3%82%88%E3%81%86%E3%81%AB">本のように</a></div></li><li><div><a href="#%E6%96%87%E6%9B%B8%E3%81%AE%E6%95%B4%E7%90%86%E3%81%A8%E6%9B%B8%E3%81%8D%E6%96%B9">文書の整理と書き方</a></div><ol class="toc"> <li><div><a href="#%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%90%8D%E3%81%A8%E3%83%9A%E3%83%BC%E3%82%B8%E5%90%8D">ファイル名とページ名</a></div></li><li><div><a href="#%E7%9B%AE%E6%AC%A1%E3%81%AE%E5%BD%A2">目次の形</a></div></li><li><div><a href="#%E3%81%95%E3%82%89%E3%81%AB%E6%B7%B1%E3%81%8F">さらに深く</a></div></li> </ol></li><li><div><a href="#%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E4%B8%AD%E3%81%A7%E3%81%AE+Pamflet">プロジェクトの中での Pamflet</a></div><ol class="toc"> <li><div><a href="#%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3">コマンドライン</a></div></li><li><div><a href="#git+%E3%83%95%E3%83%83%E3%82%AF">git フック</a></div></li><li><div><a href="#Apache+%E3%81%AE%E8%A8%AD%E5%AE%9A">Apache の設定</a></div></li> </ol></li><li><div><a href="#%E9%AB%98%E5%BA%A6%E3%81%AA%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF">高度なテクニック</a></div><ol class="toc"> <li><div><a href="#%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AE%E3%83%8F%E3%82%A4%E3%83%A9%E3%82%A4%E3%83%88">ソースコードのハイライト</a></div></li><li><div><a href="#%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0%E3%82%B9%E3%82%BF%E3%82%A4%E3%83%AB%E3%82%B7%E3%83%BC%E3%83%88">カスタムスタイルシート</a></div></li><li><div><a href="#%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%83%BB%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3">テンプレート・プロパティ</a></div></li><li><div><a href="#%E7%89%B9%E6%AE%8A%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3">特殊プロパティ</a></div></li><li><div><a href="#%E3%82%B0%E3%83%AD%E3%83%BC%E3%83%90%E3%83%AA%E3%82%BC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">グローバリゼーション</a></div></li><li><div><a href="#%E8%A3%85%E4%B8%81">装丁</a></div></li> </ol></li><li><div><a href="#%E3%81%93%E3%81%AE+pamflet+%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9">この pamflet のソース</a></div></li><li><div><a href="#%E8%AA%B0%E3%81%8C+Pamflet+%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%81%8B%3F">誰が Pamflet を使っているか?</a></div></li> </ol></div></div><h1 id="Pamflet">Pamflet<a href="#Pamflet" class="header-link"><span class="header-link-content">&nbsp;</span></a></h1><p><em>Pamflet</em> は短い文書、特にオープンソース・ソフトウェアの
+ユーザ・ドキュメントを公開するためのアプリだ。
+どのようなプラットフォームからでも簡単に読み書きできる設計になっている。
+</p><blockquote><p><a href="http://notes.implicit.ly/post/87661053009/pamflet-0-6-0">Version 0.6.0 Release Notes</a>
+</p></blockquote><h2 id="%E6%9C%AC%E3%81%AE%E3%82%88%E3%81%86%E3%81%AB">本のように<a href="#%E6%9C%AC%E3%81%AE%E3%82%88%E3%81%86%E3%81%AB" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Pamflet は「pamflet」と呼ばれるリンクされたページを生成する。
+階層化されたページもサポートするけど、主なナビケージョン方法は線形なので、
+pamflet をこれから書く人は初めから終わりまで順番に進んでいくものを書くことをお勧めする。
+</p><p>全ページの下に目次が表示される。
+生成される目次がスクロールしなくても表示されるように pamflet の最初のページは短くするべきだ。
+何行かだけ説明を加えたタイトルページだと考えよう。
+</p><h3 id="%E5%A4%A7%E3%81%8D%E3%81%AA%E7%94%BB%E9%9D%A2%E4%B8%8A">大きな画面上<a href="#%E5%A4%A7%E3%81%8D%E3%81%AA%E7%94%BB%E9%9D%A2%E4%B8%8A" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>大きな画面を持つデバイス (ラップトップやデスクトップなどのコンピュータ)
+上では pamflet の文書は固定幅のセンターカラムに表示される。
+左右の巨大なマージンはページをめくるための<strong>クリック可能な領域</strong>だ。
+左右の<strong>キーボードの矢印キー</strong>も同様に使うことができる。
+</p><h3 id="%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB">モバイル<a href="#%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>pamflet は持ち運ぶためにあるので、モバイル上で良い見た目と使い勝手があることは不可欠だ。
+ケータイ、タブレット、もしくは小さい画面を持つデバイスで表示すると、pamflet は全画面表示となる。
+</p><h4 id="%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3">オフライン<a href="#%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3" class="header-link"><span class="header-link-content">&nbsp;</span></a></h4><p>モバイル機器はいつもネットにつながっているとは限らないので、全ての pamflet
+は <a href="http://diveintohtml5.org/offline.html">HTML5 cache manifest</a> を生成する。
+pamflet をホーム画面にブックマークしておけばどこでも読むことができる。
+</p><h2 id="%E6%96%87%E6%9B%B8%E3%81%AE%E6%95%B4%E7%90%86%E3%81%A8%E6%9B%B8%E3%81%8D%E6%96%B9">文書の整理と書き方<a href="#%E6%96%87%E6%9B%B8%E3%81%AE%E6%95%B4%E7%90%86%E3%81%A8%E6%9B%B8%E3%81%8D%E6%96%B9" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Pamflet の目的はちゃんとしたプロジェクトドキュメントがあまりにも簡単に書けてしまうため、
+皆が書くということだ。このセクションでは pamflet の書き方を説明しよう。
+</p><h2 id="%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%90%8D%E3%81%A8%E3%83%9A%E3%83%BC%E3%82%B8%E5%90%8D">ファイル名とページ名<a href="#%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%90%8D%E3%81%A8%E3%83%9A%E3%83%BC%E3%82%B8%E5%90%8D" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Pamflet はソースファイルをソースディレクトリから読みこんで、
+指定されたディレクトリに仕上がった web ファイルを生成する。
+<code>markdown</code> もしくは <code>md</code> 拡張子を持つソースは 1つの <code>html</code> 出力ファイルに対応する。
+</p><p>ファイル名はページとセクションの順序を決めるためだけに用いられ、
+表示されるタイトルとページの URL は、ページのソースの最初の見出し要素によって決まる。
+</p><h3 id="%E5%91%BD%E5%90%8D%E8%A6%8F%E7%B4%84">命名規約<a href="#%E5%91%BD%E5%90%8D%E8%A6%8F%E7%B4%84" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>順序を制御するために、簡単な数字やアルファベットを使ってソースの最初の数文字を命名することを推奨する。
+そのあとで必要ならばタイトルを含め、markdown 拡張子を付ける。
+</p><p>例えば、pamflet のソースをソートしたときにタイトルページが最初にくるように <code>00.markdown</code>
+という名前にすることができる。コンテンツはこんな感じになる:
+</p><pre><code>Pamflet
+=======
+
+*Pamflet* は短い文書、特にオープンソース...
+</code></pre><p>プロセッサはこれでページ名が「Pamflet」であると判断する。
+このソースが実際にソートされたリストの最初のものならば、この名前は pamflet 全体の名前だと解釈される。
+</p><h4 id="%E3%82%A2%E3%82%A6%E3%83%88%E3%83%97%E3%83%83%E3%83%88%E5%90%8D">アウトプット名<a href="#%E3%82%A2%E3%82%A6%E3%83%88%E3%83%97%E3%83%83%E3%83%88%E5%90%8D" class="header-link"><span class="header-link-content">&nbsp;</span></a></h4><p>アウトプットされる <code>html</code> のファイル名は URL エンコードされたページ名であり、
+インプットファイル名と一切関係無い。そのため、ページ名は pamflet 全体で一意のものでなくてはいけない。
+</p><h2 id="%E7%9B%AE%E6%AC%A1%E3%81%AE%E5%BD%A2">目次の形<a href="#%E7%9B%AE%E6%AC%A1%E3%81%AE%E5%BD%A2" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>前のページでみたとおり、ページはソースのファイル名によってアルファベット順にソートされる。
+この順序は全てのページの下に表示される<strong>目次</strong>にも影響する。
+</p><p>Pamflet は、目次に HTML の順序付けされたリストを使う。
+デフォルトのスタイルシートでは、トップレベルは単純な数字で表示される。
+ただし、少しビックリするかもしれない癖が一つあって、それはディレクトリ内の最初の
+markdown のソースは他のソースと同列に扱われないということだ。
+前の例で見たタイトルページはどの番号も与えられない。以下のディレクトリがあるとする:
+</p><pre><code>docs/
+  00.markdown
+  01.markdown
+  02.markdown
+</code></pre><p>目次は以下の形で表示さる。ただし、実際の名前とリンクはそれぞれのページの最初見出しから生成される。
+</p><pre><code>&lt;00.markdown&gt;
+1. &lt;01.markdown&gt;
+2. &lt;02.markdown&gt;
+</code></pre><p>そのため、タイトルページは 0番目のページだと考えられ、典型的にそれを反映した名前がつけられる。
+</p><h2 id="%E3%81%95%E3%82%89%E3%81%AB%E6%B7%B1%E3%81%8F">さらに深く<a href="#%E3%81%95%E3%82%89%E3%81%AB%E6%B7%B1%E3%81%8F" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>どんなに単純な pamflet でも関連したページをいくつかのセクションに分けると便利だ。
+今読んでるこれもセクションの一部だ。
+</p><p>Pamflet は任意の数のセクションをサポートして、一次ソースディレクトリ内にディレクトリを置くことで定義される。これらの子ディレクトリも markdown ソース同様に名前によって順序付けられる。
+</p><pre><code>docs/
+  00.markdown
+  01/
+    00.markdown
+    a.markdown
+    b.markdown
+  02.markdown
+</code></pre><p>ページの見出しを含む適切なソースの場合、上記の構造は以下の目次を生成する:
+</p><pre><code>&lt;00.markdown&gt;
+1. &lt;01/00.markdown&gt;
+  a. &lt;01/a.markdown&gt;
+  b. &lt;01/b.markdown&gt;
+2. &lt;02.markdown&gt;
+</code></pre><p>ディレクトリ内で最初に順序付けされる <code>00.markdown</code> が pamflet
+全体か一つのセクションかに関わらず常にタイトルページ扱いされるのが分かると思う。
+ファイル名で付けられたのと同じ番号で順序付けられ目次も表示されている。
+最上位レベルのタイトルは無番号となる。
+</p><p>この例では第2のレベルが小文字のアルファベットを使って番号付けされていることが分かる。
+第3のレベルは小文字のローマ数字で、その後はブラウザのデフォルトに戻る。
+カスタムのスタイルシートを使うことで任意のレベルの表示を変更することができる。
+</p><h6>注意</h6><p>入れ子の構造は目次の表示にのみ反映される。
+pamflet のページ名前空間は全てのアウトプット <code>html</code> が単一のパス直下に生成されるフラットなものだ。
+</p><h2 id="%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E4%B8%AD%E3%81%A7%E3%81%AE+Pamflet">プロジェクトの中での Pamflet<a href="#%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E4%B8%AD%E3%81%A7%E3%81%AE+Pamflet" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>どのような用途に使うこともできるけど、Pamflet はオープンソースプロジェクトの
+ドキュメンテーションを書くことに特化している。
+このセクションでは下書きから公開までの過程を見ていく。
+</p><h2 id="%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3">コマンドライン<a href="#%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Pamflet は Scala アプリケーション用の汎用インストーラ兼アップデータである <a href="https://github.com/foundweekends/conscript#readme">conscript</a> によってインストールされる。
+conscript のセットアップは簡単なので、まだセットアップしていなければ<a href="https://github.com/foundweekends/conscript#readme">今すぐやってきて</a>ほしい。
+</p><p>conscript がセットアップされて、<code>~/bin</code> にパスが通っているとすると、Pamflet は以下のようにインストールできる:
+</p><pre><code>cs foundweekends/pamflet
+</code></pre><p>これで Pamflet の <code>pf</code> コマンドがインストールされた。このコマンドを使って pamflet のプレビューと公開を行う。
+</p><pre><code>使用例: pf [SRC] [DEST]
+</code></pre><h3 id="%E3%83%97%E3%83%AC%E3%83%93%E3%83%A5%E3%83%BC">プレビュー<a href="#%E3%83%97%E3%83%AC%E3%83%93%E3%83%A5%E3%83%BC" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Pamflet のプレビューモードを使ってプロジェクトのドキュメントを書き直しながら
+レイアウトやテキストのレンダリングを何回でも確認できる。
+<code>pf</code> を引数無しで呼び出すと、<code>SRC</code> はワーキングディレクトリ内の docs
+ディレクトリに指定される。
+<code>pf</code> を1つの引数だけを渡して呼び出すことで <code>SRC</code> ディレクトリを指定できる。
+どちらの場合も <code>DEST</code> が指定されなければ Pamflet はプレビューモードになる。
+</p><pre><code>2011-07-15 09:29:38.033:INFO::jetty-7.2.2.v20101205
+2011-07-15 09:29:38.066:INFO::Started SocketConnector@127.0.0.1:44449
+
+Previewing `docs`. Press CTRL+C to stop.
+</code></pre><p>プレビューモードはループバックインターフェイスの空いているポートを使って
+<a href="http://unfiltered.databinder.net/">Unfiltered</a> web サーバを開始する。
+さらにローカルの web ブラウザで使われてる URL を開く。
+プラットフォームやブラウザによってウィンドウはバックグラウンドまたは前面で開く。
+</p><p><code>docs</code> もしくは指定されたディレクトリに pamflet
+が見つかるとブラウザにタイトルページが表示されていることが確認できるはずだ。
+線形ナビゲーションや目次も公開される pamflet 同様に動作するはずだ。
+プレビューの一番良い所は pamflet のソースへの変更が即座に反映されることだ。
+ブラウザを再読み込みするだけでいい。
+</p><h3 id="%E5%85%AC%E9%96%8B">公開<a href="#%E5%85%AC%E9%96%8B" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>pamflet のソースを web ソースとして公開するには <code>pf</code>
+コマンドを <code>SRC</code> と <code>DEST</code> の両方のパラメータを指定して呼び出す。
+<code>SRC</code> に pamflet のソースを指定して、<code>DEST</code> にユーザが書き込み可能な
+ディレクトリを指定すれば、出力ファイルは全てそこに書き込まれる。
+</p><h2 id="git+%E3%83%95%E3%83%83%E3%82%AF">git フック<a href="#git+%E3%83%95%E3%83%83%E3%82%AF" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>git フックを使うことで Pamflet は可愛いオモチャからデジタル印刷機へと変身する。
+コントロール権を持っているサーバ (持ってるよね?) にセットアップすることで
+push するたびに自動的に公開されるドキュメントが更新されるようになる。
+</p><p>サーバに <code>--bare</code> git リポジトリを持っているなら、<code>hooks/</code>
+サブディレクトリは既にあるはずだ。<code>hooks/</code> 内に <code>post-update</code>
+というファイルを作成するか変更するかして以下のように書く:
+</p><pre><code class="prettyprint lang-sh">#!/bin/sh
+HOME=/home/me
+DOCB=$HOME/app/my_doc_build
+PUB=$HOME/app/my_pub
+cd $DOCB
+env -i git pull
+cd -
+$HOME/bin/pf $DOCB/docs $PUB
+</code></pre><p><code>DOCB</code> は同じレポジトリのクローンで、これはワーキングツリーを持つ。
+<code>PUB</code> は最終的な <code>html</code> とその他のファイルが出力される。
+git のフックは奇妙な環境で実行されるので、明示的に <code>HOME</code> で home ディレクトリも指定する。
+</p><p>全てをセットアップして、さらにこのフックスクリプトを実行可能にする。
+<strong>さもなくば何故スクリプトが実行されないのか分からず、混乱状態になる</strong>。
+<code>~/bin/pf</code> が実行可能かも確認しておこう。
+</p><p>bare リポジトリにどこからか push すると、通常の git の出力と一緒に
+Pamflet が成功したかエラーになったかのメッセージも表示されるはずだ。
+(このスクリプトは確かにヘナチョコなものだけど、代案があればこの
+pamflet を fork してほしい。)
+</p><h2 id="Apache+%E3%81%AE%E8%A8%AD%E5%AE%9A">Apache の設定<a href="#Apache+%E3%81%AE%E8%A8%AD%E5%AE%9A" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>もう知っているかもしれないが、僕たちみたいな知らない人が時間を無駄にしないために
+Apache を使って pamflet ディレクトリを公開する方法を書いておく:
+</p><pre><code class="prettyprint lang-xml">&lt;VirtualHost *:80&gt;
+        ServerName pamflet.databinder.net
+        DocumentRoot /home/me/app/pamflet
+        RewriteEngine On
+        RewriteRule ^/$ /Pamflet.html [L,R=permanent]
+&lt;/VirtualHost&gt;
+</code></pre><h6>注意</h6><p>ルートパスを解決させるためには、ルートをリダイレクトする必要がある。
+タイトルページも他のページ同様にアウトプット名が指定されるからだ。
+</p><h2 id="%E9%AB%98%E5%BA%A6%E3%81%AA%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF">高度なテクニック<a href="#%E9%AB%98%E5%BA%A6%E3%81%AA%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>pamflet を書いて公開するまでをみてきた。
+さらに凝った pamflet を書いて公開する方法を紹介しよう。
+</p><h2 id="%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AE%E3%83%8F%E3%82%A4%E3%83%A9%E3%82%A4%E3%83%88">ソースコードのハイライト<a href="#%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AE%E3%83%8F%E3%82%A4%E3%83%A9%E3%82%A4%E3%83%88" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Pamflet はとても器用な prettify.js ソースコードハイライトを利用する。
+これを使うには github の fenced code block 構文を使ってソースを囲んで
+prettify が使用可能な言語を指定する。
+</p><pre><code>```scala
+// Some comment
+case class Page(name: String) {
+  def foo: Int = (1 to 10) /: { _ + _ }
+  val bar = &quot;wat&quot;
+}
+```
+</code></pre><p>これは
+</p><pre><code class="prettyprint lang-scala">// Some comment
+case class Page(name: String) {
+  def foo: Int = (1 to 10) /: { _ + _ }
+  val bar = &quot;wat&quot;
+}
+</code></pre><p>と表示される。読みやすくなったよね?
+</p><h2 id="%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0%E3%82%B9%E3%82%BF%E3%82%A4%E3%83%AB%E3%82%B7%E3%83%BC%E3%83%88">カスタムスタイルシート<a href="#%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0%E3%82%B9%E3%82%BF%E3%82%A4%E3%83%AB%E3%82%B7%E3%83%BC%E3%83%88" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>他のプロジェクトと差をつけたければ全ての見出しを
+Copperplate MT か Bank Gothic に指定したいと思うだろう。
+</p><p>心配しなくても、Pamflet はこれをサポートする。
+ソースディレクトリ内の <code>css</code> 拡張子を持ったファイルは pamflet に含まれる。
+これらは他のスタイルシートの後に読み込まれるため、思う存分改良してほしい。
+</p><h2 id="%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%83%BB%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3">テンプレート・プロパティ<a href="#%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%83%BB%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>現行のバージョン番号などドキュメント中に繰り返されるものがいくつかあると思う。
+Pamflet は StringTemplate を使ってテンプレート・プロパティをサポートする。
+</p><p>pamflet ソースディレクトリ内に <code>template.properties</code> というファイルを見つけると、
+<code>java.util.Properties</code> を用いて読み込まれ、全ての Markdown ソースに
+StringTemplate が適用される。以下に <code>template.properties</code> の具体例をみてみよう:
+</p><pre><code>version=0.3.4
+vrsn=034
+scala=2.8.1
+</code></pre><p>プロパティ名をドル記号で囲むことでソース内からプロパティを参照する。
+例えば、Markdown ソースに書かれた全ての <code>$version$</code> は HTML 出力では
+<code>0.3.4</code> へと置換される。
+</p><h3 id="Properties+Front+Matter">Properties Front Matter<a href="#Properties+Front+Matter" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>さらに、各ページはページの先頭に以下のような properties front matter
+を書くことで独自のプロパティを追加することができる:
+</p><pre><code>---
+version=0.2.5
+dispatch=0.8.5
+---
+</code></pre><p>front matter に書かれたプロパティは <code>template.properties</code> よりも優先される。
+</p><h6>注意</h6><p>.properties ファイルによって StringTemplate が有効になると、
+それは単独の <code>$</code> によって混乱状態になる。
+そのため、プロパティではないドル記号はバックスラッシュを使ってエスケープする必要がある: <code>\$</code>
+</p><h2 id="%E7%89%B9%E6%AE%8A%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3">特殊プロパティ<a href="#%E7%89%B9%E6%AE%8A%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>一般的に<a href="Template-Properties.html">テンプレート・プロパティ</a>は独自のプロパティを定義して
+markdown ソースで使うためにあるけども、pamflet はいくつかの省略可能な特殊プロパティをチェックして例えばプロジェクトの
+GitHub リポジトリへリンクを張ったりする。
+</p><h3 id="Fork+Me+on+GitHub">Fork Me on GitHub<a href="#Fork+Me+on+GitHub" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>github</code> プロパティを定義してレポジトリのオーナーと名前を書くことで
+Pamflet はレポジトリへのリンクを張る。例えば:　
+</p><pre><code>github=foundweekends/pamflet
+</code></pre><p>これは Pamflet そのもののドキュメントから GitHub へのリンクを生成しているプロパティだ。
+スラッシュは 1つであることに注意。
+</p><h3 id="%E3%82%A2%E3%82%A6%E3%83%88%E3%83%97%E3%83%83%E3%83%88%E3%81%AE%E6%8C%87%E5%AE%9A">アウトプットの指定<a href="#%E3%82%A2%E3%82%A6%E3%83%88%E3%83%97%E3%83%83%E3%83%88%E3%81%AE%E6%8C%87%E5%AE%9A" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>out</code> プロパティを定義することで Pamflet が使う生成するのに使うファイル名を指定できる。
+これは properties font matter で使うことを意図している:
+</p><pre><code>---
+out: index.html
+---
+</code></pre><h3 id="%E6%8A%98%E3%82%8A%E3%81%9F%E3%81%9F%E3%81%BF%E5%8F%AF%E8%83%BD%E3%81%AA%E7%9B%AE%E6%AC%A1">折りたたみ可能な目次<a href="#%E6%8A%98%E3%82%8A%E3%81%9F%E3%81%9F%E3%81%BF%E5%8F%AF%E8%83%BD%E3%81%AA%E7%9B%AE%E6%AC%A1" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>toc</code> プロパティを使って各ページに表示される目次を制御できる。
+可能な値は <code>show</code> (表示)、<code>hide</code> (非常時)、そして <code>collapse</code> (折りたたみ) だ。
+</p><h3 id="Disqus">Disqus<a href="#Disqus" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>disqus</code> プロパティを定義して disqus short name を指定することで全てのページの下にコメント欄を加えることができる。
+</p><pre><code>disqus=namehere
+</code></pre><h3 id="Twitter">Twitter<a href="#Twitter" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>twitter</code> プロパティを定義して任意の値を指定すると、ページ内でテキストが選択されたときにツイッターボタンが表示されるようになる。
+ボタンを押すと、選択されたテキスト、プロパティの値、および URL を含んだツイートが作成される。
+<code>show</code> (表示) という値を指定することで、ボタンは表示されるが、ツイートにはその値を含めないことができる。
+</p><pre><code>twitter=#pamflet
+</code></pre><h3 id="Google+Analytics">Google Analytics<a href="#Google+Analytics" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>google-analytics</code> プロパティを定義して Google Analytics web property ID
+を指定することで全ページの head に<a href="http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html">追跡 Javascript</a> を追加する。例えば:
+</p><pre><code>google-analytics=UA-12345-6
+</code></pre><h2 id="%E3%82%B0%E3%83%AD%E3%83%BC%E3%83%90%E3%83%AA%E3%82%BC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">グローバリゼーション<a href="#%E3%82%B0%E3%83%AD%E3%83%BC%E3%83%90%E3%83%AA%E3%82%BC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>pamflet を複数の言語に対応させたければ、グローバリゼーション機能を有効にする特殊な<a href="Template-Properties.html">テンプレート・プロパティ</a>がある。
+</p><h3 id="%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E8%A8%80%E8%AA%9E">デフォルト言語<a href="#%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E8%A8%80%E8%AA%9E" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>language</code> プロパティはルートレベルでどの言語を使っているかを指定する。
+デフォルトでは、英語の ISO 639-1 コードである <code>en</code> に指定される。
+</p><pre><code>language=en
+</code></pre><h3 id="%E8%A8%80%E8%AA%9E%E3%83%AA%E3%82%B9%E3%83%88">言語リスト<a href="#%E8%A8%80%E8%AA%9E%E3%83%AA%E3%82%B9%E3%83%88" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>languages</code> プロパティは pamflet で使われる言語のリストを指定する。
+ISO 639-1 の 2文字コードまたは IETF 言語コードをコンマで区切って指定する。
+</p><pre><code>languages=en,ja
+</code></pre><p>そして、デフォルト言語以外のコンテンツは言語コードと同じ名前のフォルダに入れる。
+</p><pre><code>docs/
+  00.markdown
+  01/
+    00.markdown
+    a.markdown
+  ja/
+    00.markdown
+    01/
+      00.markdown
+      a.markdown
+</code></pre><p>これで <code>ja/</code> フォルダ以下に日本語のコンテンツが生成される。
+</p><h3 id="%E8%A8%80%E8%AA%9E%E3%83%A9%E3%83%99%E3%83%AB">言語ラベル<a href="#%E8%A8%80%E8%AA%9E%E3%83%A9%E3%83%99%E3%83%AB" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>相対パスが同じコンテンツは翻訳だとみなされ、翻訳が検出されると、
+ページの下に言語リンクが表示され他の翻訳へとリンクされる。
+</p><p>Pamflet はいくつかの言語コードを解決できるが、もし検出しなければ <code>lang-</code> 
+プロパテイを使ってカスタムの言語ラベルを提供することができる:
+</p><pre><code>lang-pt-BR=Português (Brasil)
+</code></pre><h2 id="%E8%A3%85%E4%B8%81">装丁<a href="#%E8%A3%85%E4%B8%81" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>暗めの配色で pamflet を読みたいと思うかもしれない。
+そのため Pamflet には初めから <a href="?color_scheme=github">github</a>、
+<a href="?color_scheme=monokai">monokai</a>、
+<a href="?color_scheme=redmond">redmond</a>
+と 3つの配色スキームがついてくる。
+</p><h3 id="%E9%85%8D%E8%89%B2%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%A0%E3%81%AE%E9%81%A9%E7%94%A8">配色スキームの適用<a href="#%E9%85%8D%E8%89%B2%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%A0%E3%81%AE%E9%81%A9%E7%94%A8" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>暗めの配色スキームを適用するには pamflet を
+<nobr><code>?color_scheme=monokai</code></nobr> というクエリ文字と共に開く。
+これは HTML5 のローカルストレージに <code>&quot;monokai&quot;</code> を格納して、pamflet にそのスキームを適用する。
+</p><h3 id="%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E3%81%AE%E9%85%8D%E8%89%B2%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%A0">デフォルトの配色スキーム<a href="#%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E3%81%AE%E9%85%8D%E8%89%B2%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%A0" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>デフォルトの配色スキームは redmond だ。これを変更するには <code>color_scheme</code> プロパティを定義する:
+</p><pre><code>color_scheme=github
+</code></pre><h3 id="%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0%E9%85%8D%E8%89%B2%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%A0">カスタム配色スキーム<a href="#%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0%E9%85%8D%E8%89%B2%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%A0" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>独自の配色スキームを定義して、例えば zen という名前をつける場合、<code>color_scheme-zen.css</code>
+というファイルを作って、<code>body.color_scheme-zen</code> 以下に css プロパティを定義する:
+</p><pre><code class="prettyprint lang-css">body.color_scheme-zen {
+    color: black;
+    background: white;
+}
+body.color_scheme-zen code.prettyprint span.str {
+  color: #dd1144
+}
+</code></pre><h3 id="%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0%E3%83%98%E3%83%83%E3%83%80%E3%81%A8%E3%83%95%E3%83%83%E3%82%BF">カスタムヘッダとフッタ<a href="#%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0%E3%83%98%E3%83%83%E3%83%80%E3%81%A8%E3%83%95%E3%83%83%E3%82%BF" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>ヘッダを変えるには <code>layout.header</code> と <code>layout.header.height</code> プロパティを定義する:
+</p><pre><code>layout.header=header.md
+layout.header.height=2em
+</code></pre><p>次に、<code>header.md</code> という名前のファイルを <code>docs/layout/</code> 以下に置く:
+</p><pre><code>&lt;div class=&quot;container&quot;&gt;
+  &lt;div class=&quot;span-16 prepend-1 append-1&quot;&gt;
+    &lt;div class=&quot;span-16 top nav&quot;&gt;
+      &lt;div class=&quot;span-16 title&quot;&gt;
+        &lt;span&gt;$contents.title$&lt;/span&gt;$if(page.title)$ —
+         $page.title$ $endif$ (draft)
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p>これでデフォルトのヘッダに「(draft)」と追加したヘッダができた。フッタも同じように変更できる。<code>layout.footer</code> と <code>layout.footer.height</code> を指定すればいい。
+</p><h2 id="%E3%81%93%E3%81%AE+pamflet+%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9">この pamflet のソース<a href="#%E3%81%93%E3%81%AE+pamflet+%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>この pamflet で説明されているテクニックを使ってこの pamflet は書かれている。
+<a href="https://github.com/foundweekends/pamflet/tree/master/docs">GitHub</a> で Pamflet の <code>docs/</code> ディレクトリを開いて眺めてみてほしい。
+</p><h2 id="%E8%AA%B0%E3%81%8C+Pamflet+%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%81%8B%3F">誰が Pamflet を使っているか?<a href="#%E8%AA%B0%E3%81%8C+Pamflet+%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%81%8B%3F" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Pamflet を使っているプロジェクトのリストは<a href="../Who%E2%80%99s+Using+Pamflet%3F.html">英語版</a>にある。
+</p><p>あなたが Pamflet を使っているなら是非プロジェクトを追加して pull request を送ってほしい。
+</p>
+          </div>
+        </div>
+        <div class="header">
+          <div class="container">
+        <div class="span-16 prepend-1 append-1">
+          <div class="span-16 top nav">
+            <div class="span-16 title">
+              <span>Pamflet</span> — Combined Pages
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="footer">
+          
+        </div>
+        <a href="http://github.com/foundweekends/pamflet" class="fork nav"><img src="../img/fork.png" alt="Fork me on GitHub"/></a>
+        <div class="highlight-outer">
+              <div class="highlight-menu">
+                <ul>
+                  <li><button id="highlight-button-twitter"><img src="../img/twitter-bird-dark-bgs.png"/></button></li>
+                </ul>
+              </div>
+            </div>
+      </body>
+    </html>

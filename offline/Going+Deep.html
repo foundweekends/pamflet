@@ -1,0 +1,113 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html manifest="pamflet.manifest">
+      <head>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <title>Pamflet — Going Deep</title>
+        
+        <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/blueprint/grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamflet-print.css" type="text/css" media="print"/>
+        <link rel="stylesheet" href="css/pamflet-grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/color_scheme-redmond.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/color_scheme-github.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="css/pamfletheight_2em_2em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="js/pamflet.js"></script>
+        <script type="text/javascript">
+          Pamflet.page.language = 'en';
+        </script>
+        
+        <link rel="stylesheet" href="css/custom.css" type="text/css" media="screen, projection"/>
+        
+        <script type="text/javascript">
+              Pamflet.twitter = '#pamflet';
+            </script>
+      </head>
+      <body class="color_scheme-redmond">
+        <a class="page prev nav" href="Shaping+the+Contents+Tree.html">
+            <span class="space">&nbsp;</span>
+            <span class="flip arrow">❧</span>
+          </a><a class="page next nav" href="Pamflet+in+a+Project.html">
+            <span class="space">&nbsp;</span>
+            <span class="arrow">❧</span>
+          </a>
+        <div class="container contentswrapper">
+          <div class="span-16 prepend-1 append-1 contents">
+            <h2 id="Going+Deep">Going Deep<a href="#Going+Deep" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>Even the simplest pamflet can often benefit from grouping related
+pages into sections—in fact, you’re reading a section right now.
+</p><p>Pamflet supports arbitrarily many nested sections, defined by
+directories beneath the primary source directory. These directories
+participate in the same name-based ordering as their adjacent markdown
+sources.
+</p><pre><code>docs/
+  00.markdown
+  01/
+    00.markdown
+    a.markdown
+    b.markdown
+  02.markdown
+</code></pre><p>Given valid sources containing page headings, the above structure will
+produce the following <em>Contents</em> listing:
+</p><pre><code>&lt;00.markdown&gt;
+1. &lt;01/00.markdown&gt;
+  a. &lt;01/a.markdown&gt;
+  b. &lt;01/b.markdown&gt;
+2, &lt;02.markdown&gt;
+</code></pre><p>Here you can see how the first ordered source in a directory,
+<code>00.markdown</code>, always acts as a title page whether it is for a the
+entire pamflet or just one section. It is numbered and positioned
+according on the higher level numbering; at the top level, this is
+simply the absense of any number.
+</p><p>You can also see in this example that Pamflet’s second level numbering
+is lowercase letters. The third is lowercase roman numerals, and and
+after that it is back to the browser default. You can override these
+for any level using a custom stylesheet.
+</p><h6>Note</h6><p>Nesting is reflected only in the <em>Contents</em> listing. The pamflet page
+namespace is flat, with all output <code>html</code> under a single path.
+</p><div class="bottom nav span-16">
+                        <em>Next Page</em>
+                        <span class="arrow">❧</span>
+                        <a href="Pamflet+in+a+Project.html"> Pamflet in a Project </a>                        
+                        <ul class="language-bar">
+        <li><a href="Going+Deep.html"><span class="lang-item lang-en">English</span></a></li><li><a href="ja/Going-Deep.html"><span class="lang-item lang-ja">日本語</span></a></li>
+      </ul>
+                      </div><div class="tocwrapper show">
+      <a class="tochead nav" style="display: none" href="#toc">❦</a>
+      <a name="toc"></a>
+      <h4 class="toctitle">Contents</h4>
+      <div class="tocbody">
+      <div><a href="Pamflet.html">Pamflet</a></div><ol class="toc"> <li><div><a href="Like+a+Book.html">Like a Book</a></div></li><li><div><a href="Writing+and+Organizing.html">Writing and Organizing</a></div><ol class="toc"> <li><div><a href="Filenames+and+Page+Names.html">Filenames and Page Names</a></div></li><li><div><a href="Shaping+the+Contents+Tree.html">Shaping the Contents Tree</a></div></li><li><div class="current">Going Deep</div></li> </ol></li><li><div><a href="Pamflet+in+a+Project.html">Pamflet in a Project</a></div><ol class="toc"> <li><div><a href="On+the+Command+Line.html">On the Command Line</a></div></li><li><div><a href="Git+Hooks.html">Git Hooks</a></div></li><li><div><a href="Apache+Setup.html">Apache Setup</a></div></li> </ol></li><li><div><a href="Fancy+Techniques.html">Fancy Techniques</a></div><ol class="toc"> <li><div><a href="Source+Code+Highlighting.html">Source Code Highlighting</a></div></li><li><div><a href="Custom+Stylesheets.html">Custom Stylesheets</a></div></li><li><div><a href="Template+Properties.html">Template Properties</a></div></li><li><div><a href="Special+Properties.html">Special Properties</a></div></li><li><div><a href="Additional+resources.html">Additional resources</a></div></li><li><div><a href="Globalization.html">Globalization</a></div></li><li><div><a href="Changing+the+look.html">Changing the look</a></div></li> </ol></li><li><div><a href="For+Your+Perusal.html">For Your Perusal</a></div></li><li><div><a href="Who%E2%80%99s+Using+Pamflet%3F.html">Who’s Using Pamflet?</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div></div>
+          </div>
+        </div>
+        <div class="header">
+          <div class="container">
+        <div class="span-16 prepend-1 append-1">
+          <div class="span-16 top nav">
+            <div class="span-16 title">
+              <span>Pamflet</span> — Going Deep
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="footer">
+          
+        </div>
+        <a href="http://github.com/foundweekends/pamflet" class="fork nav"><img src="img/fork.png" alt="Fork me on GitHub"/></a>
+        <div class="highlight-outer">
+              <div class="highlight-menu">
+                <ul>
+                  <li><button id="highlight-button-twitter"><img src="img/twitter-bird-dark-bgs.png"/></button></li>
+                </ul>
+              </div>
+            </div>
+      </body>
+    </html>
