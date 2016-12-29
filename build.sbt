@@ -1,7 +1,7 @@
 import sbtrelease.ReleaseStateTransformations._
 
 lazy val common = Seq(
-  organization := "net.databinder",
+  organization := "org.foundweekends",
   scalaVersion := "2.10.6",
   crossScalaVersions := Seq("2.11.8", "2.10.6"),
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
