@@ -1,6 +1,7 @@
+import sbtrelease.ReleaseStateTransformations._
+
 lazy val common = Seq(
   organization := "net.databinder",
-  version := "0.7.0-SNAPSHOT",
   scalaVersion := "2.10.6",
   crossScalaVersions := Seq("2.11.8", "2.10.6"),
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
@@ -12,6 +13,20 @@ lazy val common = Seq(
     Some("releases" at
          "https://oss.sonatype.org/service/local/staging/deploy/maven2"),
   publishArtifact in Test := false,
+  releaseCrossBuild := true,
+  releaseProcess := Seq[ReleaseStep](
+    checkSnapshotDependencies,
+    inquireVersions,
+    runTest,
+    setReleaseVersion,
+    commitReleaseVersion,
+    tagRelease,
+    ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
+    setNextVersion,
+    commitNextVersion,
+    ReleaseStep(action = Command.process("sonatypeReleaseAll", _), enableCrossBuild = true),
+    pushChanges
+  ),
   pomExtra := (
     <scm>
       <url>git@github.com:foundweekends/pamflet.git</url>
