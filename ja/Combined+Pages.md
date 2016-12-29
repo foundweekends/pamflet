@@ -512,7 +512,7 @@ body.color_scheme-zen code.prettyprint span.str {
 この pamflet で説明されているテクニックを使ってこの pamflet は書かれている。
 [GitHub][gh] で Pamflet の `docs/` ディレクトリを開いて眺めてみてほしい。
 
-[gh]: https://github.com/foundweekends/pamflet/tree/0.7.0/docs
+[gh]: https://github.com/foundweekends/pamflet/tree/master/docs
 
 
 誰が Pamflet を使っているか?

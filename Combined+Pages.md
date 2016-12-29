@@ -561,7 +561,7 @@ For Your Perusal
 All techniques described in this pamflet are used to produce it. Take
 a look through Pamflet's `docs/` directory [on github][gh].
 
-[gh]: https://github.com/foundweekends/pamflet/tree/0.7.0/docs
+[gh]: https://github.com/foundweekends/pamflet/tree/master/docs
 
 Who's Using Pamflet?
 --------------------
