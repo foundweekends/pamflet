@@ -6,17 +6,17 @@ import java.io.{File,FileOutputStream,InputStream,
 import scala.annotation.tailrec
 
 object Produce {
-  def apply(globalized: Globalized, target: File) {
+  def apply(globalized: Globalized, target: File): Unit = {
     globalized.languages foreach { lang =>
       if (lang == globalized.defaultLanguage) apply(globalized.defaultContents, globalized, target)
       else apply(globalized(lang), globalized, new File(target, lang))
     }
   }
-  def apply(contents: Contents, globalized: Globalized, target: File) {
-    def writeString(path: String, contents: String, target:File) {
+  def apply(contents: Contents, globalized: Globalized, target: File): Unit = {
+    def writeString(path: String, contents: String, target:File): Unit = {
       write(path, target, new ByteArrayInputStream(contents.getBytes("utf-8")))
     }
-    def write(path: String, target:File, r: InputStream) {
+    def write(path: String, target:File, r: InputStream): Unit = {
       val file = new File(target, path)
       new File(file.getParent).mkdirs()
       val w = new FileOutputStream(file)
@@ -24,8 +24,8 @@ object Produce {
       r.close()
       w.close()
     }
-    def copy(r: InputStream, w: OutputStream) {
-      @tailrec def doCopy: Unit = {
+    def copy(r: InputStream, w: OutputStream): Unit = {
+      @tailrec def doCopy(): Unit = {
         val byte = r.read()
         if (byte != -1) {
           w.write(byte)
