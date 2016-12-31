@@ -5,10 +5,12 @@ val unusedWarnings = Seq(
   "-Ywarn-unused-import"
 )
 
+val Scala212 = "2.12.1"
+
 lazy val common = Seq(
   organization := "org.foundweekends",
-  scalaVersion := "2.10.6",
-  crossScalaVersions := Seq("2.11.8", "2.10.6"),
+  scalaVersion := Scala212,
+  crossScalaVersions := Seq(Scala212, "2.11.8", "2.10.6"),
   scalacOptions ++= Seq("-language:_", "-deprecation", "-Xfuture", "-Yno-adapted-args"),
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
@@ -60,19 +62,18 @@ lazy val common = Seq(
   scalacOptions in (c, console) --= unusedWarnings
 )
 
-val knockoffVersion = "0.8.3"
 lazy val knockoffDeps = Def.setting { Seq(
-  "com.tristanhunt" %% "knockoff" % knockoffVersion
+  "org.foundweekends" %% "knockoff" % "0.8.6"
 )}
-val unfilteredVersion = "0.8.3"
+val unfilteredVersion = "0.9.0-beta2"
 val stringtemplateVersion = "3.2.1"
 lazy val libraryDeps = Def.setting { Seq(
-  "net.databinder" %% "unfiltered-filter" % unfilteredVersion,
-  "net.databinder" %% "unfiltered-jetty" % unfilteredVersion,
+  "ws.unfiltered" %% "unfiltered-filter" % unfilteredVersion,
+  "ws.unfiltered" %% "unfiltered-jetty" % unfilteredVersion,
   "org.antlr" % "stringtemplate" % stringtemplateVersion
 )}
 val launcherInterfaceVersion = "0.13.0"
-val servletApiVersion = "3.0.1"
+val servletApiVersion = "3.1.0"
 lazy val appDeps = Def.setting { Seq(
   "org.scala-sbt" % "launcher-interface" % launcherInterfaceVersion % "provided",
   "javax.servlet" % "javax.servlet-api" % servletApiVersion

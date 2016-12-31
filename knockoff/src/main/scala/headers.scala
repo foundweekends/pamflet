@@ -1,6 +1,6 @@
 package pamflet
 
-import com.tristanhunt.knockoff._
+import knockoff._
 
 trait IdentifiedHeaders extends Discounter { self: TextWriter =>
   def headerText( spans : Seq[Span] ) : String = {

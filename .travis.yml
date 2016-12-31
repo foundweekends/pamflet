@@ -9,13 +9,13 @@ cache:
     - $HOME/.ivy2/cache
     - $HOME/.sbt/boot/scala-$TRAVIS_SCALA_VERSION
 
-# Cross built for 2.10 and 2.11
 scala:
    - 2.10.6
    - 2.11.8
+   - 2.12.1
 
 jdk:
-  - openjdk7
+  - oraclejdk8
 
 script:
   - sbt ++$TRAVIS_SCALA_VERSION -Dfile.encoding=UTF8 test

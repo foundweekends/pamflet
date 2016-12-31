@@ -1,6 +1,6 @@
 package pamflet
 
-import com.tristanhunt.knockoff._
+import knockoff._
 import scala.util.parsing.input.Position
 import collection.mutable.ListBuffer
 
