@@ -2,7 +2,7 @@ package pamflet
 
 import java.io.File
 import java.nio.charset.Charset
-import com.tristanhunt.knockoff._
+import knockoff._
 import collection.immutable.Map
 import collection.concurrent.TrieMap
 

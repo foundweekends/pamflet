@@ -1,7 +1,7 @@
 package pamflet
 
 import java.io.File
-import com.tristanhunt.knockoff._
+import knockoff._
 import collection.immutable.Map
 
 object Knock {

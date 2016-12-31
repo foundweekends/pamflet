@@ -1,7 +1,7 @@
 package pamflet
 
 import scala.xml.Node
-import com.tristanhunt.knockoff._
+import knockoff._
 
 // see http://www.w3.org/html/wg/drafts/html/master/syntax.html#void-elements
 trait Html5Imgs extends Discounter { self: XHTMLWriter =>

@@ -1,5 +1,5 @@
 package pamflet
-import com.tristanhunt.knockoff._
+import knockoff._
 import java.net.URI
 import collection.immutable.Map
 
