@@ -1,9 +1,21 @@
 import sbtrelease.ReleaseStateTransformations._
 
+val unusedWarnings = Seq(
+  "-Ywarn-unused",
+  "-Ywarn-unused-import"
+)
+
 lazy val common = Seq(
   organization := "org.foundweekends",
   scalaVersion := "2.10.6",
   crossScalaVersions := Seq("2.11.8", "2.10.6"),
+  scalacOptions ++= Seq("-language:_", "-deprecation", "-Xfuture", "-Yno-adapted-args"),
+  scalacOptions ++= {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, v)) if v >= 11 => unusedWarnings
+      case _ => Nil
+    }
+  },
   credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
   homepage :=
     Some(new java.net.URL("http://www.foundweekends.org/pamflet/")),
@@ -44,6 +56,8 @@ lazy val common = Seq(
         <url>https://github.com/eed3si9n</url>
       </developer>
     </developers>)
+) ++ Seq(Compile, Test).flatMap(c =>
+  scalacOptions in (c, console) --= unusedWarnings
 )
 
 val knockoffVersion = "0.8.3"

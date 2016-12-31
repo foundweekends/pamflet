@@ -112,7 +112,7 @@ case class FileStorage(base: File, ps: List[FencePlugin]) extends Storage {
     (f.getName.endsWith(".markdown") || f.getName.endsWith(".md"))
   }
   def defaultTemplate = StringTemplate(propFile(base).toSeq, None, Map())
-  def doWith[T <: { def close() }, R](toClose: T)(f: T => R): R = {
+  def doWith[T <: { def close(): Unit }, R](toClose: T)(f: T => R): R = {
     try {
       f(toClose)
     } finally {

@@ -9,7 +9,7 @@ class Pamflet extends xsbti.AppMain {
 }
 
 object Pamflet {
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     System.exit(run(args))
   }
   private def storage(dir: File, ps: List[FencePlugin]) = CachedFileStorage(dir, ps)

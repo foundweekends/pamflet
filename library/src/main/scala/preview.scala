@@ -64,7 +64,7 @@ object Preview {
     http.plan(plan).resources(Shared.resources)
   }
   def responseStreamer(uri: URI) =
-    new ResponseStreamer { def stream(os:OutputStream) { 
+    new ResponseStreamer { def stream(os:OutputStream): Unit = {
       val is = uri.toURL.openStream
       try {
         val buf = new Array[Byte](1024)
