@@ -169,16 +169,16 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
   // https://theantlrguy.atlassian.net/wiki/display/ST/StringTemplate+2.2+Documentation
   def modifiedTemplate(page: Page): Template = {
     import java.util.{Map => JMap}
-    import collection.JavaConversions._
-    val contentsMap: JMap[String, String] = Map("title" -> contents.title)
-    val pageMap: JMap[String, String] =
+    import collection.JavaConverters._
+    val contentsMap: JMap[String, String] = Map("title" -> contents.title).asJava
+    val pageMap =
       Map("name" -> page.name) ++
       (if (contents.title != page.name) Map("title" -> page.name)
       else Map())
     page.template.updated(
       Map(
         "contents" -> contentsMap,
-        "page" -> pageMap
+        "page" -> pageMap.asJava
       )
     )
   }

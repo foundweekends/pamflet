@@ -25,10 +25,10 @@ case class StringTemplate(files: Seq[File],
     extra: Map[AnyRef, AnyRef]) extends Template {
   def apply(input: CharSequence) =
     if (!files.isEmpty) {
-      import collection.JavaConversions._
+      import collection.JavaConverters._
       val st = new STImpl
       st.setTemplate(input.toString)
-      st.setAttributes(properties ++ extra)
+      st.setAttributes((properties.asScala ++ extra).asJava)
       st.toString
     } else input
     
