@@ -7,6 +7,8 @@ val unusedWarnings = Seq(
 
 val Scala212 = "2.12.1"
 
+lazy val updateLaunchconfig = TaskKey[File]("updateLaunchconfig")
+
 lazy val common = Seq(
   organization := "org.foundweekends",
   scalaVersion := Scala212,
@@ -33,6 +35,7 @@ lazy val common = Seq(
     inquireVersions,
     runTest,
     setReleaseVersion,
+    releaseStepTask(updateLaunchconfig),
     commitReleaseVersion,
     tagRelease,
     ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
@@ -90,6 +93,27 @@ lazy val pamflet: Project =
           !file.getCanonicalPath.contains("offline/")
         }
       }
+    },
+    updateLaunchconfig := {
+      val mainClassName = (discoveredMainClasses in Compile in app).value match {
+        case Seq(m) => m
+        case zeroOrMulti => sys.error(s"could not found main class. $zeroOrMulti")
+      }
+      val launchconfig = s"""[app]
+  version: ${(version in app).value}
+  org: ${(organization in app).value}
+  name: ${(normalizedName in app).value}
+  class: ${mainClassName}
+[scala]
+  version: ${Scala212}
+[repositories]
+  local
+  sonatype-releases: https://oss.sonatype.org/service/local/repositories/releases/content/
+  maven-central
+"""
+      val f = (baseDirectory in ThisBuild).value / "src/main/conscript/pf/launchconfig"
+      IO.write(f, launchconfig)
+      f
     },
     sourceDirectory in Pamflet := file("docs"),
     git.remoteRepo := "git@github.com:foundweekends/pamflet.git",
