@@ -5,14 +5,14 @@ val unusedWarnings = Seq(
   "-Ywarn-unused-import"
 )
 
-val Scala212 = "2.12.1"
+val Scala212 = "2.12.2"
 
 lazy val updateLaunchconfig = TaskKey[File]("updateLaunchconfig")
 
 lazy val common = Seq(
   organization := "org.foundweekends",
   scalaVersion := Scala212,
-  crossScalaVersions := Seq(Scala212, "2.11.8", "2.10.6"),
+  crossScalaVersions := Seq(Scala212, "2.11.11", "2.10.6"),
   scalacOptions ++= Seq("-language:_", "-deprecation", "-Xfuture", "-Yno-adapted-args"),
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {

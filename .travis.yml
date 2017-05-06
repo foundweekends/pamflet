@@ -11,15 +11,15 @@ cache:
 
 scala:
    - 2.10.6
-   - 2.11.8
-   - 2.12.1
+   - 2.11.11
+   - 2.12.2
 
 jdk:
   - oraclejdk8
 
 script:
   - sbt ++$TRAVIS_SCALA_VERSION -Dfile.encoding=UTF8 test
-  - if [[ "${TRAVIS_SCALA_VERSION}" == "2.11.8" ]]; then ./publish.sh; fi
+  - if [[ "${TRAVIS_SCALA_VERSION}" == "2.11.11" ]]; then ./publish.sh; fi
 
   # Tricks to avoid unnecessary cache updates
   - find $HOME/.sbt -name "*.lock" | xargs rm
