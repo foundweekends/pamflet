@@ -84,9 +84,9 @@ lazy val appDeps = Def.setting { Seq(
 
 lazy val pamflet: Project =
   (project in file(".")).
+  enablePlugins(GhpagesPlugin).
   settings(common: _*).
   settings(
-    ghpages.settings,
     includeFilter in Pamflet := {
       new FileFilter{
         override def accept(file: File) = {
