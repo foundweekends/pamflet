@@ -7,7 +7,7 @@ language: scala
 cache:
   directories:
     - $HOME/.ivy2/cache
-    - $HOME/.sbt/boot/scala-$TRAVIS_SCALA_VERSION
+    - $HOME/.sbt/launchers
 
 scala:
    - 2.10.6
