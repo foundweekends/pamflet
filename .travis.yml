@@ -18,7 +18,7 @@ jdk:
   - oraclejdk8
 
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION -Dfile.encoding=UTF8 test
+  - sbt ++$TRAVIS_SCALA_VERSION -Dfile.encoding=UTF8 test $(if [[ "${TRAVIS_SCALA_VERSION}" == "2.12.2" ]]; then echo testConscript ; fi)
   - if [[ "${TRAVIS_SCALA_VERSION}" == "2.11.11" ]]; then ./publish.sh; fi
 
   # Tricks to avoid unnecessary cache updates

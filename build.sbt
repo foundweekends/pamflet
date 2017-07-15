@@ -82,11 +82,31 @@ lazy val appDeps = Def.setting { Seq(
   "javax.servlet" % "javax.servlet-api" % servletApiVersion
 )}
 
+val launchconfigFile = file("src/main/conscript/pf/launchconfig")
+
 lazy val pamflet: Project =
   (project in file(".")).
-  enablePlugins(GhpagesPlugin).
+  enablePlugins(GhpagesPlugin, ConscriptPlugin).
   settings(common: _*).
   settings(
+    {
+      val out = file("target/test.html")
+      TaskKey[File]("testConscript") := Def.sequential(
+        updateLaunchconfig,
+        Def.task {
+          val extracted = Project extract state.value
+          val s = extracted.append(Seq(scalaVersion := Scala212), state.value)
+          (Project extract s).runAggregated(publishLocal in extracted.get(thisProjectRef), s)
+          IO.delete(out)
+        },
+        csRun.toTask(" pf src/test/pf target"),
+        Def.task {
+          s"git checkout ${launchconfigFile}".!
+          assert(out.exists)
+          out
+        }
+      ).value
+    },
     includeFilter in Pamflet := {
       new FileFilter{
         override def accept(file: File) = {
@@ -111,9 +131,8 @@ lazy val pamflet: Project =
   sonatype-releases: https://oss.sonatype.org/service/local/repositories/releases/content/
   maven-central
 """
-      val f = (baseDirectory in ThisBuild).value / "src/main/conscript/pf/launchconfig"
-      IO.write(f, launchconfig)
-      f
+      IO.write(launchconfigFile, launchconfig)
+      launchconfigFile
     },
     sourceDirectory in Pamflet := file("docs"),
     git.remoteRepo := "git@github.com:foundweekends/pamflet.git",
