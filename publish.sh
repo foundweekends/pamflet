@@ -1,6 +1,6 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
-if [[ "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" && "${TRAVIS_REPO_SLUG}" == "foundweekends/pamflet" ]]; then
+if [[ "${TRAVIS_EVENT_TYPE}" == "push" && "${TRAVIS_BRANCH}" == "master" && "${TRAVIS_REPO_SLUG}" == "foundweekends/pamflet" ]]; then
   echo -e "Host github.com\n\tStrictHostKeyChecking no\nIdentityFile ~/.ssh/deploy.key\n" >> ~/.ssh/config
   openssl aes-256-cbc -k "$SERVER_KEY" -in deploy_key.enc -d -a -out deploy.key
   cp deploy.key ~/.ssh/
