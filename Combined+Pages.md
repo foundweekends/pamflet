@@ -566,7 +566,7 @@ a look through Pamflet's `docs/` directory [on github][gh].
 Who's Using Pamflet?
 --------------------
 
-* [Dispatch](http://dispatch.databinder.net/)
+* [Dispatch](https://dispatchhttp.org/Dispatch.html)
 * [Pamflet](http://www.foundweekends.org/pamflet/)
 * [Subset](http://osinka.github.com/subset/Subset.html)
 * [Lifty](http://lifty.github.com/Lifty.html)
