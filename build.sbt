@@ -101,7 +101,7 @@ lazy val pamflet: Project =
         },
         csRun.toTask(" pf src/test/pf target"),
         Def.task {
-          s"git checkout ${launchconfigFile}".!
+          sys.process.Process(s"git checkout ${launchconfigFile}").!
           assert(out.exists)
           out
         }
