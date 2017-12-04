@@ -38,10 +38,10 @@ lazy val common = Seq(
     releaseStepTask(updateLaunchconfig),
     commitReleaseVersion,
     tagRelease,
-    ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
+    releaseStepCommand("publishSigned"),
     setNextVersion,
     commitNextVersion,
-    ReleaseStep(action = Command.process("sonatypeReleaseAll", _), enableCrossBuild = true),
+    releaseStepCommand("sonatypeReleaseAll"),
     pushChanges
   ),
   pomExtra := (
@@ -101,7 +101,7 @@ lazy val pamflet: Project =
         },
         csRun.toTask(" pf src/test/pf target"),
         Def.task {
-          s"git checkout ${launchconfigFile}".!
+          sys.process.Process(s"git checkout ${launchconfigFile}").!
           assert(out.exists)
           out
         }
