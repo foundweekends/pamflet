@@ -6,8 +6,6 @@ Pamflet
 ユーザ・ドキュメントを公開するためのアプリだ。
 どのようなプラットフォームからでも簡単に読み書きできる設計になっている。
 
-> [Version 0.6.0 Release Notes](http://notes.implicit.ly/post/87661053009/pamflet-0-6-0)
-
 
 本のように
 ---------

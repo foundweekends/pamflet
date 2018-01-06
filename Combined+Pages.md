@@ -6,8 +6,6 @@ Pamflet
 user documentation of open-source software. It is designed to be easy
 to write and read on any platform.
 
-> [Version 0.6.0 Release Notes](http://notes.implicit.ly/post/87661053009/pamflet-0-6-0)
-
 Like a Book
 -----------
 
