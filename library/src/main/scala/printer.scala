@@ -39,15 +39,13 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         { <div><a href={ href(page) }>{ 
           page.name
         }</a></div> } ++ ((page, current) match {
-          case (page: ContentPage, c: DeepContents) =>
-            Outline(page)
-          case _ => Nil
+          case (page: ContentPage, _: DeepContents) => Outline(page)
+          case _                                    => Nil
         })
     }
     def draw: Page => xml.NodeSeq = {
-      case sect @ Section(_, _, blocks, children, _) =>
-        link(sect) ++ list(children)
-      case page => link(page)
+      case sect @ Section(_, _, _, children, _) => link(sect) ++ list(children)
+      case page                                 => link(page)
     }
     def list(pages: Seq[Page]) = {
       <ol class="toc"> { pages.map {
@@ -205,12 +203,12 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         <title>{ "%s — %s".format(contents.title, page.name) }</title>
         {
           contents.favicon match {
-            case Some(x) => <link rel="shortcut icon" href="favicon.ico" />
+            case Some(_) => <link rel="shortcut icon" href="favicon.ico" />
             case None    =>
               if (contents.isDefaultLang) Nil
               else {
                 globalized.defaultContents.favicon match {
-                  case Some(x) => <link rel="shortcut icon" href= { relativeBase + "favicon.ico" } />
+                  case Some(_) => <link rel="shortcut icon" href= { relativeBase + "favicon.ico" } />
                   case None    => Nil
                 }
               }
@@ -239,11 +237,11 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
           prettify(page)
         }
         {
-          (globalized.defaultContents.css.map { case (filename, contents) =>
+          (globalized.defaultContents.css.map { case (filename, _) =>
             <link rel="stylesheet" href={ relativeBase + "css/" + filename } type="text/css" media="screen, projection"/>
           }) ++
           (if (contents.isDefaultLang) Nil
-          else contents.css.map { case (filename, contents) =>
+          else contents.css.map { case (filename, _) =>
             <link rel="stylesheet" href={ "css/" + filename } type="text/css" media="screen, projection"/>
           })
         }
