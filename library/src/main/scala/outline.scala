@@ -20,9 +20,7 @@ object Outline {
               <ul class="outline"> { nested.nodes } </ul>
             </li>
           ) ++ after.nodes, after.rest)
-        case Seq(a, tail @ _*) if a.level > cur =>
-          val Return(nodes, rest) = build(blocks, a.level)
-          Return(nodes, rest)
+        case Seq(a, _*) if a.level > cur => build(blocks, a.level)
         case Seq(a, tail @ _*) if a.level == cur =>
           val Return(nodes, rest) = build(tail, cur)
           val name = headerText(a.spans)
@@ -34,11 +32,8 @@ object Outline {
       case h: Header if h.level <= BlockNames.maxLevel => h
     }
     headers match {
-      case Seq(head, elem, rest @ _*) => 
-        <ul class="outline"> {
-          build(elem +: rest, 0).nodes
-        } </ul>
-      case _ => Seq.empty
+      case Seq(_, elem, rest @ _*) => <ul class="outline">{build(elem +: rest, 0).nodes}</ul>
+      case _                       => Seq.empty
     }
   }
 }
