@@ -20,7 +20,6 @@ lazy val common = Seq(
       case _ => Nil
     }
   },
-  credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
   homepage :=
     Some(new java.net.URL("http://www.foundweekends.org/pamflet/")),
   licenses := Seq("LGPL v3" -> url("http://www.gnu.org/licenses/lgpl.txt")),
