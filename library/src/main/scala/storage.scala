@@ -87,9 +87,9 @@ case class FileStorage(base: File, ps: List[FencePlugin]) extends Storage {
         f.isDirectory && defaultTemplate.languages.contains(f.getName)
       }
       val children = childFiles.flatMap { f =>
-        if (isMarkdown(f))
-          Seq(Leaf(localPath + "/" + f.getName, knock(f, propFiles)))
-        else if (f.isDirectory && !isSpecialDir(f)) section(localPath + "/" + f.getName, f, propFiles)
+        val childLocalPath = if (localPath.isEmpty) f.getName else localPath + "/" + f.getName
+        if (isMarkdown(f)) Seq(Leaf(childLocalPath, knock(f, propFiles)))
+        else if (f.isDirectory && !isSpecialDir(f)) section(childLocalPath, f, propFiles)
         else Seq()
       }
       Section(localPath, raw, blocks, children, template)
