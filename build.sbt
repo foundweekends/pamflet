@@ -154,7 +154,9 @@ lazy val library: Project =
   settings(
     name := "pamflet-library",
     description := "Core Pamflet library",
-    libraryDependencies ++= libraryDeps.value
+    libraryDependencies ++= libraryDeps.value,
+    libraryDependencies += "com.lihaoyi" %% "utest" % "0.6.3" % Test,
+    testFrameworks += new TestFramework("utest.runner.Framework"),
   ).
   dependsOn(knockoff)
 lazy val app: Project =
