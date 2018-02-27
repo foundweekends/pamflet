@@ -92,7 +92,7 @@ case class FileStorage(base: File, ps: List[FencePlugin]) extends Storage {
         else if (f.isDirectory && !isSpecialDir(f)) section(childLocalPath, f, propFiles)
         else Seq()
       }
-      Section(localPath, raw, blocks, children, template)
+      Section(head.getName, raw, blocks, children, template)
     }.toSeq
   }
   def read(file: File, encoding: String = Charset.defaultCharset.name) = doWith(scala.io.Source.fromFile(file, encoding)) { source =>
