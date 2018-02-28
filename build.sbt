@@ -94,7 +94,7 @@ lazy val pamflet: Project =
         updateLaunchconfig,
         Def.task {
           val extracted = Project extract state.value
-          val s = extracted.append(Seq(scalaVersion := Scala212), state.value)
+          val s = extracted.appendWithSession(Seq(scalaVersion := Scala212), state.value)
           (Project extract s).runAggregated(publishLocal in extracted.get(thisProjectRef), s)
           IO.delete(out)
         },
