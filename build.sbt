@@ -23,6 +23,11 @@ lazy val common = Seq(
   homepage :=
     Some(new java.net.URL("http://www.foundweekends.org/pamflet/")),
   licenses := Seq("LGPL v3" -> url("http://www.gnu.org/licenses/lgpl.txt")),
+  scmInfo := Some(ScmInfo(url("https://github.com/foundweekends/pamflet"), "git@github.com:foundweekends/pamflet.git")),
+  developers := List(
+    Developer("n8han", "Nathan Hamblen", "@n8han", url("https://github.com/n8han")),
+    Developer("eed3si9n", "Eugene Yokota", "@eed3si9n", url("https://github.com/eed3si9n"))
+  ),
   publishMavenStyle := true,
   publishTo :=
     Some("releases" at
@@ -42,24 +47,7 @@ lazy val common = Seq(
     commitNextVersion,
     releaseStepCommand("sonatypeReleaseAll"),
     pushChanges
-  ),
-  pomExtra := (
-    <scm>
-      <url>git@github.com:foundweekends/pamflet.git</url>
-      <connection>scm:git:git@github.com:foundweekends/pamflet.git</connection>
-    </scm>
-    <developers>
-      <developer>
-        <id>n8han</id>
-        <name>Nathan Hamblen</name>
-        <url>http://github.com/n8han</url>
-      </developer>
-      <developer>
-        <id>eed3si9n</id>
-        <name>Eugene Yokota</name>
-        <url>https://github.com/eed3si9n</url>
-      </developer>
-    </developers>)
+  )
 ) ++ Seq(Compile, Test).flatMap(c =>
   scalacOptions in (c, console) --= unusedWarnings
 )
