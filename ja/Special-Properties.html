@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="../css/color_scheme-redmond.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="../css/color_scheme-github.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="../css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href="../css/pamfletheight_2em_2em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="../css/pamfletheight_2em_3em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
         <script type="text/javascript" src="../js/jquery-1.6.2.min.js"></script>
         <script type="text/javascript" src="../js/jquery.collapse.js"></script>
         <script type="text/javascript" src="../js/pamflet.js"></script>
@@ -67,7 +67,21 @@ out: index.html
 </code></pre><h3 id="Google+Analytics">Google Analytics<a href="#Google+Analytics" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>google-analytics</code> プロパティを定義して Google Analytics web property ID
 を指定することで全ページの head に<a href="http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html">追跡 Javascript</a> を追加する。例えば:
 </p><pre><code>google-analytics=UA-12345-6
-</code></pre><div class="bottom nav span-16">
+</code></pre><h3 id="%E3%83%9A%E3%83%BC%E3%82%B8%E3%83%BB%E3%83%91%E3%82%B9">ページ・パス<a href="#%E3%83%9A%E3%83%BC%E3%82%B8%E3%83%BB%E3%83%91%E3%82%B9" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>page.localPath</code> プロパティは自動的にページの markdown ソースへのローカルパスに設定され、これを用いて例えば 「GitHub で編集」URL をフッターに置くことができる:
+</p><pre><code>&lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+      &lt;div class=&quot;span-16 prepend-1 append-1&quot;&gt;
+        &lt;div class=&quot;span-16 nav&quot;&gt;
+          &lt;p style=&quot;padding-top: 0.5em&quot;&gt;
+            &lt;a href=&quot;https://github.com/foundweekends/pamflet/edit/master/docs/$page.localPath$&quot;&gt;
+            [Edit on GitHub]&lt;/a&gt;
+          &lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p>このページの一番下へ行くと実際にこれがどう表示されるかを見ることができる。
+</p><div class="bottom nav span-16">
                         <em>Next Page</em>
                         <span class="arrow">❧</span>
                         <a href="Globalization.html"> グローバリゼーション </a>                        
@@ -94,7 +108,17 @@ out: index.html
       </div>
         </div>
         <div class="footer">
-          
+          <div class="container">
+    <div class="row">
+        <div class="span-16 prepend-1 append-1">
+          <div class="span-16 nav">
+            <p style="padding-top: 0.5em">
+              <a href="https://github.com/foundweekends/pamflet/edit/master/docs/04/d.markdown">[Edit on GitHub]</a>
+            </p>
+          </div>
+        </div>
+  </div>
+</div>
         </div>
         <a href="http://github.com/foundweekends/pamflet" class="fork nav"><img src="../img/fork.png" alt="Fork me on GitHub"/></a>
         <div class="highlight-outer">

@@ -397,6 +397,25 @@ Pamflet はレポジトリへのリンクを張る。例えば:　
 
     google-analytics=UA-12345-6
 
+### ページ・パス
+
+`page.localPath` プロパティは自動的にページの markdown ソースへのローカルパスに設定され、これを用いて例えば 「GitHub で編集」URL をフッターに置くことができる:
+
+    <div class="container">
+        <div class="row">
+          <div class="span-16 prepend-1 append-1">
+            <div class="span-16 nav">
+              <p style="padding-top: 0.5em">
+                <a href="https://github.com/foundweekends/pamflet/edit/master/docs/$page.localPath$">
+                [Edit on GitHub]</a>
+              </p>
+            </div>
+          </div>
+      </div>
+    </div>
+
+このページの一番下へ行くと実際にこれがどう表示されるかを見ることができる。
+
 [ga]: http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html
 
 

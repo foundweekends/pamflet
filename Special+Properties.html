@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="css/color_scheme-redmond.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="css/color_scheme-github.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href="css/pamfletheight_2em_2em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
+        <link rel="stylesheet" href="css/pamfletheight_2em_3em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
         <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
         <script type="text/javascript" src="js/jquery.collapse.js"></script>
         <script type="text/javascript" src="js/pamflet.js"></script>
@@ -72,10 +72,22 @@ The value <code>show</code> would display the button, but will not be included i
 insert <a href="http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html">tracking Javascript</a> in the head of all your pages. For
 example:
 </p><pre><code>google-analytics=UA-12345-6
-</code></pre><h3 id="Page+path">Page path<a href="#Page+path" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>The property <code>page.localPath</code> is automatically injected when rendering the layout markdown, which allows, for
-instance, the construction of a direct-to-GitHub page edit URL in the header or footer, e.g:
-</p><pre><code>&lt;a href=&quot;https://github.com/foundweekends/pamflet/edit/master/src/test/pf/&quot;&gt;[edit]&lt;/a&gt;
-</code></pre><div class="bottom nav span-16">
+</code></pre><h3 id="Page+path">Page path<a href="#Page+path" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>The property <code>page.localPath</code> is automatically set to the local path to the page’s markdown source,
+which allows, for instance, the construction of a direct-to-GitHub page edit URL in the header or footer, e.g:
+</p><pre><code>&lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+      &lt;div class=&quot;span-16 prepend-1 append-1&quot;&gt;
+        &lt;div class=&quot;span-16 nav&quot;&gt;
+          &lt;p style=&quot;padding-top: 0.5em&quot;&gt;
+            &lt;a href=&quot;https://github.com/foundweekends/pamflet/edit/master/docs/$page.localPath$&quot;&gt;
+            [Edit on GitHub]&lt;/a&gt;
+          &lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p>Scroll to the bottom of this page to see how this works.
+</p><div class="bottom nav span-16">
                         <em>Next Page</em>
                         <span class="arrow">❧</span>
                         <a href="Additional+resources.html"> Additional resources </a>                        
@@ -102,7 +114,17 @@ instance, the construction of a direct-to-GitHub page edit URL in the header or 
       </div>
         </div>
         <div class="footer">
-          
+          <div class="container">
+    <div class="row">
+        <div class="span-16 prepend-1 append-1">
+          <div class="span-16 nav">
+            <p style="padding-top: 0.5em">
+              <a href="https://github.com/foundweekends/pamflet/edit/master/docs/04/d.markdown">[Edit on GitHub]</a>
+            </p>
+          </div>
+        </div>
+  </div>
+</div>
         </div>
         <a href="http://github.com/foundweekends/pamflet" class="fork nav"><img src="img/fork.png" alt="Fork me on GitHub"/></a>
         <div class="highlight-outer">

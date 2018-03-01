@@ -424,10 +424,23 @@ example:
 
 ### Page path
 
-The property `page.localPath` is automatically injected when rendering the layout markdown, which allows, for
-instance, the construction of a direct-to-GitHub page edit URL in the header or footer, e.g:
+The property `page.localPath` is automatically set to the local path to the page's markdown source,
+which allows, for instance, the construction of a direct-to-GitHub page edit URL in the header or footer, e.g:
 
-    <a href="https://github.com/foundweekends/pamflet/edit/master/src/test/pf/">[edit]</a>
+    <div class="container">
+        <div class="row">
+          <div class="span-16 prepend-1 append-1">
+            <div class="span-16 nav">
+              <p style="padding-top: 0.5em">
+                <a href="https://github.com/foundweekends/pamflet/edit/master/docs/$page.localPath$">
+                [Edit on GitHub]</a>
+              </p>
+            </div>
+          </div>
+      </div>
+    </div>
+
+Scroll to the bottom of this page to see how this works.
 
 Additional resources
 --------------------
