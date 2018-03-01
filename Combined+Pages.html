@@ -296,6 +296,9 @@ The value <code>show</code> would display the button, but will not be included i
 insert <a href="http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html">tracking Javascript</a> in the head of all your pages. For
 example:
 </p><pre><code>google-analytics=UA-12345-6
+</code></pre><h3 id="Page+path">Page path<a href="#Page+path" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>The property <code>page.localPath</code> is automatically injected when rendering the layout markdown, which allows, for
+instance, the construction of a direct-to-GitHub page edit URL in the header or footer, e.g:
+</p><pre><code>&lt;a href=&quot;https://github.com/foundweekends/pamflet/edit/master/src/test/pf/&quot;&gt;[edit]&lt;/a&gt;
 </code></pre><h2 id="Additional+resources">Additional resources<a href="#Additional+resources" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>If you want your pamflet to carry your favorite image or any other
 resource, add it to a <code>files</code> directory just below <code>docs</code>. Then, link
 to it as if this directory were beside your pamflet page.

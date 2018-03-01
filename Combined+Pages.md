@@ -420,8 +420,14 @@ example:
 
     google-analytics=UA-12345-6
 
-
 [ga]: http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html
+
+### Page path
+
+The property `page.localPath` is automatically injected when rendering the layout markdown, which allows, for
+instance, the construction of a direct-to-GitHub page edit URL in the header or footer, e.g:
+
+    <a href="https://github.com/foundweekends/pamflet/edit/master/src/test/pf/">[edit]</a>
 
 Additional resources
 --------------------
