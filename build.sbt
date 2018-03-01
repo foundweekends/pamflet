@@ -124,7 +124,8 @@ lazy val pamflet: Project =
     sourceDirectory in Pamflet := file("docs"),
     git.remoteRepo := "git@github.com:foundweekends/pamflet.git",
     name := "pamflet",
-    publishArtifact := false
+    publishArtifact := false,
+    previewSite / aggregate := false,
   ).
   aggregate(knockoff, library, app).
   enablePlugins(PamfletPlugin)
