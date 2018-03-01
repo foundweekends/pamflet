@@ -170,7 +170,10 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
     import collection.JavaConverters._
     val contentsMap: JMap[String, String] = Map("title" -> contents.title).asJava
     val pageMap =
-      Map("name" -> page.name) ++
+      Map(
+        "name" -> page.name,
+        "localPath" -> page.localPath
+      ) ++
       (if (contents.title != page.name) Map("title" -> page.name)
       else Map())
     page.template.updated(
