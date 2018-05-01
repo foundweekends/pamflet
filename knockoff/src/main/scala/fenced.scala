@@ -68,7 +68,7 @@ trait FencedChunkParser extends ChunkParser {
     """(?!```)[^\n]+\n""".r ^^ { TextChunk(_) }
 
   private def foldedString( texts : List[ Chunk ] ) : String =
-    ( "" /: texts )( (current, text) => current + text.content )
+    texts.foldLeft("")( (current, text) => current + text.content )
 }
 
 case class FencedChunk(val content: String, language: Option[String])

@@ -41,7 +41,7 @@ case class Contents(
                         rootSection.template)
   val pages = traverse(pamflet.children, pamflet :: Nil)
   val title = pamflet.name
-  val prettifyLangs = (Set.empty[String] /: pages) { _ ++ _.prettifyLangs }
+  val prettifyLangs = pages.foldLeft(Set.empty[String]) { _ ++ _.prettifyLangs }
 }
 sealed trait Page {
   def name: String
@@ -54,7 +54,7 @@ sealed trait AuthoredPage extends Page {
   def blocks: Seq[Block]
   // Always reference Scala for fenced plugin purpose
   lazy val referencedLangs =
-    (Set("scala") /: blocks) {
+    blocks.foldLeft(Set("scala")) {
       case (s, FencedCodeBlock(_, _, Some(lang))) => s + lang
       case (s, _) => s
     }
