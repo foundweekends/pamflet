@@ -278,7 +278,7 @@ prettify が使用可能な言語を指定する。
     ```scala
     // Some comment
     case class Page(name: String) {
-      def foo: Int = (1 to 10) /: { _ + _ }
+      def foo: Int = (1 to 10).reduceLeft{ _ + _ }
       val bar = "wat"
     }
     ```
@@ -288,7 +288,7 @@ prettify が使用可能な言語を指定する。
 ```scala
 // Some comment
 case class Page(name: String) {
-  def foo: Int = (1 to 10) /: { _ + _ }
+  def foo: Int = (1 to 10).reduceLeft{ _ + _ }
   val bar = "wat"
 }
 ```

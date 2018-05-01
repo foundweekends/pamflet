@@ -197,14 +197,14 @@ prettify が使用可能な言語を指定する。
 </p><pre><code>```scala
 // Some comment
 case class Page(name: String) {
-  def foo: Int = (1 to 10) /: { _ + _ }
+  def foo: Int = (1 to 10).reduceLeft{ _ + _ }
   val bar = &quot;wat&quot;
 }
 ```
 </code></pre><p>これは
 </p><pre><code class="prettyprint lang-scala">// Some comment
 case class Page(name: String) {
-  def foo: Int = (1 to 10) /: { _ + _ }
+  def foo: Int = (1 to 10).reduceLeft{ _ + _ }
   val bar = &quot;wat&quot;
 }
 </code></pre><p>と表示される。読みやすくなったよね?

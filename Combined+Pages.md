@@ -297,7 +297,7 @@ enclose your source and specify a language name known to prettify.
     ```scala
     // Some comment
     case class Page(name: String) {
-      def foo: Int = (1 to 10) /: { _ + _ }
+      def foo: Int = (1 to 10).reduceLeft{ _ + _ }
       val bar = "wat"
     }
     ```
@@ -307,7 +307,7 @@ appears as
 ```scala
 // Some comment
 case class Page(name: String) {
-  def foo: Int = (1 to 10) /: { _ + _ }
+  def foo: Int = (1 to 10).reduceLeft{ _ + _ }
   val bar = "wat"
 }
 ```
