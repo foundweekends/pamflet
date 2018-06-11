@@ -1,8 +1,7 @@
 import sbtrelease.ReleaseStateTransformations._
 
 val unusedWarnings = Seq(
-  "-Ywarn-unused",
-  "-Ywarn-unused-import"
+  "-Ywarn-unused"
 )
 
 val Scala212 = "2.12.6"
