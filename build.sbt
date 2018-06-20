@@ -12,7 +12,13 @@ lazy val common = Seq(
   organization := "org.foundweekends",
   scalaVersion := Scala212,
   crossScalaVersions := Seq(Scala212, "2.11.12", "2.10.7"),
-  scalacOptions ++= Seq("-language:_", "-deprecation", "-Xfuture", "-Yno-adapted-args"),
+  scalacOptions ++= Seq("-language:_", "-deprecation", "-Xfuture"),
+  scalacOptions ++= {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, v)) if v <= 12 => Seq("-Yno-adapted-args")
+      case _ => Nil
+    }
+  },
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, v)) if v >= 11 => unusedWarnings
