@@ -36,7 +36,7 @@ trait MutableFencedDiscounter extends FencedDiscounter {
   def registerFencedPlugin(p: FencePlugin): Unit = fencePluginBuffer.append(p)
   def fencePlugins = fencePluginBuffer.toList
   def clearFencePlugins(): Unit = fencePluginBuffer.clear()
-  def knockoffWithPlugins(source: java.lang.CharSequence, ps: List[FencePlugin]): Seq[Block] =
+  def knockoffWithPlugins(source: java.lang.CharSequence, ps: List[FencePlugin]): collection.Seq[Block] =
     {
       clearFencePlugins()
       ps foreach registerFencedPlugin
@@ -74,8 +74,8 @@ trait FencedChunkParser extends ChunkParser {
 case class FencedChunk(val content: String, language: Option[String])
 extends Chunk {
   def appendNewBlock( list : ListBuffer[Block],
-                      remaining : List[ (Chunk, Seq[Span], Position) ],
-                      spans : Seq[Span], position : Position,
+                      remaining : List[ (Chunk, collection.Seq[Span], Position) ],
+                      spans : collection.Seq[Span], position : Position,
                       discounter : Discounter ): Unit = discounter match {
     case fd: FencedDiscounter => list += fd.fencedChunkToBlock(language, content, position, list)
     case _ => sys.error("Expected FencedDiscounter") 

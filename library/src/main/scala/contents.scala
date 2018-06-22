@@ -9,18 +9,18 @@ case class Globalized(
 ) {
   def apply(lang: String): Contents = contents(lang)
   def defaultLanguage: String = template.defaultLanguage
-  def languages: Seq[String] = template.languages
+  def languages: collection.Seq[String] = template.languages
   lazy val defaultContents: Contents = apply(defaultLanguage)
 }
 case class Contents(
   language: String,
   val isDefaultLang: Boolean,
   rootSection: Section,
-  css: Seq[(String,String)],
-  files: Seq[(String, URI)],
+  css: collection.Seq[(String,String)],
+  files: collection.Seq[(String, URI)],
   favicon: Option[URI],
   template: Template,
-  layouts: Seq[(String,String)]
+  layouts: collection.Seq[(String,String)]
 ) {
   def traverse(incoming: List[Page], past: List[Page]): List[Page] =
     incoming match {
@@ -51,7 +51,7 @@ sealed trait Page {
   def template: Template
 }
 sealed trait AuthoredPage extends Page {
-  def blocks: Seq[Block]
+  def blocks: collection.Seq[Block]
   // Always reference Scala for fenced plugin purpose
   lazy val referencedLangs =
     blocks.foldLeft(Set("scala")) {
@@ -74,14 +74,14 @@ trait ContentPage extends AuthoredPage {
 }
 case class Leaf(localPath: String,
                 raw: String,
-                blocks: Seq[Block],
+                blocks: collection.Seq[Block],
                 template: Template) extends ContentPage
 object Leaf {
-  def apply(localPath: String, t: (String, Seq[Block], Template)): Leaf = Leaf(localPath, t._1, t._2, t._3)
+  def apply(localPath: String, t: (String, collection.Seq[Block], Template)): Leaf = Leaf(localPath, t._1, t._2, t._3)
 }
 case class Section(localPath: String,
                    raw: String,
-                   blocks: Seq[Block], 
+                   blocks: collection.Seq[Block], 
                    children: List[Page],
                    template: Template) extends ContentPage
 case class DeepContents(template: Template) extends Page {
@@ -94,7 +94,7 @@ case class ScrollPage(root: Section,
                       template: Template) extends AuthoredPage {
   val name = "Combined Pages"
   val localPath = name
-  def flatten(pages: List[Page]): Seq[Block] =
+  def flatten(pages: List[Page]): collection.Seq[Block] =
     pages.view.flatMap {
       case Leaf(_, _, blocks, _) => blocks
       case Section(_, _, blocks, children, _) =>
@@ -102,7 +102,7 @@ case class ScrollPage(root: Section,
       case _ => Seq.empty
     }
   def blocks = root.blocks ++: flatten(root.children)
-  def flattenRaw(pages: List[Page]): Seq[String] =
+  def flattenRaw(pages: List[Page]): collection.Seq[String] =
     pages.view.flatMap {
       case Leaf(_, raw, _ , _) => Seq(raw)
       case Section(_, raw, _, children, _) =>

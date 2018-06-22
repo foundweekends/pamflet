@@ -5,12 +5,12 @@ import scala.util.matching.Regex
 
 trait SmartyDiscounter extends Discounter {
   override def createSpanConverter(
-    linkDefinitions: Seq[LinkDefinitionChunk]) =
+    linkDefinitions: collection.Seq[LinkDefinitionChunk]) =
     new SpanConverter(linkDefinitions) with SmartySpanConverter
 }
 
 trait SmartySpanConverter extends SpanConverter {
-  override def apply( chunk : Chunk ) : Seq[Span] = {
+  override def apply( chunk : Chunk ) : collection.Seq[Span] = {
     chunk match {
       case IndentedChunk(content)  => List( new Text(content) )
       case FencedChunk(content, _) => List( new Text(content) )

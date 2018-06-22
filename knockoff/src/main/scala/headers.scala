@@ -3,7 +3,7 @@ package pamflet
 import knockoff._
 
 trait IdentifiedHeaders extends Discounter { self: TextWriter =>
-  def headerText( spans : Seq[Span] ) : String = {
+  def headerText( spans : collection.Seq[Span] ) : String = {
     val stringWriter = new java.io.StringWriter
     spans.map( self.spanToText(_)(stringWriter) )
     stringWriter.toString
@@ -32,13 +32,13 @@ object BlockNames {
   def encode(str: String) =
     java.net.URLEncoder.encode(str.trim(), "utf-8")
   def fragment(str: String) = "#" + encode(str)
-  def textOf(spans: Seq[Span]) =
+  def textOf(spans: collection.Seq[Span]) =
     spans.flatMap {
       case t: Text => Seq(t.content)
       case h: HTMLSpan => Seq(h.html)
       case _ => Seq()
     }.mkString("")      
-  def name(blocks: Seq[Block]) =
+  def name(blocks: collection.Seq[Block]) =
     blocks.view.collect {
       case h: Header => textOf(h.spans)
     }.headOption.getOrElse { "Untitled" }

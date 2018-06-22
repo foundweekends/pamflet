@@ -14,7 +14,7 @@ trait Storage {
  * This should make previewing much faster on large pamflets.
  */
 case class CachedFileStorage(base: File, ps: List[FencePlugin]) extends Storage {
-  def allFiles(f0: File): Seq[File] =
+  def allFiles(f0: File): collection.Seq[File] =
     f0.listFiles.toVector flatMap {
       case dir if dir.isDirectory => allFiles(dir)
       case f => Vector(f)
@@ -68,13 +68,13 @@ case class FileStorage(base: File, ps: List[FencePlugin]) extends Storage {
   }
   def isSpecialDir(dir: File): Boolean =
     dir.isDirectory && ((dir.getName == "layouts") || (dir.getName == "files"))
-  def rootSection(dir: File, propFiles: Seq[File]): Section = {
+  def rootSection(dir: File, propFiles: collection.Seq[File]): Section = {
     Knock.notifyBeginLanguage()
     def emptySection = Section("", "", Seq.empty, Nil, defaultTemplate)
     if (dir.exists) section("", dir, propFiles).headOption getOrElse emptySection
     else emptySection
   }
-  def section(localPath: String, dir: File, propFiles: Seq[File]): Seq[Section] = {
+  def section(localPath: String, dir: File, propFiles: collection.Seq[File]): collection.Seq[Section] = {
     val files: List[File] = (Option(dir.listFiles) match {
       case None        => Nil
       case Some(fs) => fs.toList
@@ -98,7 +98,7 @@ case class FileStorage(base: File, ps: List[FencePlugin]) extends Storage {
   def read(file: File, encoding: String = Charset.defaultCharset.name) = doWith(scala.io.Source.fromFile(file, encoding)) { source =>
     source.mkString("")
   }
-  def knock(file: File, propFiles: Seq[File]): (String, Seq[Block], Template) = 
+  def knock(file: File, propFiles: collection.Seq[File]): (String, collection.Seq[Block], Template) = 
     Knock.knockEither(read(file, defaultTemplate.defaultEncoding), propFiles, ps) match {
       case Right(x) => x
       case Left(x) =>
