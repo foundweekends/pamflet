@@ -149,7 +149,7 @@ lazy val library: Project =
     name := "pamflet-library",
     description := "Core Pamflet library",
     libraryDependencies ++= libraryDeps.value,
-    libraryDependencies += "com.lihaoyi" %% "utest" % "0.6.3" % Test,
+    libraryDependencies += "com.lihaoyi" %% "utest" % "0.6.6" % Test,
     testFrameworks += new TestFramework("utest.runner.Framework"),
   ).
   dependsOn(knockoff)
