@@ -194,9 +194,10 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
   }
 
   def print(page: Page) = {
+    val tocd = tocDisplay(page)
     def lastnext(in: List[Page], last: Option[Page]): (Option[Page], Option[Page]) =
       (in, last) match {
-        case _ if tocDisplay(page) == "left" => (None, None)
+        case _ if tocd == "left" => (None, None)
         case (List(l, `page`, n, _*), _) => (Some(l), Some(n))
         case (List(l, `page`), _) => (Some(l), None)
         case (List(`page`, n, _*), _) => (last, Some(n))
@@ -208,6 +209,31 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
    
     val arrow = page.template.get("pamflet.arrow") getOrElse "❧"
     val colorScheme = page.template.get("color_scheme") map {"color_scheme-" + _} getOrElse "color_scheme-redmond"
+
+    def mainContents =
+      page match {
+        case page: DeepContents =>
+          toc(page, false)
+        case page: ContentPage =>
+          toXHTML(page.blocks) ++ next.collect {
+            case n: AuthoredPage =>
+              <div class="bottom nav span-16">
+                <em>Next Page</em>
+                <span class="arrow">{arrow}</span>
+                <a href={Printer.webify(n)}> {n.name} </a>                        
+                { languageBar(page) }
+              </div>
+            case _ =>
+              <div class="bottom nav end span-16">
+                { languageBar(page) }
+              </div>
+          } ++ {
+            if (tocd == "left") Nil
+            else toc(page, false)
+          } ++ comment(page)
+        case page: ScrollPage =>
+          toc(page, false) ++ toXHTML(page.blocks)
+      }
 
     val html = <html>
       <head>
@@ -297,36 +323,22 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
           }.toSeq
         }
         <div class="container contentswrapper">
-          <div class="span-16 prepend-1 append-1 contents">
-            { page match {
-                case page: DeepContents =>
-                  toc(page, false)
-                case page: ContentPage =>
-                  toXHTML(page.blocks) ++ next.collect {
-                    case n: AuthoredPage =>
-                      <div class="bottom nav span-16">
-                        <em>Next Page</em>
-                        <span class="arrow">{arrow}</span>
-                        <a href={Printer.webify(n)}> {n.name} </a>                        
-                        { languageBar(page) }
-                      </div>
-                    case _ =>
-                      <div class="bottom nav end span-16">
-                        { languageBar(page) }
-                      </div>
-                  } ++ {
-                    if (tocDisplay(page) == "left") Nil
-                    else toc(page, false)
-                  } ++ comment(page)
-                case page: ScrollPage =>
-                  toc(page, false) ++ toXHTML(page.blocks)
-            } }
-          </div>
+          { page match {
+              case page: ContentPage if tocd == "left" =>
+                <div class="span-4 contents">
+                  { toc(page, true) }
+                </div>
+                <div class="span-12">
+                  <div class="prepend-1 append-1 contents">
+                  { mainContents }
+                  </div>
+                </div>
+              case _ =>
+                <div class="span-16 prepend-1 append-1 contents">
+                  { mainContents }
+                </div>
+          } }
         </div>
-        { page match {
-            case page: ContentPage if tocDisplay(page) == "left" => toc(page, true)
-            case _ => Nil
-        } }
         <div class="header">
           {
             header(page)
