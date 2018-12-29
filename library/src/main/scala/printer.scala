@@ -25,8 +25,18 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
       if (lang == defaultLanguage) "../"
       else "../" + lang + "/"
     }
-
-  def toc(current: Page) = {
+  def tocDisplay(current: Page): String =
+    current match {
+      case DeepContents(_) | ScrollPage(_, _) => "show"
+      case _ =>
+        current.template.get("toc") match {
+          case Some("left") => "left"
+          case Some("hide") => "hide"
+          case Some("collapse") => "collap"
+          case _ => "show"
+        }
+    }
+  def toc(current: Page, leftToc: Boolean) = {
     val href: Page => String = current match {
       case ScrollPage(_, _) => (p: Page) => BlockNames.fragment(p.name)
       case _ => Printer.webify
@@ -53,20 +63,14 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         case page => <li class="generated">{ draw(page) }</li>
        } } </ol>
     }
-    def display: String = current match {
-      case DeepContents(_) | ScrollPage(_, _) => "show"
-      case _ =>
-        current.template.get("toc") match {
-          case Some("hide") => "hide"
-          case Some("collapse") => "collap"
-          case _ => "show"
-        }
-    }
-    if (display == "hide") Nil
-    else <div class={ "tocwrapper " + display }>
+    val display = tocDisplay(current)
+    def tocdiv = <div class={ "tocwrapper " + display }>
       <a class="tochead nav" style="display: none" href="#toc">❦</a>
       <a name="toc"></a>
-      <h4 class="toctitle">Contents</h4>
+      {
+        if (leftToc) Nil
+        else <h4 class="toctitle">Contents</h4>
+      }
       <div class="tocbody">
       {link(contents.pamflet) ++
       list(current match {
@@ -75,6 +79,11 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         }
         case _ => contents.pamflet.children
       })}</div></div>
+    if (display == "hide") Nil
+    if (leftToc) <div class="lefttocwrapper">
+      {tocdiv}
+      </div>
+    else tocdiv
   }
   def comment(current: Page) = {
     current.template.get("disqus") map { disqusName =>
@@ -187,6 +196,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
   def print(page: Page) = {
     def lastnext(in: List[Page], last: Option[Page]): (Option[Page], Option[Page]) =
       (in, last) match {
+        case _ if tocDisplay(page) == "left" => (None, None)
         case (List(l, `page`, n, _*), _) => (Some(l), Some(n))
         case (List(l, `page`), _) => (Some(l), None)
         case (List(`page`, n, _*), _) => (last, Some(n))
@@ -272,23 +282,25 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         }
       </head>
       <body class={colorScheme}>
-        { prev.map { p =>
-          <a class="page prev nav" href={ Printer.webify(p)}>
-            <span class="space">&nbsp;</span>
-            <span class="flip arrow">{arrow}</span>
-          </a>
-        }.toSeq ++
-        next.map { n =>
-          <a class="page next nav" href={ Printer.webify(n)}>
-            <span class="space">&nbsp;</span>
-            <span class="arrow">{arrow}</span>
-          </a>
-        }.toSeq }
+        {
+          prev.map { p =>
+            <a class="page prev nav" href={ Printer.webify(p)}>
+              <span class="space">&nbsp;</span>
+              <span class="flip arrow">{arrow}</span>
+            </a>
+          }.toSeq ++
+          next.map { n =>
+            <a class="page next nav" href={ Printer.webify(n)}>
+              <span class="space">&nbsp;</span>
+              <span class="arrow">{arrow}</span>
+            </a>
+          }.toSeq
+        }
         <div class="container contentswrapper">
           <div class="span-16 prepend-1 append-1 contents">
             { page match {
                 case page: DeepContents =>
-                  toc(page)
+                  toc(page, false)
                 case page: ContentPage =>
                   toXHTML(page.blocks) ++ next.collect {
                     case n: AuthoredPage =>
@@ -302,12 +314,19 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
                       <div class="bottom nav end span-16">
                         { languageBar(page) }
                       </div>
-                  } ++ toc(page) ++ comment(page)
+                  } ++ {
+                    if (tocDisplay(page) == "left") Nil
+                    else toc(page, false)
+                  } ++ comment(page)
                 case page: ScrollPage =>
-                  toc(page) ++ toXHTML(page.blocks)
+                  toc(page, false) ++ toXHTML(page.blocks)
             } }
           </div>
         </div>
+        { page match {
+            case page: ContentPage if tocDisplay(page) == "left" => toc(page, true)
+            case _ => Nil
+        } }
         <div class="header">
           {
             header(page)

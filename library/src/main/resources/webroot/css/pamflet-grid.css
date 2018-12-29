@@ -24,6 +24,7 @@ a.page {
     display: block;
     padding: 0 1.5em;
 }
+
 div.header {
     top: 0;
     position: fixed;
@@ -42,6 +43,17 @@ div.contentswrapper {
     padding-top: 2em;       /* height of header */
     padding-bottom: 2em;    /* height of footer */
 }
+div.lefttocwrapper {
+    width: 18em;
+    position: absolute;
+    top: 0em;
+    bottom: 0em;
+    padding-left: 1em;
+    padding-top: 2em;
+    border-right: 1px solid gray;
+    overflow-y: scroll;
+}
+
 div.contents {
     padding-top: 1.5em;
 }
