@@ -13,6 +13,7 @@ object Printer {
       page.name + ".html"
     }).replace(' ', '+')
 }
+
 case class Printer(contents: Contents, globalized: Globalized, manifest: Option[String]) {
   def defaultLanguage = globalized.defaultLanguage
   val relativeBase: String = relative(defaultLanguage)
@@ -25,15 +26,17 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
       if (lang == defaultLanguage) "../"
       else "../" + lang + "/"
     }
-  def tocDisplay(current: Page): String =
+
+  def tocDisplay(current: Page): TocType =
     current match {
-      case DeepContents(_) | ScrollPage(_, _) => "show"
+      case DeepContents(_) | ScrollPage(_, _) => TocType.Left
       case _ =>
         current.template.get("toc") match {
-          case Some("left") => "left"
-          case Some("hide") => "hide"
-          case Some("collapse") => "collap"
-          case _ => "show"
+          case Some("left")     => TocType.Left
+          case Some("hide")     => TocType.Hide
+          case Some("collapse") => TocType.Collapse
+          case Some("bottom")   => TocType.Bottom
+          case _                => TocType.Left
         }
     }
   def toc(current: Page, leftToc: Boolean) = {
@@ -64,23 +67,28 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
        } } </ol>
     }
     val display = tocDisplay(current)
-    def tocdiv = <div class={ "tocwrapper " + display }>
-      <a class="tochead nav" style="display: none" href="#toc">❦</a>
-      <a name="toc"></a>
-      {
-        if (leftToc) Nil
-        else <h4 class="toctitle">Contents</h4>
-      }
-      <div class="tocbody">
-      {link(contents.pamflet) ++
-      list(current match {
-        case ScrollPage(_, _) => contents.pamflet.children.collect{
-          case cp: ContentPage => cp
+    def tocdiv =
+      <div class="tocwrapper">
+        {
+          if (display == TocType.Collapse) <a class="tochead nav" href="#toc" data-toggle="collapse" aria-expanded="false" aria-controls="toc">❦</a>
+          else Nil
         }
-        case _ => contents.pamflet.children
-      })}</div></div>
-    if (display == "hide") Nil
-    if (leftToc) <div class="lefttocwrapper">
+        <div class={ "tocbody " + display.css } id="toc">
+        {
+          if (leftToc) Nil
+          else <h4 class="toctitle">Contents</h4>
+        }
+        {link(contents.pamflet) ++
+        list(current match {
+          case ScrollPage(_, _) => contents.pamflet.children.collect{
+            case cp: ContentPage => cp
+          }
+          case _ => contents.pamflet.children
+        })}</div>
+      </div>
+
+    if (display == TocType.Hide) Nil
+    else if (leftToc) <div class="lefttocwrapper">
       {tocdiv}
       </div>
     else tocdiv
@@ -123,26 +131,30 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         page.template.get("lang-" + langCode) getOrElse {
           Language.languageName(langCode) getOrElse langCode
         }
-      <ul class="language-bar">
-        {
-          val lis = 
-            for {
-              lang <- page.template.languages
-              p <- globalized(lang).pages.find { _.localPath == page.localPath }
-            } yield <li><a href={ relative(lang) + Printer.webify(p) } ><span class={ "lang-item lang-" + lang }>{languageName(lang)}</span></a></li>
-          if (lis.size < 2) Nil
-          else lis
-        }
-      </ul>
+      <div class="row w-100">
+        <div class="col-md-auto ml-auto">
+          <ul class="language-bar">
+            {
+              val lis = 
+                for {
+                  lang <- page.template.languages
+                  p <- globalized(lang).pages.find { _.localPath == page.localPath }
+                } yield <li><a href={ relative(lang) + Printer.webify(p) } ><span class={ "lang-item lang-" + lang }>{languageName(lang)}</span></a></li>
+              if (lis.size < 2) Nil
+              else lis
+            }
+          </ul>
+        </div>
+      </div>
     }
 
   def header(page: Page): xml.NodeSeq =
     page.template.get("layout.header") map { evalLayout(page)
     } getOrElse {
-      <div class="container">
-        <div class="span-16 prepend-1 append-1">
-          <div class="span-16 top nav">
-            <div class="span-16 title">
+      <div class="container-fluid top nav">
+        <div class="row justify-content-md-center w-100">
+          <div class="col-md-auto">
+            <div class="title">
               <span>{ contents.title }</span> { 
                 if (contents.title != page.name)
                   "— " + page.name
@@ -197,7 +209,6 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
     val tocd = tocDisplay(page)
     def lastnext(in: List[Page], last: Option[Page]): (Option[Page], Option[Page]) =
       (in, last) match {
-        case _ if tocd == "left" => (None, None)
         case (List(l, `page`, n, _*), _) => (Some(l), Some(n))
         case (List(l, `page`), _) => (Some(l), None)
         case (List(`page`, n, _*), _) => (last, Some(n))
@@ -217,18 +228,30 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         case page: ContentPage =>
           toXHTML(page.blocks) ++ next.collect {
             case n: AuthoredPage =>
-              <div class="bottom nav span-16">
-                <em>Next Page</em>
-                <span class="arrow">{arrow}</span>
-                <a href={Printer.webify(n)}> {n.name} </a>                        
+              <div class="bottom nav">
+                <div class="row">
+                  <div class="col-md-auto">
+                    <a href={Printer.webify(n)}>
+                      <div class="arrowitem">
+                        <span class="arrow">{arrow}</span>
+                      </div>
+
+                      <div class="arrowitem">
+                        <em>Next page</em><br/>
+                        {n.name}
+                      </div>
+
+                    </a>
+                  </div>
+                </div>
                 { languageBar(page) }
               </div>
             case _ =>
-              <div class="bottom nav end span-16">
+              <div class="bottom nav end row">
                 { languageBar(page) }
               </div>
           } ++ {
-            if (tocd == "left") Nil
+            if (tocd == TocType.Left) Nil
             else toc(page, false)
           } ++ comment(page)
         case page: ScrollPage =>
@@ -253,12 +276,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
               }
           }
         }
-        <link rel="stylesheet" href={ relativeBase + "css/blueprint/screen.css" } type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href={ relativeBase + "css/blueprint/grid.css" } type="text/css" media={bigScreen}/>
-        <link rel="stylesheet" href={ relativeBase + "css/blueprint/print.css" } type="text/css" media="print"/> 
-        <!--[if lt IE 8]>
-          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
-        <![endif]-->
+        <link rel="stylesheet" href={ relativeBase + "css/bootstrap.min.css" } type="text/css"/>
         <link rel="stylesheet" href={ relativeBase + "css/pamflet.css" } type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href={ relativeBase + "css/pamflet-print.css" } type="text/css" media="print"/>
         <link rel="stylesheet" href={ relativeBase + "css/pamflet-grid.css" } type="text/css" media={bigScreen}/>
@@ -266,8 +284,8 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         <link rel="stylesheet" href={ relativeBase + "css/color_scheme-github.css" } type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href={ relativeBase + "css/color_scheme-monokai.css" } type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href={ relativeBase + "css/" + Heights.heightCssFileName(page) } type="text/css" media={bigScreen}/>
-        <script type="text/javascript" src={ relativeBase + "js/jquery-1.6.2.min.js" }></script>
-        <script type="text/javascript" src={ relativeBase + "js/jquery.collapse.js" }></script>
+        <script type="text/javascript" src={ relativeBase + "js/jquery-3.3.1.min.js" }></script>
+        <script type="text/javascript" src={ relativeBase + "js/bootstrap.bundle.min.js" }></script>
         <script type="text/javascript" src={ relativeBase + "js/pamflet.js" }></script>
         <script type="text/javascript">
           Pamflet.page.language = '{xml.Unparsed(contents.language)}';
@@ -308,36 +326,27 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         }
       </head>
       <body class={colorScheme}>
-        {
-          prev.map { p =>
-            <a class="page prev nav" href={ Printer.webify(p)}>
-              <span class="space">&nbsp;</span>
-              <span class="flip arrow">{arrow}</span>
-            </a>
-          }.toSeq ++
-          next.map { n =>
-            <a class="page next nav" href={ Printer.webify(n)}>
-              <span class="space">&nbsp;</span>
-              <span class="arrow">{arrow}</span>
-            </a>
-          }.toSeq
-        }
-        <div class="container contentswrapper">
+        <div class="container-fluid contentswrapper h-100">
+          <div class="row minh-100">
           { page match {
-              case page: ContentPage if tocd == "left" =>
-                <div class="span-4 contents">
+              case page: ContentPage if tocd == TocType.Left =>
+                <div class="col-md-4 col-xl-3 toccolumn leftcolumn">
                   { toc(page, true) }
                 </div>
-                <div class="span-12">
-                  <div class="prepend-1 append-1 contents">
+                <div class="col-md-8 col-xs-9">
+                  <div class="rightcolumn contents">
                   { mainContents }
                   </div>
                 </div>
               case _ =>
-                <div class="span-16 prepend-1 append-1 contents">
-                  { mainContents }
+                <div class="col-md-4 col-xl-3 leftcolumn">&nbsp;</div>
+                <div class="col-md-8 col-xs-9">
+                  <div class="rightcolmn contents">
+                    { mainContents }
+                  </div>
                 </div>
           } }
+          </div> <!-- row -->
         </div>
         <div class="header">
           {

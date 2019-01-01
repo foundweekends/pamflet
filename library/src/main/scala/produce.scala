@@ -104,15 +104,15 @@ object Produce {
     ("fork.png" :: "twitter-bird-dark-bgs.png" :: Nil).map {
       "img/" + _
     } :::
-    ("pamflet.css" :: "pamflet-grid.css" :: "pamflet-print.css" ::
+    ("bootstrap.min.css" ::
+     "bootstrap.min.css.map" ::
+     "pamflet.css" :: "pamflet-grid.css" :: "pamflet-print.css" ::
      "color_scheme-redmond.css" :: "color_scheme-github.css" :: "color_scheme-monokai.css" :: Nil).map {
       "css/" + _
     } :::
-    ("screen.css" :: "grid.css" :: "print.css" :: "ie.css" :: Nil).map {
-      "css/blueprint/" + _
-    } :::
-    ("jquery-1.6.2.min.js" ::
-     "jquery.collapse.js" ::
+    ("bootstrap.bundle.min.js" ::
+     "bootstrap.bundle.min.js.map" ::
+     "jquery-3.3.1.min.js" ::
      "pamflet.js" :: Nil
     ).map { "js/" + _ } :::
     "css/prettify.css" ::

@@ -29,8 +29,8 @@ It is intended to be used in the properties front matter of the page:
 ### Collapsible table of contents
 
 `toc` property may be used to control how the table of contents
-is displayed at the end of each page.
-The allowed values are `show`, `hide`, and `collapse`.
+is displayed.
+The allowed values are `left`, `bottom`, `hide`, and `collapse`.
 
 ### Disqus
 
