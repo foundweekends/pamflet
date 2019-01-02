@@ -10,16 +10,14 @@ cache:
     - $HOME/.sbt/launchers
 
 scala:
-   - 2.10.7
-   - 2.11.12
    - 2.12.8
 
 jdk:
   - oraclejdk8
 
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION -Dfile.encoding=UTF8 test $(if [[ "${TRAVIS_SCALA_VERSION}" == "2.12.8" ]]; then echo testConscript ; fi)
-  - if [[ "${TRAVIS_SCALA_VERSION}" == "2.11.12" ]]; then ./publish.sh; fi
+  - sbt ++$TRAVIS_SCALA_VERSION! -Dfile.encoding=UTF8 test $(if [[ "${TRAVIS_SCALA_VERSION}" == "2.12.8" ]]; then echo testConscript ; fi)
+  - if [[ "${TRAVIS_SCALA_VERSION}" == "2.12.8" ]]; then ./publish.sh; fi
 
   # Tricks to avoid unnecessary cache updates
   - find $HOME/.sbt -name "*.lock" | xargs rm
