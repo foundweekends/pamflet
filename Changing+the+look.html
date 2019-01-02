@@ -49,8 +49,8 @@
 <a href="?color_scheme=redmond">redmond</a>.
 </p><h3 id="Applying+a+color+scheme">Applying a color scheme<a href="#Applying+a+color+scheme" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>To apply a dark color scheme, open your pamflet with query string
 <nobr><code>?color_scheme=monokai</code></nobr>. This will store <code>&quot;monokai&quot;</code> to the HTML5 local storage, and apply the scheme to the pamflet.
-</p><h3 id="Default+color+scheme">Default color scheme<a href="#Default+color+scheme" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>The default scheme is redmond. To change it to something else, set <code>color_scheme</code> property:
-</p><pre><code>color_scheme=github
+</p><h3 id="Default+color+scheme">Default color scheme<a href="#Default+color+scheme" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>The default scheme is github. To change it to something else, set <code>color_scheme</code> property:
+</p><pre><code>color_scheme=monokai
 </code></pre><h3 id="Custom+color+scheme">Custom color scheme<a href="#Custom+color+scheme" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>To create your own custom color scheme, for example named “zen”, create <code>color_scheme-zen.css</code>
 and declare css properties under <code>body.color_scheme-zen</code>:
 </p><pre><code class="prettyprint lang-css">body.color_scheme-zen {
@@ -102,15 +102,14 @@ layout.header.height=2em
       </div>
         </div>
         <div class="footer">
-          <div class="container">
-    <div class="row">
-        <div class="span-16 prepend-1 append-1">
-          <div class="span-16 nav">
-            <p style="padding-top: 0.5em">
-              <a href="https://github.com/foundweekends/pamflet/edit/master/docs/04/g.markdown">[Edit on GitHub]</a>
-            </p>
-          </div>
-        </div>
+          <div class="container-fluid nav">
+    <div class="row footerrow w-100">
+      <div class="col-md-4 col-xl-3">&nbsp;</div>
+      <div class="col-md-8 col-xs-9">
+        <p style="padding-top: 0.5em">
+          <a href="https://github.com/foundweekends/pamflet/edit/master/docs/04/g.markdown">[Edit on GitHub]</a>
+        </p>
+      </div>
   </div>
 </div>
         </div>

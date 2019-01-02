@@ -248,7 +248,7 @@ Pamflet はレポジトリへのリンクを張る。例えば:　
 out: index.html
 ---
 </code></pre><h3 id="%E6%8A%98%E3%82%8A%E3%81%9F%E3%81%9F%E3%81%BF%E5%8F%AF%E8%83%BD%E3%81%AA%E7%9B%AE%E6%AC%A1">折りたたみ可能な目次<a href="#%E6%8A%98%E3%82%8A%E3%81%9F%E3%81%9F%E3%81%BF%E5%8F%AF%E8%83%BD%E3%81%AA%E7%9B%AE%E6%AC%A1" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>toc</code> プロパティを使って各ページに表示される目次を制御できる。
-可能な値は <code>show</code> (表示)、<code>hide</code> (非常時)、そして <code>collapse</code> (折りたたみ) だ。
+可能な値は <code>left</code> (ページ左)、<code>bottom</code> (ページ下)、<code>hide</code> (非表示)、そして <code>collapse</code> (折りたたみ) だ。
 </p><h3 id="Disqus">Disqus<a href="#Disqus" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>disqus</code> プロパティを定義して disqus short name を指定することで全てのページの下にコメント欄を加えることができる。
 </p><pre><code>disqus=namehere
 </code></pre><h3 id="Twitter">Twitter<a href="#Twitter" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>twitter</code> プロパティを定義して任意の値を指定すると、ページ内でテキストが選択されたときにツイッターボタンが表示されるようになる。
@@ -304,8 +304,8 @@ ISO 639-1 の 2文字コードまたは IETF 言語コードをコンマで区�
 </p><h3 id="%E9%85%8D%E8%89%B2%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%A0%E3%81%AE%E9%81%A9%E7%94%A8">配色スキームの適用<a href="#%E9%85%8D%E8%89%B2%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%A0%E3%81%AE%E9%81%A9%E7%94%A8" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>暗めの配色スキームを適用するには pamflet を
 <nobr><code>?color_scheme=monokai</code></nobr> というクエリ文字と共に開く。
 これは HTML5 のローカルストレージに <code>&quot;monokai&quot;</code> を格納して、pamflet にそのスキームを適用する。
-</p><h3 id="%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E3%81%AE%E9%85%8D%E8%89%B2%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%A0">デフォルトの配色スキーム<a href="#%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E3%81%AE%E9%85%8D%E8%89%B2%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%A0" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>デフォルトの配色スキームは redmond だ。これを変更するには <code>color_scheme</code> プロパティを定義する:
-</p><pre><code>color_scheme=github
+</p><h3 id="%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E3%81%AE%E9%85%8D%E8%89%B2%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%A0">デフォルトの配色スキーム<a href="#%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E3%81%AE%E9%85%8D%E8%89%B2%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%A0" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>デフォルトの配色スキームは github だ。これを変更するには <code>color_scheme</code> プロパティを定義する:
+</p><pre><code>color_scheme=monokai
 </code></pre><h3 id="%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0%E9%85%8D%E8%89%B2%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%A0">カスタム配色スキーム<a href="#%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%A0%E9%85%8D%E8%89%B2%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%A0" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>独自の配色スキームを定義して、例えば zen という名前をつける場合、<code>color_scheme-zen.css</code>
 というファイルを作って、<code>body.color_scheme-zen</code> 以下に css プロパティを定義する:
 </p><pre><code class="prettyprint lang-css">body.color_scheme-zen {
@@ -349,15 +349,14 @@ layout.header.height=2em
       </div>
         </div>
         <div class="footer">
-          <div class="container">
-    <div class="row">
-        <div class="span-16 prepend-1 append-1">
-          <div class="span-16 nav">
-            <p style="padding-top: 0.5em">
-              <a href="https://github.com/foundweekends/pamflet/edit/master/docs/Combined Pages">[Edit on GitHub]</a>
-            </p>
-          </div>
-        </div>
+          <div class="container-fluid nav">
+    <div class="row footerrow w-100">
+      <div class="col-md-4 col-xl-3">&nbsp;</div>
+      <div class="col-md-8 col-xs-9">
+        <p style="padding-top: 0.5em">
+          <a href="https://github.com/foundweekends/pamflet/edit/master/docs/Combined Pages">[Edit on GitHub]</a>
+        </p>
+      </div>
   </div>
 </div>
         </div>

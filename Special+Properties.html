@@ -59,8 +59,8 @@ It is intended to be used in the properties front matter of the page:
 out: index.html
 ---
 </code></pre><h3 id="Collapsible+table+of+contents">Collapsible table of contents<a href="#Collapsible+table+of+contents" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>toc</code> property may be used to control how the table of contents
-is displayed at the end of each page.
-The allowed values are <code>show</code>, <code>hide</code>, and <code>collapse</code>.
+is displayed.
+The allowed values are <code>left</code>, <code>bottom</code>, <code>hide</code>, and <code>collapse</code>.
 </p><h3 id="Disqus">Disqus<a href="#Disqus" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Defining <code>disqus</code> property with a disqus short name will add a comment section at the end of all your pages.
 </p><pre><code>disqus=namehere
 </code></pre><h3 id="Twitter">Twitter<a href="#Twitter" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p>Defining <code>twitter</code> property with any value will pop up a twitter button
@@ -114,15 +114,14 @@ which allows, for instance, the construction of a direct-to-GitHub page edit URL
       </div>
         </div>
         <div class="footer">
-          <div class="container">
-    <div class="row">
-        <div class="span-16 prepend-1 append-1">
-          <div class="span-16 nav">
-            <p style="padding-top: 0.5em">
-              <a href="https://github.com/foundweekends/pamflet/edit/master/docs/04/d.markdown">[Edit on GitHub]</a>
-            </p>
-          </div>
-        </div>
+          <div class="container-fluid nav">
+    <div class="row footerrow w-100">
+      <div class="col-md-4 col-xl-3">&nbsp;</div>
+      <div class="col-md-8 col-xs-9">
+        <p style="padding-top: 0.5em">
+          <a href="https://github.com/foundweekends/pamflet/edit/master/docs/04/d.markdown">[Edit on GitHub]</a>
+        </p>
+      </div>
   </div>
 </div>
         </div>

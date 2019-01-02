@@ -394,8 +394,8 @@ It is intended to be used in the properties front matter of the page:
 ### Collapsible table of contents
 
 `toc` property may be used to control how the table of contents
-is displayed at the end of each page.
-The allowed values are `show`, `hide`, and `collapse`.
+is displayed.
+The allowed values are `left`, `bottom`, `hide`, and `collapse`.
 
 ### Disqus
 
@@ -531,9 +531,9 @@ To apply a dark color scheme, open your pamflet with query string
 
 ### Default color scheme
 
-The default scheme is redmond. To change it to something else, set `color_scheme` property:
+The default scheme is github. To change it to something else, set `color_scheme` property:
 
-    color_scheme=github
+    color_scheme=monokai
 
 ### Custom color scheme
 
