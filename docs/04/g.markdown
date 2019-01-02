@@ -13,9 +13,9 @@ To apply a dark color scheme, open your pamflet with query string
 
 ### Default color scheme
 
-The default scheme is redmond. To change it to something else, set `color_scheme` property:
+The default scheme is github. To change it to something else, set `color_scheme` property:
 
-    color_scheme=github
+    color_scheme=monokai
 
 ### Custom color scheme
 

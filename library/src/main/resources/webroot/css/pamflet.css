@@ -9,7 +9,7 @@ h1,h2,h3,h4,h5, .title {
     text-rendering: optimizeLegibility;
 }
 pre, code, tt {
-    font-family: monospace
+    font-family: SFMono-Regular, Consolas, monospace
 }
 div.nav {
     border-bottom: black solid 1px;
