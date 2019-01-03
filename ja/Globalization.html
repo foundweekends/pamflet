@@ -5,12 +5,7 @@
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
         <title>Pamflet — グローバリゼーション</title>
         
-        <link rel="stylesheet" href="../css/blueprint/screen.css" type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href="../css/blueprint/grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
-        <link rel="stylesheet" href="../css/blueprint/print.css" type="text/css" media="print"/> 
-        <!--[if lt IE 8]>
-          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
-        <![endif]-->
+        <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css"/>
         <link rel="stylesheet" href="../css/pamflet.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="../css/pamflet-print.css" type="text/css" media="print"/>
         <link rel="stylesheet" href="../css/pamflet-grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
@@ -18,8 +13,8 @@
         <link rel="stylesheet" href="../css/color_scheme-github.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="../css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="../css/pamfletheight_2em_3em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
-        <script type="text/javascript" src="../js/jquery-1.6.2.min.js"></script>
-        <script type="text/javascript" src="../js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
         <script type="text/javascript" src="../js/pamflet.js"></script>
         <script type="text/javascript">
           Pamflet.page.language = 'ja';
@@ -33,17 +28,21 @@
               Pamflet.twitter = '#pamflet';
             </script>
       </head>
-      <body class="color_scheme-redmond">
-        <a class="page prev nav" href="Special-Properties.html">
-            <span class="space">&nbsp;</span>
-            <span class="flip arrow">❧</span>
-          </a><a class="page next nav" href="Changing-the-look.html">
-            <span class="space">&nbsp;</span>
-            <span class="arrow">❧</span>
-          </a>
-        <div class="container contentswrapper">
-          <div class="span-16 prepend-1 append-1 contents">
-            <h2 id="%E3%82%B0%E3%83%AD%E3%83%BC%E3%83%90%E3%83%AA%E3%82%BC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">グローバリゼーション<a href="#%E3%82%B0%E3%83%AD%E3%83%BC%E3%83%90%E3%83%AA%E3%82%BC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>pamflet を複数の言語に対応させたければ、グローバリゼーション機能を有効にする特殊な<a href="Template-Properties.html">テンプレート・プロパティ</a>がある。
+      <body class="color_scheme-github">
+        <div class="container-fluid contentswrapper h-100">
+          <div class="row minh-100">
+          <div class="col-md-4 col-xl-3 toccolumn leftcolumn">
+                  <div class="lefttocwrapper">
+      <div class="tocwrapper">
+        
+        <div class="tocbody show" id="toc">
+        
+        <div><a href="index.html">Pamflet</a></div><ol class="toc"> <li><div><a href="Like-a-Book.html">本のように</a></div></li><li><div><a href="Writing-and-Organizing.html">文書の整理と書き方</a></div><ol class="toc"> <li><div><a href="Filenames-and-Page-Names.html">ファイル名とページ名</a></div></li><li><div><a href="Shaping-the-Contents-Tree.html">目次の形</a></div></li><li><div><a href="Going-Deep.html">さらに深く</a></div></li> </ol></li><li><div><a href="Pamflet-in-a-Project.html">プロジェクトの中での Pamflet</a></div><ol class="toc"> <li><div><a href="On-the-Command-Line.html">コマンドライン</a></div></li><li><div><a href="Git-Hooks.html">git フック</a></div></li><li><div><a href="Apache-Setup.html">Apache の設定</a></div></li> </ol></li><li><div><a href="Fancy-Techniques.html">高度なテクニック</a></div><ol class="toc"> <li><div><a href="Source-Code-Hilighting.html">ソースコードのハイライト</a></div></li><li><div><a href="Custom-Stylesheets.html">カスタムスタイルシート</a></div></li><li><div><a href="Template-Properties.html">テンプレート・プロパティ</a></div></li><li><div><a href="Special-Properties.html">特殊プロパティ</a></div></li><li><div class="current">グローバリゼーション</div></li><li><div><a href="Changing-the-look.html">装丁</a></div></li> </ol></li><li><div><a href="For-Your-Perusal.html">この pamflet のソース</a></div></li><li><div><a href="Whos-Using-Pamflet.html">誰が Pamflet を使っているか?</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div>
+      </div>
+      </div>
+                </div><div class="col-md-8 col-xs-9">
+                  <div class="rightcolumn contents">
+                  <h2 id="%E3%82%B0%E3%83%AD%E3%83%BC%E3%83%90%E3%83%AA%E3%82%BC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">グローバリゼーション<a href="#%E3%82%B0%E3%83%AD%E3%83%BC%E3%83%90%E3%83%AA%E3%82%BC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>pamflet を複数の言語に対応させたければ、グローバリゼーション機能を有効にする特殊な<a href="Template-Properties.html">テンプレート・プロパティ</a>がある。
 </p><h3 id="%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E8%A8%80%E8%AA%9E">デフォルト言語<a href="#%E3%83%87%E3%83%95%E3%82%A9%E3%83%AB%E3%83%88%E8%A8%80%E8%AA%9E" class="header-link"><span class="header-link-content">&nbsp;</span></a></h3><p><code>language</code> プロパティはルートレベルでどの言語を使っているかを指定する。
 デフォルトでは、英語の ISO 639-1 コードである <code>en</code> に指定される。
 </p><pre><code>language=en
@@ -67,26 +66,39 @@ ISO 639-1 の 2文字コードまたは IETF 言語コードをコンマで区�
 </p><p>Pamflet はいくつかの言語コードを解決できるが、もし検出しなければ <code>lang-</code> 
 プロパテイを使ってカスタムの言語ラベルを提供することができる:
 </p><pre><code>lang-pt-BR=Português (Brasil)
-</code></pre><div class="bottom nav span-16">
-                        <em>Next Page</em>
+</code></pre><div class="bottom nav">
+                <div class="row">
+                  <div class="col-md-auto">
+                    <a href="Changing-the-look.html">
+                      <div class="arrowitem">
                         <span class="arrow">❧</span>
-                        <a href="Changing-the-look.html"> 装丁 </a>                        
-                        <ul class="language-bar">
-        <li><a href="../Globalization.html"><span class="lang-item lang-en">English</span></a></li><li><a href="../ja/Globalization.html"><span class="lang-item lang-ja">日本語</span></a></li>
-      </ul>
-                      </div><div class="tocwrapper show">
-      <a class="tochead nav" style="display: none" href="#toc">❦</a>
-      <a name="toc"></a>
-      <h4 class="toctitle">Contents</h4>
-      <div class="tocbody">
-      <div><a href="index.html">Pamflet</a></div><ol class="toc"> <li><div><a href="Like-a-Book.html">本のように</a></div></li><li><div><a href="Writing-and-Organizing.html">文書の整理と書き方</a></div><ol class="toc"> <li><div><a href="Filenames-and-Page-Names.html">ファイル名とページ名</a></div></li><li><div><a href="Shaping-the-Contents-Tree.html">目次の形</a></div></li><li><div><a href="Going-Deep.html">さらに深く</a></div></li> </ol></li><li><div><a href="Pamflet-in-a-Project.html">プロジェクトの中での Pamflet</a></div><ol class="toc"> <li><div><a href="On-the-Command-Line.html">コマンドライン</a></div></li><li><div><a href="Git-Hooks.html">git フック</a></div></li><li><div><a href="Apache-Setup.html">Apache の設定</a></div></li> </ol></li><li><div><a href="Fancy-Techniques.html">高度なテクニック</a></div><ol class="toc"> <li><div><a href="Source-Code-Hilighting.html">ソースコードのハイライト</a></div></li><li><div><a href="Custom-Stylesheets.html">カスタムスタイルシート</a></div></li><li><div><a href="Template-Properties.html">テンプレート・プロパティ</a></div></li><li><div><a href="Special-Properties.html">特殊プロパティ</a></div></li><li><div class="current">グローバリゼーション</div></li><li><div><a href="Changing-the-look.html">装丁</a></div></li> </ol></li><li><div><a href="For-Your-Perusal.html">この pamflet のソース</a></div></li><li><div><a href="Whos-Using-Pamflet.html">誰が Pamflet を使っているか?</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div></div>
-          </div>
+                      </div>
+
+                      <div class="arrowitem">
+                        <em>Next page</em><br/>
+                        装丁
+                      </div>
+
+                    </a>
+                  </div>
+                </div>
+                <div class="row w-100">
+        <div class="col-md-auto ml-auto">
+          <ul class="language-bar">
+            <li><a href="../Globalization.html"><span class="lang-item lang-en">English</span></a></li><li><a href="../ja/Globalization.html"><span class="lang-item lang-ja">日本語</span></a></li>
+          </ul>
+        </div>
+      </div>
+              </div>
+                  </div>
+                </div>
+          </div> <!-- row -->
         </div>
         <div class="header">
-          <div class="container">
-        <div class="span-16 prepend-1 append-1">
-          <div class="span-16 top nav">
-            <div class="span-16 title">
+          <div class="container-fluid top nav">
+        <div class="row justify-content-md-center w-100">
+          <div class="col-md-auto">
+            <div class="title">
               <span>Pamflet</span> — グローバリゼーション
             </div>
           </div>

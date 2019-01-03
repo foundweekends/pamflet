@@ -5,12 +5,7 @@
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
         <title>Pamflet — テンプレート・プロパティ</title>
         
-        <link rel="stylesheet" href="../css/blueprint/screen.css" type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href="../css/blueprint/grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
-        <link rel="stylesheet" href="../css/blueprint/print.css" type="text/css" media="print"/> 
-        <!--[if lt IE 8]>
-          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
-        <![endif]-->
+        <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css"/>
         <link rel="stylesheet" href="../css/pamflet.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="../css/pamflet-print.css" type="text/css" media="print"/>
         <link rel="stylesheet" href="../css/pamflet-grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
@@ -18,8 +13,8 @@
         <link rel="stylesheet" href="../css/color_scheme-github.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="../css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="../css/pamfletheight_2em_3em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
-        <script type="text/javascript" src="../js/jquery-1.6.2.min.js"></script>
-        <script type="text/javascript" src="../js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
         <script type="text/javascript" src="../js/pamflet.js"></script>
         <script type="text/javascript">
           Pamflet.page.language = 'ja';
@@ -33,17 +28,21 @@
               Pamflet.twitter = '#pamflet';
             </script>
       </head>
-      <body class="color_scheme-redmond">
-        <a class="page prev nav" href="Custom-Stylesheets.html">
-            <span class="space">&nbsp;</span>
-            <span class="flip arrow">❧</span>
-          </a><a class="page next nav" href="Special-Properties.html">
-            <span class="space">&nbsp;</span>
-            <span class="arrow">❧</span>
-          </a>
-        <div class="container contentswrapper">
-          <div class="span-16 prepend-1 append-1 contents">
-            <h2 id="%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%83%BB%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3">テンプレート・プロパティ<a href="#%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%83%BB%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>現行のバージョン番号などドキュメント中に繰り返されるものがいくつかあると思う。
+      <body class="color_scheme-github">
+        <div class="container-fluid contentswrapper h-100">
+          <div class="row minh-100">
+          <div class="col-md-4 col-xl-3 toccolumn leftcolumn">
+                  <div class="lefttocwrapper">
+      <div class="tocwrapper">
+        
+        <div class="tocbody show" id="toc">
+        
+        <div><a href="index.html">Pamflet</a></div><ol class="toc"> <li><div><a href="Like-a-Book.html">本のように</a></div></li><li><div><a href="Writing-and-Organizing.html">文書の整理と書き方</a></div><ol class="toc"> <li><div><a href="Filenames-and-Page-Names.html">ファイル名とページ名</a></div></li><li><div><a href="Shaping-the-Contents-Tree.html">目次の形</a></div></li><li><div><a href="Going-Deep.html">さらに深く</a></div></li> </ol></li><li><div><a href="Pamflet-in-a-Project.html">プロジェクトの中での Pamflet</a></div><ol class="toc"> <li><div><a href="On-the-Command-Line.html">コマンドライン</a></div></li><li><div><a href="Git-Hooks.html">git フック</a></div></li><li><div><a href="Apache-Setup.html">Apache の設定</a></div></li> </ol></li><li><div><a href="Fancy-Techniques.html">高度なテクニック</a></div><ol class="toc"> <li><div><a href="Source-Code-Hilighting.html">ソースコードのハイライト</a></div></li><li><div><a href="Custom-Stylesheets.html">カスタムスタイルシート</a></div></li><li><div class="current">テンプレート・プロパティ</div></li><li><div><a href="Special-Properties.html">特殊プロパティ</a></div></li><li><div><a href="Globalization.html">グローバリゼーション</a></div></li><li><div><a href="Changing-the-look.html">装丁</a></div></li> </ol></li><li><div><a href="For-Your-Perusal.html">この pamflet のソース</a></div></li><li><div><a href="Whos-Using-Pamflet.html">誰が Pamflet を使っているか?</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div>
+      </div>
+      </div>
+                </div><div class="col-md-8 col-xs-9">
+                  <div class="rightcolumn contents">
+                  <h2 id="%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%83%BB%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3">テンプレート・プロパティ<a href="#%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%83%BB%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>現行のバージョン番号などドキュメント中に繰り返されるものがいくつかあると思う。
 Pamflet は StringTemplate を使ってテンプレート・プロパティをサポートする。
 </p><p>pamflet ソースディレクトリ内に <code>template.properties</code> というファイルを見つけると、
 <code>java.util.Properties</code> を用いて読み込まれ、全ての Markdown ソースに
@@ -64,26 +63,39 @@ dispatch=0.8.5
 </p><h6>注意</h6><p>.properties ファイルによって StringTemplate が有効になると、
 それは単独の <code>$</code> によって混乱状態になる。
 そのため、プロパティではないドル記号はバックスラッシュを使ってエスケープする必要がある: <code>\$</code>
-</p><div class="bottom nav span-16">
-                        <em>Next Page</em>
+</p><div class="bottom nav">
+                <div class="row">
+                  <div class="col-md-auto">
+                    <a href="Special-Properties.html">
+                      <div class="arrowitem">
                         <span class="arrow">❧</span>
-                        <a href="Special-Properties.html"> 特殊プロパティ </a>                        
-                        <ul class="language-bar">
-        <li><a href="../Template+Properties.html"><span class="lang-item lang-en">English</span></a></li><li><a href="../ja/Template-Properties.html"><span class="lang-item lang-ja">日本語</span></a></li>
-      </ul>
-                      </div><div class="tocwrapper show">
-      <a class="tochead nav" style="display: none" href="#toc">❦</a>
-      <a name="toc"></a>
-      <h4 class="toctitle">Contents</h4>
-      <div class="tocbody">
-      <div><a href="index.html">Pamflet</a></div><ol class="toc"> <li><div><a href="Like-a-Book.html">本のように</a></div></li><li><div><a href="Writing-and-Organizing.html">文書の整理と書き方</a></div><ol class="toc"> <li><div><a href="Filenames-and-Page-Names.html">ファイル名とページ名</a></div></li><li><div><a href="Shaping-the-Contents-Tree.html">目次の形</a></div></li><li><div><a href="Going-Deep.html">さらに深く</a></div></li> </ol></li><li><div><a href="Pamflet-in-a-Project.html">プロジェクトの中での Pamflet</a></div><ol class="toc"> <li><div><a href="On-the-Command-Line.html">コマンドライン</a></div></li><li><div><a href="Git-Hooks.html">git フック</a></div></li><li><div><a href="Apache-Setup.html">Apache の設定</a></div></li> </ol></li><li><div><a href="Fancy-Techniques.html">高度なテクニック</a></div><ol class="toc"> <li><div><a href="Source-Code-Hilighting.html">ソースコードのハイライト</a></div></li><li><div><a href="Custom-Stylesheets.html">カスタムスタイルシート</a></div></li><li><div class="current">テンプレート・プロパティ</div></li><li><div><a href="Special-Properties.html">特殊プロパティ</a></div></li><li><div><a href="Globalization.html">グローバリゼーション</a></div></li><li><div><a href="Changing-the-look.html">装丁</a></div></li> </ol></li><li><div><a href="For-Your-Perusal.html">この pamflet のソース</a></div></li><li><div><a href="Whos-Using-Pamflet.html">誰が Pamflet を使っているか?</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div></div>
-          </div>
+                      </div>
+
+                      <div class="arrowitem">
+                        <em>Next page</em><br/>
+                        特殊プロパティ
+                      </div>
+
+                    </a>
+                  </div>
+                </div>
+                <div class="row w-100">
+        <div class="col-md-auto ml-auto">
+          <ul class="language-bar">
+            <li><a href="../Template+Properties.html"><span class="lang-item lang-en">English</span></a></li><li><a href="../ja/Template-Properties.html"><span class="lang-item lang-ja">日本語</span></a></li>
+          </ul>
+        </div>
+      </div>
+              </div>
+                  </div>
+                </div>
+          </div> <!-- row -->
         </div>
         <div class="header">
-          <div class="container">
-        <div class="span-16 prepend-1 append-1">
-          <div class="span-16 top nav">
-            <div class="span-16 title">
+          <div class="container-fluid top nav">
+        <div class="row justify-content-md-center w-100">
+          <div class="col-md-auto">
+            <div class="title">
               <span>Pamflet</span> — テンプレート・プロパティ
             </div>
           </div>

@@ -5,12 +5,7 @@
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
         <title>Pamflet — Special Properties</title>
         
-        <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
-        <link rel="stylesheet" href="css/blueprint/grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
-        <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
-        <!--[if lt IE 8]>
-          <link rel="stylesheet" href={ relativeBase + "css/blueprint/ie.css" } type="text/css" media="screen, projection"/>
-        <![endif]-->
+        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
         <link rel="stylesheet" href="css/pamflet.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="css/pamflet-print.css" type="text/css" media="print"/>
         <link rel="stylesheet" href="css/pamflet-grid.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
@@ -18,8 +13,8 @@
         <link rel="stylesheet" href="css/color_scheme-github.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="css/color_scheme-monokai.css" type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href="css/pamfletheight_2em_3em.css" type="text/css" media="screen and (min-device-width: 800px), projection"/>
-        <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
-        <script type="text/javascript" src="js/jquery.collapse.js"></script>
+        <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
         <script type="text/javascript" src="js/pamflet.js"></script>
         <script type="text/javascript">
           Pamflet.page.language = 'en';
@@ -33,17 +28,21 @@
               Pamflet.twitter = '#pamflet';
             </script>
       </head>
-      <body class="color_scheme-redmond">
-        <a class="page prev nav" href="Template+Properties.html">
-            <span class="space">&nbsp;</span>
-            <span class="flip arrow">❧</span>
-          </a><a class="page next nav" href="Additional+resources.html">
-            <span class="space">&nbsp;</span>
-            <span class="arrow">❧</span>
-          </a>
-        <div class="container contentswrapper">
-          <div class="span-16 prepend-1 append-1 contents">
-            <h2 id="Special+Properties">Special Properties<a href="#Special+Properties" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>While <a href="Template+Properties.html">template properties</a> exist generally
+      <body class="color_scheme-github">
+        <div class="container-fluid contentswrapper h-100">
+          <div class="row minh-100">
+          <div class="col-md-4 col-xl-3 toccolumn leftcolumn">
+                  <div class="lefttocwrapper">
+      <div class="tocwrapper">
+        
+        <div class="tocbody show" id="toc">
+        
+        <div><a href="index.html">Pamflet</a></div><ol class="toc"> <li><div><a href="Like+a+Book.html">Like a Book</a></div></li><li><div><a href="Writing+and+Organizing.html">Writing and Organizing</a></div><ol class="toc"> <li><div><a href="Filenames+and+Page+Names.html">Filenames and Page Names</a></div></li><li><div><a href="Shaping+the+Contents+Tree.html">Shaping the Contents Tree</a></div></li><li><div><a href="Going+Deep.html">Going Deep</a></div></li> </ol></li><li><div><a href="Pamflet+in+a+Project.html">Pamflet in a Project</a></div><ol class="toc"> <li><div><a href="On+the+Command+Line.html">On the Command Line</a></div></li><li><div><a href="Git+Hooks.html">Git Hooks</a></div></li><li><div><a href="Apache+Setup.html">Apache Setup</a></div></li> </ol></li><li><div><a href="Fancy+Techniques.html">Fancy Techniques</a></div><ol class="toc"> <li><div><a href="Source+Code+Highlighting.html">Source Code Highlighting</a></div></li><li><div><a href="Custom+Stylesheets.html">Custom Stylesheets</a></div></li><li><div><a href="Template+Properties.html">Template Properties</a></div></li><li><div class="current">Special Properties</div></li><li><div><a href="Additional+resources.html">Additional resources</a></div></li><li><div><a href="Globalization.html">Globalization</a></div></li><li><div><a href="Changing+the+look.html">Changing the look</a></div></li> </ol></li><li><div><a href="For+Your+Perusal.html">For Your Perusal</a></div></li><li><div><a href="Who%E2%80%99s+Using+Pamflet%3F.html">Who’s Using Pamflet?</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div>
+      </div>
+      </div>
+                </div><div class="col-md-8 col-xs-9">
+                  <div class="rightcolumn contents">
+                  <h2 id="Special+Properties">Special Properties<a href="#Special+Properties" class="header-link"><span class="header-link-content">&nbsp;</span></a></h2><p>While <a href="Template+Properties.html">template properties</a> exist generally
 for you to define and use as in your own markdown sources, Pamflet
 also checks for a special, optional property that links to a project’s
 GitHub repository, etc.
@@ -87,26 +86,39 @@ which allows, for instance, the construction of a direct-to-GitHub page edit URL
   &lt;/div&gt;
 &lt;/div&gt;
 </code></pre><p>Scroll to the bottom of this page to see how this works.
-</p><div class="bottom nav span-16">
-                        <em>Next Page</em>
+</p><div class="bottom nav">
+                <div class="row">
+                  <div class="col-md-auto">
+                    <a href="Additional+resources.html">
+                      <div class="arrowitem">
                         <span class="arrow">❧</span>
-                        <a href="Additional+resources.html"> Additional resources </a>                        
-                        <ul class="language-bar">
-        <li><a href="Special+Properties.html"><span class="lang-item lang-en">English</span></a></li><li><a href="ja/Special-Properties.html"><span class="lang-item lang-ja">日本語</span></a></li>
-      </ul>
-                      </div><div class="tocwrapper show">
-      <a class="tochead nav" style="display: none" href="#toc">❦</a>
-      <a name="toc"></a>
-      <h4 class="toctitle">Contents</h4>
-      <div class="tocbody">
-      <div><a href="index.html">Pamflet</a></div><ol class="toc"> <li><div><a href="Like+a+Book.html">Like a Book</a></div></li><li><div><a href="Writing+and+Organizing.html">Writing and Organizing</a></div><ol class="toc"> <li><div><a href="Filenames+and+Page+Names.html">Filenames and Page Names</a></div></li><li><div><a href="Shaping+the+Contents+Tree.html">Shaping the Contents Tree</a></div></li><li><div><a href="Going+Deep.html">Going Deep</a></div></li> </ol></li><li><div><a href="Pamflet+in+a+Project.html">Pamflet in a Project</a></div><ol class="toc"> <li><div><a href="On+the+Command+Line.html">On the Command Line</a></div></li><li><div><a href="Git+Hooks.html">Git Hooks</a></div></li><li><div><a href="Apache+Setup.html">Apache Setup</a></div></li> </ol></li><li><div><a href="Fancy+Techniques.html">Fancy Techniques</a></div><ol class="toc"> <li><div><a href="Source+Code+Highlighting.html">Source Code Highlighting</a></div></li><li><div><a href="Custom+Stylesheets.html">Custom Stylesheets</a></div></li><li><div><a href="Template+Properties.html">Template Properties</a></div></li><li><div class="current">Special Properties</div></li><li><div><a href="Additional+resources.html">Additional resources</a></div></li><li><div><a href="Globalization.html">Globalization</a></div></li><li><div><a href="Changing+the+look.html">Changing the look</a></div></li> </ol></li><li><div><a href="For+Your+Perusal.html">For Your Perusal</a></div></li><li><div><a href="Who%E2%80%99s+Using+Pamflet%3F.html">Who’s Using Pamflet?</a></div></li><li class="generated"><div><a href="Contents+in+Depth.html">Contents in Depth</a></div></li><li class="generated"><div><a href="Combined+Pages.html">Combined Pages</a></div></li> </ol></div></div>
-          </div>
+                      </div>
+
+                      <div class="arrowitem">
+                        <em>Next page</em><br/>
+                        Additional resources
+                      </div>
+
+                    </a>
+                  </div>
+                </div>
+                <div class="row w-100">
+        <div class="col-md-auto ml-auto">
+          <ul class="language-bar">
+            <li><a href="Special+Properties.html"><span class="lang-item lang-en">English</span></a></li><li><a href="ja/Special-Properties.html"><span class="lang-item lang-ja">日本語</span></a></li>
+          </ul>
+        </div>
+      </div>
+              </div>
+                  </div>
+                </div>
+          </div> <!-- row -->
         </div>
         <div class="header">
-          <div class="container">
-        <div class="span-16 prepend-1 append-1">
-          <div class="span-16 top nav">
-            <div class="span-16 title">
+          <div class="container-fluid top nav">
+        <div class="row justify-content-md-center w-100">
+          <div class="col-md-auto">
+            <div class="title">
               <span>Pamflet</span> — Special Properties
             </div>
           </div>
