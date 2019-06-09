@@ -25,14 +25,15 @@ object Produce {
       w.close()
     }
     def copy(r: InputStream, w: OutputStream): Unit = {
+      val buff = new Array[Byte](4096)
       @tailrec def doCopy(): Unit = {
-        val byte = r.read()
-        if (byte != -1) {
-          w.write(byte)
-          doCopy
+        val length = r.read(buff)
+        if (length != -1) {
+          w.write(buff, 0, length)
+          doCopy()
         }
       }
-      doCopy
+      doCopy()
       w.flush()
     }
     val manifest = "pamflet.manifest"
