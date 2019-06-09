@@ -120,7 +120,6 @@ lazy val pamflet: Project = (project in file("."))
   version: ${Scala212}
 [repositories]
   local
-  sonatype-releases: https://oss.sonatype.org/service/local/repositories/releases/content/
   maven-central
 """
       IO.write(launchconfigFile, launchconfig)
