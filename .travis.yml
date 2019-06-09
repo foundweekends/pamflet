@@ -1,6 +1,8 @@
 # Use container-based infrastructure
 sudo: false
 
+dist: xenial
+
 language: scala
 
 # These directories are cached to S3 at the end of the build
@@ -13,7 +15,7 @@ scala:
    - 2.12.8
 
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 script:
   - sbt ++$TRAVIS_SCALA_VERSION! -Dfile.encoding=UTF8 test $(if [[ "${TRAVIS_SCALA_VERSION}" == "2.12.8" ]]; then echo testConscript ; fi)
