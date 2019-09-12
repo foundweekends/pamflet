@@ -5,5 +5,5 @@ addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.11")
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.5")
 addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.3")
 
-libraryDependencies += "org.foundweekends" %% "pamflet-library" % "0.8.1"
+libraryDependencies += "org.foundweekends" %% "pamflet-library" % "0.8.2"
 resolvers += Resolver.sonatypeRepo("public")
