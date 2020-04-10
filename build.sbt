@@ -61,11 +61,11 @@ lazy val knockoffDeps = Def.setting { Seq(
   "org.foundweekends" %% "knockoff" % "0.8.6"
 )}
 val unfilteredVersion = "0.9.1"
-val stringtemplateVersion = "3.2.1"
+val stringtemplateVersion = "4.3"
 lazy val libraryDeps = Def.setting { Seq(
   "ws.unfiltered" %% "unfiltered-filter" % unfilteredVersion,
   "ws.unfiltered" %% "unfiltered-jetty" % unfilteredVersion,
-  "org.antlr" % "stringtemplate" % stringtemplateVersion
+  "org.antlr" % "ST4" % stringtemplateVersion
 )}
 val launcherInterfaceVersion = "1.1.2"
 val servletApiVersion = "3.1.0"

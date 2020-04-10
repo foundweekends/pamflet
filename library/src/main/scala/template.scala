@@ -3,8 +3,10 @@ package pamflet
 import java.io.{
   File,FileInputStream,InputStreamReader,StringReader}
 import java.nio.charset.Charset
-import org.antlr.stringtemplate.{StringTemplate => STImpl}
+import org.stringtemplate.v4.ST
 import collection.immutable.Map
+import collection.JavaConverters._
+import scala.collection.immutable.Nil
 
 trait Template {
   /** Replace template values in input stream with bound properties */
@@ -25,25 +27,46 @@ case class StringTemplate(files: Seq[File],
     extra: Map[AnyRef, AnyRef]) extends Template {
   def apply(input: CharSequence) =
     if (!files.isEmpty) {
-      import collection.JavaConverters._
-      val st = new STImpl
-      st.setTemplate(input.toString)
-      st.setAttributes((properties.asScala ++ extra).asJava)
-      st.toString
+      val st = new ST(input.toString, '$', '$')
+      (properties.asScala ++ extra).foreach {
+        case (key, value) =>
+          pairToAttribute(key.toString(), value).fold(
+            pair => st.add(pair._1, pair._2), pair => st.add(pair._1, pair._2)
+          )
+      }
+      st.render()
     } else input
     
+  private def pairToAttribute(key: String, value: Object): Either[(String, Object), (String, Map[String, Object])] = {
+    def pairToAttributeMap(first: String, rest: List[String], value: Object): Map[String, Object] = {
+        rest match {
+          case Nil => Map(first -> value)
+          case head :: tail => Map(first -> pairToAttributeMap(head, tail, value))
+        }
+    }
+
+    key.split('.').toList match {
+      case first :: second :: tail => Right(first -> pairToAttributeMap(second, tail, value))
+      case _ => Left(key -> value)
+    }
+  }
+
   private def properties = {
     val p = new java.util.Properties
     for (f <- files) {
       val q = new java.util.Properties 
       q.load(new InputStreamReader(new FileInputStream(f),
                                    Charset.forName("UTF-8")))
-      p.putAll(q)
+      q.asScala.foreach {
+        case (key, value) => p.put(key, value)
+      }
     }
     for (s <- str) {
       val q = new java.util.Properties
       q.load(new StringReader(s))
-      p.putAll(q)
+      q.asScala.foreach {
+        case (key, value) => p.put(key, value)
+      }
     }
     p
   }
