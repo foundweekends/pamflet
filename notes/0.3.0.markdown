@@ -1,7 +1,7 @@
 This release adds several features, all of which can be seen in
 [Pamflet's own documentation][pf]:
 
-* [Contents in Depth][depth] — A table of contentst that includes
+* [Contents in Depth][depth] — A table of contents that includes
   headers from within pages
 * [Combined Pages][combined] — A single webpage containing the full
   pamflet contents, with internal links to each "page"
