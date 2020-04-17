@@ -3,10 +3,10 @@ package pamflet
 case class Frontin(header: Option[String], body: String)
 
 object Frontin {
-  val seperator = "---"
+  val separator = "---"
 
   def separates(str: String): Boolean =
-    (str.trim == seperator) && (str startsWith seperator)
+    (str.trim == separator) && (str startsWith separator)
   
   def apply(str: String): Frontin =
     str.linesWithSeparators.toList match {
