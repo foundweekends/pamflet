@@ -341,7 +341,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
               case _ =>
                 <div class="col-md-4 col-xl-3 leftcolumn">&nbsp;</div>
                 <div class="col-md-8 col-xs-9">
-                  <div class="rightcolmn contents">
+                  <div class="rightcolumn contents">
                     { mainContents }
                   </div>
                 </div>
