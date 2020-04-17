@@ -30,7 +30,7 @@ Here you can see how the first ordered source in a directory,
 `00.markdown`, always acts as a title page whether it is for a the
 entire pamflet or just one section. It is numbered and positioned
 according on the higher level numbering; at the top level, this is
-simply the absense of any number.
+simply the absence of any number.
 
 You can also see in this example that Pamflet's second level numbering
 is lowercase letters. The third is lowercase roman numerals, and and
