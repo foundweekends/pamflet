@@ -68,7 +68,7 @@ lazy val libraryDeps = Def.setting { Seq(
   "org.antlr" % "ST4" % stringtemplateVersion
 )}
 val launcherInterfaceVersion = "1.1.6"
-val servletApiVersion = "3.1.0"
+val servletApiVersion = "4.0.1"
 lazy val appDeps = Def.setting { Seq(
   "org.scala-sbt" % "launcher-interface" % launcherInterfaceVersion % "provided",
   "javax.servlet" % "javax.servlet-api" % servletApiVersion
