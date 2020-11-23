@@ -60,7 +60,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
       case sect @ Section(_, _, _, children, _) => link(sect) ++ list(children)
       case page                                 => link(page)
     }
-    def list(pages: Seq[Page]) = {
+    def list(pages: collection.Seq[Page]) = {
       <ol class="toc"> { pages.map {
         case page: ContentPage => <li>{ draw(page) }</li>
         case page => <li class="generated">{ draw(page) }</li>

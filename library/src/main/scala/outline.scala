@@ -3,15 +3,15 @@ import knockoff._
 import PamfletDiscounter.headerText
 
 object Outline {
-  private case class Return(nodes: xml.NodeSeq, rest: Seq[Header])
+  private case class Return(nodes: xml.NodeSeq, rest: collection.Seq[Header])
   def apply(page: AuthoredPage) = {
     def anchor(name: String) =
       <a href={Printer.webify(page) +
                BlockNames.fragment(name)}>{ name }</a>
 
-    def build(blocks: Seq[Header], cur: Int): Return =
+    def build(blocks: collection.Seq[Header], cur: Int): Return =
       blocks match {
-        case Seq(a, b, tail @_*) if a.level == cur && b.level > cur =>
+        case collection.Seq(a, b, tail @_*) if a.level == cur && b.level > cur =>
           val nested = build(b +: tail, b.level)
           val after = build(nested.rest, cur)
           val name = headerText(a.spans)
@@ -20,8 +20,8 @@ object Outline {
               <ul class="outline"> { nested.nodes } </ul>
             </li>
           ) ++ after.nodes, after.rest)
-        case Seq(a, _*) if a.level > cur => build(blocks, a.level)
-        case Seq(a, tail @ _*) if a.level == cur =>
+        case collection.Seq(a, _*) if a.level > cur => build(blocks, a.level)
+        case collection.Seq(a, tail @ _*) if a.level == cur =>
           val Return(nodes, rest) = build(tail, cur)
           val name = headerText(a.spans)
           Return(( <li> { anchor(name) } </li> ) ++ nodes, rest)
@@ -32,8 +32,10 @@ object Outline {
       case h: Header if h.level <= BlockNames.maxLevel => h
     }
     headers match {
-      case Seq(_, elem, rest @ _*) => <ul class="outline">{build(elem +: rest, 0).nodes}</ul>
-      case _                       => Seq.empty
+      case collection.Seq(_, elem, rest @ _*) =>
+        <ul class="outline">{build(elem +: rest, 0).nodes}</ul>
+      case _ =>
+        Seq.empty
     }
   }
 }
