@@ -4,7 +4,7 @@ import knockoff._
 import scala.util.parsing.input.Position
 import collection.mutable.ListBuffer
 
-trait FencedDiscounter extends Discounter {
+trait FencedDiscounter extends Discounter with XHTMLWriter {
   /** List of FencePlugin */
   def fencePlugins: List[FencePlugin]
 

@@ -2,7 +2,7 @@ package pamflet
 
 import knockoff._
 
-trait IdentifiedHeaders extends Discounter { self: TextWriter =>
+trait IdentifiedHeaders extends Discounter with XHTMLWriter { self: TextWriter =>
   def headerText( spans : collection.Seq[Span] ) : String = {
     val stringWriter = new java.io.StringWriter
     spans.map( self.spanToText(_)(stringWriter) )
