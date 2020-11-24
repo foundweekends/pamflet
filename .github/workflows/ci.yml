@@ -16,6 +16,7 @@ jobs:
     - uses: coursier/cache-action@v5
     - run: sbt -v -Dfile.encoding=UTF8 test testConscript
     - uses: webfactory/ssh-agent@v0.4.1
+      if: ${{ !github.event.repository.fork && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
       with:
         ssh-private-key: ${{ secrets.DEPLOY_KEY_1 }}
     - name: Push to gh-pages
