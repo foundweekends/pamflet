@@ -60,7 +60,7 @@ lazy val common = Seq(
 lazy val knockoffDeps = Def.setting { Seq(
   "org.foundweekends" %% "knockoff" % "0.8.6"
 )}
-val unfilteredVersion = "0.9.1"
+val unfilteredVersion = "0.10.0"
 val stringtemplateVersion = "4.3"
 lazy val libraryDeps = Def.setting { Seq(
   "ws.unfiltered" %% "unfiltered-filter" % unfilteredVersion,
