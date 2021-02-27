@@ -21,7 +21,7 @@ ThisBuild / developers := List(
   Developer("eed3si9n", "Eugene Yokota", "@eed3si9n", url("https://github.com/eed3si9n"))
 )
 ThisBuild / publishMavenStyle := true
-ThisBuild / publishTo := Some("releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2")
+ThisBuild / publishTo := sonatypePublishToBundle.value
 
 lazy val common = Seq(
   scalacOptions ++= Seq("-language:_", "-deprecation"),
@@ -50,7 +50,7 @@ lazy val common = Seq(
     releaseStepCommandAndRemaining("+ publishSigned"),
     setNextVersion,
     commitNextVersion,
-    releaseStepCommand("sonatypeReleaseAll"),
+    releaseStepCommandAndRemaining("sonatypeBundleRelease"),
     pushChanges
   )
 ) ++ Seq(Compile, Test).flatMap(c =>
