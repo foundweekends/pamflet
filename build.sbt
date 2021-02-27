@@ -48,9 +48,9 @@ lazy val common = Seq(
     commitReleaseVersion,
     tagRelease,
     releaseStepCommandAndRemaining("+ publishSigned"),
+    releaseStepCommandAndRemaining("sonatypeBundleRelease"),
     setNextVersion,
     commitNextVersion,
-    releaseStepCommandAndRemaining("sonatypeBundleRelease"),
     pushChanges
   )
 ) ++ Seq(Compile, Test).flatMap(c =>
