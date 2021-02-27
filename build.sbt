@@ -47,7 +47,7 @@ lazy val common = Seq(
     releaseStepTask(updateLaunchconfig),
     commitReleaseVersion,
     tagRelease,
-    releaseStepCommand("publishSigned"),
+    releaseStepCommandAndRemaining("+ publishSigned"),
     setNextVersion,
     commitNextVersion,
     releaseStepCommand("sonatypeReleaseAll"),
