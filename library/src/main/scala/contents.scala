@@ -100,7 +100,7 @@ case class ScrollPage(root: Section,
       case Section(_, _, blocks, children, _) =>
         blocks ++: flatten(children)
       case _ => Seq.empty
-    }
+    }.toSeq
   def blocks = root.blocks ++: flatten(root.children)
   def flattenRaw(pages: List[Page]): collection.Seq[String] =
     pages.view.flatMap {
@@ -108,6 +108,6 @@ case class ScrollPage(root: Section,
       case Section(_, raw, _, children, _) =>
         Seq(raw) ++: flattenRaw(children)
       case _ => Seq("")
-    }
+    }.toSeq
   def raw: String = (Seq(root.raw) ++: flattenRaw(root.children)).mkString("\n")
 }

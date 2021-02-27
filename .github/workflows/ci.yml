@@ -14,7 +14,7 @@ jobs:
         java-version: "adopt@1.8"
     - uses: actions/checkout@v2.3.4
     - uses: coursier/cache-action@v5
-    - run: sbt -v -Dfile.encoding=UTF8 test testConscript
+    - run: sbt -v -Dfile.encoding=UTF8 "+test" testConscript
     - uses: webfactory/ssh-agent@v0.5.0
       if: ${{ !github.event.repository.fork && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
       with:

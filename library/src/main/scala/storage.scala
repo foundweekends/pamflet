@@ -46,7 +46,7 @@ case class FileStorage(base: File, ps: List[FencePlugin]) extends Storage {
       case _                   => None
     }
   def globalized = {
-    val contents = Map(defaultTemplate.languages map { lang =>
+    val contents = defaultTemplate.languages.map { lang =>
       val isDefaultLang = lang == defaultTemplate.defaultLanguage
       val dir = if (isDefaultLang) base
                 else new File(base, lang)
@@ -63,7 +63,7 @@ case class FileStorage(base: File, ps: List[FencePlugin]) extends Storage {
         flatMap(_.listFiles.map { f => (f.getName, read(f))})
       lang -> Contents(lang, isDefaultLang, rootSection(dir, propFiles), css, files,
         favicon, defaultTemplate, layouts)
-    }: _*)
+    }.toMap
     Globalized(contents, defaultTemplate)
   }
   def isSpecialDir(dir: File): Boolean =
