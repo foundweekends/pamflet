@@ -24,10 +24,10 @@ ThisBuild / publishMavenStyle := true
 ThisBuild / publishTo := Some("releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2")
 
 lazy val common = Seq(
-  scalacOptions ++= Seq("-language:_", "-deprecation", "-Xfuture"),
+  scalacOptions ++= Seq("-language:_", "-deprecation"),
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, v)) if v <= 12 => Seq("-Yno-adapted-args")
+      case Some((2, v)) if v <= 12 => Seq("-Yno-adapted-args", "-Xfuture")
       case _ => Nil
     }
   },
