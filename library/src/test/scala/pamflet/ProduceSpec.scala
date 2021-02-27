@@ -9,7 +9,7 @@ import utest._
 
 object ProduceSpec extends TestSuite {
   val tests = Tests {
-    'localPath - withTempDir { tempDir =>
+    "localPath" - withTempDir { tempDir =>
       produce(new File("src/test/pf"), tempDir.toFile)
       val obtained = readFileString(tempDir resolve "test.html")
       val expected = "https://github.com/foundweekends/pamflet/edit/master/src/test/pf/test.md"
