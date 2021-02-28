@@ -37,7 +37,7 @@ lazy val common = Seq(
       case _ => Nil
     }
   },
-  publishArtifact in Test := false,
+  Test / publishArtifact := false,
   releaseCrossBuild := true,
   releaseProcess := Seq[ReleaseStep](
     checkSnapshotDependencies,
@@ -54,7 +54,7 @@ lazy val common = Seq(
     pushChanges
   )
 ) ++ Seq(Compile, Test).flatMap(c =>
-  scalacOptions in (c, console) --= unusedWarnings
+  c / console / scalacOptions --= unusedWarnings
 )
 
 lazy val knockoffDeps = Def.setting { Seq(
@@ -88,7 +88,7 @@ lazy val pamflet: Project = (project in file("."))
         Def.task {
           val extracted = Project extract state.value
           val s = extracted.appendWithSession(Seq(scalaVersion := Scala212), state.value)
-          (Project extract s).runAggregated(publishLocal in extracted.get(thisProjectRef), s)
+          (Project extract s).runAggregated(extracted.get(thisProjectRef) / publishLocal, s)
           IO.delete(out)
         },
         csRun.toTask(" pf src/test/pf target"),
@@ -99,7 +99,7 @@ lazy val pamflet: Project = (project in file("."))
         }
       ).value
     },
-    includeFilter in Pamflet := {
+    Pamflet / includeFilter := {
       new FileFilter{
         override def accept(file: File) = {
           !file.getCanonicalPath.contains("offline/")
@@ -107,14 +107,14 @@ lazy val pamflet: Project = (project in file("."))
       }
     },
     updateLaunchconfig := {
-      val mainClassName = (discoveredMainClasses in Compile in app).value match {
+      val mainClassName = (app / Compile / discoveredMainClasses).value match {
         case Seq(m) => m
         case zeroOrMulti => sys.error(s"could not found main class. $zeroOrMulti")
       }
       val launchconfig = s"""[app]
-  version: ${(version in app).value}
-  org: ${(organization in app).value}
-  name: ${(normalizedName in app).value}
+  version: ${(app / version).value}
+  org: ${(app / organization).value}
+  name: ${(app / normalizedName).value}
   class: ${mainClassName}
 [scala]
   version: ${Scala212}
@@ -125,7 +125,7 @@ lazy val pamflet: Project = (project in file("."))
       IO.write(launchconfigFile, launchconfig)
       launchconfigFile
     },
-    sourceDirectory in Pamflet := file("docs"),
+    Pamflet / sourceDirectory := file("docs"),
     git.remoteRepo := "git@github.com:foundweekends/pamflet.git",
     name := "pamflet",
     publishArtifact := false,
