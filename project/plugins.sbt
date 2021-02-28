@@ -5,4 +5,4 @@ addSbtPlugin("com.github.sbt" % "sbt-release" % "1.0.15")
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.5")
 addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.5")
 
-libraryDependencies += "org.foundweekends" %% "pamflet-library" % "0.8.2"
+libraryDependencies += "org.foundweekends" %% "pamflet-library" % "0.9.0"
