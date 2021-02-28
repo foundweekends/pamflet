@@ -455,7 +455,7 @@ Supposing you drop a file named `a.txt` into `docs/files/` then
 ### Embedding images 
 
 Of course, the trick works great for images using usual markdown:
- 
+
 ```
 ![some svg](files/an.svg)
 ```
