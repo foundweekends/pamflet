@@ -8,6 +8,8 @@ val Scala212 = "2.12.14"
 
 lazy val updateLaunchconfig = TaskKey[File]("updateLaunchconfig")
 
+ThisBuild / evictionErrorLevel := Level.Warn
+
 ThisBuild / scalaVersion       := Scala212
 ThisBuild / organization       := "org.foundweekends"
 ThisBuild / organizationName   := "foundweekends"
@@ -58,7 +60,7 @@ lazy val common = Seq(
 )
 
 lazy val knockoffDeps = Def.setting { Seq(
-  "org.foundweekends" %% "knockoff" % "0.8.14"
+  "org.foundweekends" %% "knockoff" % "0.9.0"
 )}
 val unfilteredVersion = "0.10.2"
 lazy val libraryDeps = Def.setting { Seq(
