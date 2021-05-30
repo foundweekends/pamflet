@@ -8,7 +8,7 @@ val Scala212 = "2.12.13"
 
 lazy val updateLaunchconfig = TaskKey[File]("updateLaunchconfig")
 
-ThisBuild / evictionErrorLevel :== Level.Warn
+ThisBuild / evictionErrorLevel := Level.Warn
 
 ThisBuild / scalaVersion       := Scala212
 ThisBuild / organization       := "org.foundweekends"
