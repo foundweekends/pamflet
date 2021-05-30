@@ -37,7 +37,7 @@ object Produce {
       w.flush()
     }
     val manifest = "pamflet.manifest"
-    val offlineTarget = new File(target + "/offline/")
+    val offlineTarget = new File(target.toString + "/offline/")
     val css = contents.css.map { case (nm, v) => ("css/" + nm, v) }.toList
     val paths = filePaths(contents)
     val files = contents.files.toList.map {

@@ -14,7 +14,7 @@ trait FencedDiscounter extends Discounter with XHTMLWriter {
     val fallback: PartialFunction[Block, xml.Node] = { case x => super.blockToXHTML(x) }
     val fs: List[PartialFunction[Block, xml.Node]] =
       (fencePlugins map {_.blockToXHTML}) ++ List(FencePlugin.Plain.blockToXHTML, fallback)
-    fs.reduceLeft(_ orElse _)
+    fs.reduceLeft[PartialFunction[Block, xml.Node]](_ orElse _)
   }
 
   def notifyBeginLanguage(): Unit =

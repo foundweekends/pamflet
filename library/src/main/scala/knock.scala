@@ -21,7 +21,7 @@ object Knock {
       case None    => template0
       case Some(h) => template0.updated(h)
     }
-    val raw = template(frontin body)
+    val raw = template(frontin.body)
     try {
       Right((raw.toString, discounter.knockoffWithPlugins(raw, ps), template))
     } catch {

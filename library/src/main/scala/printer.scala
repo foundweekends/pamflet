@@ -303,7 +303,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
           })
         }
         {
-          page.template.get("google-analytics").toList.map { uid: String => 
+          page.template.get("google-analytics").toList.map { (uid: String) =>
             // do NOT enclose the script with XML comment. it'll disable Scala embedding {xml.Unparsed(uid)}!
             <script type="text/javascript">
             var _gaq = _gaq || [];
