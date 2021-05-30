@@ -126,7 +126,7 @@ lazy val pamflet: Project = (project in file("."))
       IO.write(launchconfigFile, launchconfig)
       launchconfigFile
     },
-    Pamflet / sourceDirectory := file("docs"),
+    Pamflet / sourceDirectory := (LocalRootProject / baseDirectory).value / "docs",
     git.remoteRepo := "git@github.com:foundweekends/pamflet.git",
     name := "pamflet",
     publishArtifact := false,
