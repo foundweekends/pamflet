@@ -3,6 +3,6 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.4.1")
 addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.1.2")
 addSbtPlugin("com.github.sbt" % "sbt-release" % "1.1.0")
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.10")
-addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.6")
+addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.7")
 
 libraryDependencies += "org.foundweekends" %% "pamflet-library" % "0.9.0"
