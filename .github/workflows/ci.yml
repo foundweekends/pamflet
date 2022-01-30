@@ -9,9 +9,10 @@ jobs:
     timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
-    - uses: olafurpg/setup-scala@v13
+    - uses: actions/setup-java@v2
       with:
-        java-version: "adopt@1.8"
+        java-version: 8
+        distribution: temurin
     - uses: actions/checkout@v2.4.0
     - uses: coursier/cache-action@v6
     - run: sbt -v -Dfile.encoding=UTF8 "+test" testConscript
