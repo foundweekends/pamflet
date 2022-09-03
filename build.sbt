@@ -66,7 +66,7 @@ val unfilteredVersion = "0.10.4"
 lazy val libraryDeps = Def.setting { Seq(
   "ws.unfiltered" %% "unfiltered-filter" % unfilteredVersion,
   "ws.unfiltered" %% "unfiltered-jetty" % unfilteredVersion,
-  "org.antlr" % "ST4" % "4.3.3"
+  "org.antlr" % "ST4" % "4.3.4"
 )}
 val launcherInterfaceVersion = "1.3.3"
 val servletApiVersion = "3.1.0"
