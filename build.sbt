@@ -62,17 +62,15 @@ lazy val common = Seq(
 lazy val knockoffDeps = Def.setting { Seq(
   "org.foundweekends" %% "knockoff" % "0.9.0"
 )}
-val unfilteredVersion = "0.10.4"
+val unfilteredVersion = "0.12.0"
 lazy val libraryDeps = Def.setting { Seq(
   "ws.unfiltered" %% "unfiltered-filter" % unfilteredVersion,
   "ws.unfiltered" %% "unfiltered-jetty" % unfilteredVersion,
   "org.antlr" % "ST4" % "4.3.4"
 )}
 val launcherInterfaceVersion = "1.4.1"
-val servletApiVersion = "3.1.0"
 lazy val appDeps = Def.setting { Seq(
-  "org.scala-sbt" % "launcher-interface" % launcherInterfaceVersion % "provided",
-  "javax.servlet" % "javax.servlet-api" % servletApiVersion
+  "org.scala-sbt" % "launcher-interface" % launcherInterfaceVersion % "provided"
 )}
 
 val launchconfigFile = file("src/main/conscript/pf/launchconfig")
