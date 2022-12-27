@@ -6,7 +6,7 @@ import unfiltered.jetty.Server
 import unfiltered.filter.Plan
 import java.io.OutputStream
 import java.net.URI
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletResponse
 import collection.mutable
 
 object Preview {
