@@ -6,3 +6,4 @@ addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.15")
 addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.8")
 
 libraryDependencies += "org.foundweekends" %% "pamflet-library" % "0.11.0"
+libraryDependencySchemes += "org.scala-lang.modules" %% "scala-parser-combinators" % "always"
