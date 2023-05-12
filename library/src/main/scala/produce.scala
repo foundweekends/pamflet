@@ -113,7 +113,7 @@ object Produce {
     } :::
     ("bootstrap.bundle.min.js" ::
      "bootstrap.bundle.min.js.map" ::
-     "jquery-3.3.1.min.js" ::
+     "jquery.min.js" ::
      "pamflet.js" :: Nil
     ).map { "js/" + _ } :::
     "css/prettify.css" ::
