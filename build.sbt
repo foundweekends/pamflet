@@ -139,6 +139,8 @@ lazy val knockoff: Project = (project in file("knockoff"))
     libraryDependencies ++= knockoffDeps.value
   )
 
+val jquery = "org.webjars" % "jquery" % "3.6.4"
+
 lazy val library: Project = (project in file("library"))
   .dependsOn(knockoff)
   .settings(common)
@@ -146,6 +148,30 @@ lazy val library: Project = (project in file("library"))
     name := "pamflet-library",
     description := "Core Pamflet library",
     libraryDependencies ++= libraryDeps.value,
+    libraryDependencies += jquery % Test, // for scala-steward
+    Compile / resourceGenerators += Def.task {
+      val Seq(jqueryJar) = dependencyResolution.value
+        .retrieve(
+          dependencyId = jquery,
+          scalaModuleInfo = scalaModuleInfo.value,
+          retrieveDirectory = csrCacheDirectory.value,
+          log = streams.value.log
+        )
+        .left
+        .map(e => throw e.resolveException)
+        .merge
+        .distinct
+      val jqueryFileName = "jquery.min.js"
+
+      IO.withTemporaryDirectory { tmpDir =>
+        val Seq(jqueryFile) = IO.unzip(jqueryJar, tmpDir, _.split('/').last == jqueryFileName).toSeq
+        IO.copy(
+          Seq(
+            jqueryFile -> (Compile / resourceManaged).value / "webroot" / "js" / jqueryFileName
+          )
+        ).toSeq
+      }
+    }.taskValue,
     libraryDependencies += "com.lihaoyi" %% "utest" % "0.8.1" % Test,
     testFrameworks += new TestFramework("utest.runner.Framework"),
   )

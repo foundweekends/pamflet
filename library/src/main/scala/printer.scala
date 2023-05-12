@@ -284,7 +284,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         <link rel="stylesheet" href={ relativeBase + "css/color_scheme-github.css" } type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href={ relativeBase + "css/color_scheme-monokai.css" } type="text/css" media="screen, projection"/>
         <link rel="stylesheet" href={ relativeBase + "css/" + Heights.heightCssFileName(page) } type="text/css" media={bigScreen}/>
-        <script type="text/javascript" src={ relativeBase + "js/jquery-3.3.1.min.js" }></script>
+        <script type="text/javascript" src={ relativeBase + "js/jquery.min.js" }></script>
         <script type="text/javascript" src={ relativeBase + "js/bootstrap.bundle.min.js" }></script>
         <script type="text/javascript" src={ relativeBase + "js/pamflet.js" }></script>
         <script type="text/javascript">
