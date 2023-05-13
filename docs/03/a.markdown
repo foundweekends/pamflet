@@ -38,7 +38,7 @@ loopback interface on some available port. It also requests that a
 local web browser open the relevant URL; this occurs in a background
 or foreground window depending on your platform and browser.
 
-[uf]: http://unfiltered.ws
+[uf]: https://unfiltered.ws
 
 If a usable pamflet is found in the `docs` or other specified
 directory, you will see its title page in the browser. Linear

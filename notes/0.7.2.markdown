@@ -12,5 +12,5 @@ See [See Pamflet's pamflet for working example][localPath]. Contributed as #96 b
 * migrate to use sbt 1 #89 by @xuwei-k
 
 
-[pf]: http://www.foundweekends.org/pamflet/
-[localPath]: http://www.foundweekends.org/pamflet/Special+Properties.html#Page+path
+[pf]: https://www.foundweekends.org/pamflet/
+[localPath]: https://www.foundweekends.org/pamflet/Special+Properties.html#Page+path

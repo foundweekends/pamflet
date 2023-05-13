@@ -360,7 +360,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
         </div>
         {
           page.template.get("github").map { repo =>
-            <a href={"http://github.com/" + repo} class="fork nav"
+            <a href={"https://github.com/" + repo} class="fork nav"
                ><img src={ relativeBase + "img/fork.png" } alt="Fork me on GitHub"/></a>
           }.toSeq
         }

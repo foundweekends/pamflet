@@ -15,8 +15,8 @@ ThisBuild / organization       := "org.foundweekends"
 ThisBuild / organizationName   := "foundweekends"
 ThisBuild / crossScalaVersions := Seq(Scala212, "2.13.10", "3.2.2")
 ThisBuild / homepage :=
-  Some(new java.net.URL("http://www.foundweekends.org/pamflet/"))
-ThisBuild  / licenses          := Seq("LGPL v3" -> url("http://www.gnu.org/licenses/lgpl.txt"))
+  Some(new java.net.URL("https://www.foundweekends.org/pamflet/"))
+ThisBuild  / licenses          := Seq("LGPL v3" -> url("https://www.gnu.org/licenses/lgpl.txt"))
 ThisBuild / scmInfo            := Some(ScmInfo(url("https://github.com/foundweekends/pamflet"), "git@github.com:foundweekends/pamflet.git"))
 ThisBuild / developers := List(
   Developer("n8han", "Nathan Hamblen", "@n8han", url("https://github.com/n8han")),
