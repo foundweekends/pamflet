@@ -32,7 +32,7 @@ object Preview {
     def pageResponse(lang: String, name: String): ResponseFunction[HttpServletResponse] =
       Printer(globalized(lang), globalized, None).printNamed(name).map { html =>
         Html5(html)
-      }.getOrElse { NotFound }.asInstanceOf
+      }.getOrElse { NotFound }.asInstanceOf[ResponseFunction[HttpServletResponse]]
     val plan: Plan = unfiltered.filter.Planify {
       case GET(Path(Seg(lang :: Nil))) if languages.contains(lang) =>
         globalized(lang).pages.headOption.map { page =>
