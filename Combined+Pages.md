@@ -207,7 +207,7 @@ loopback interface on some available port. It also requests that a
 local web browser open the relevant URL; this occurs in a background
 or foreground window depending on your platform and browser.
 
-[uf]: http://unfiltered.ws
+[uf]: https://unfiltered.ws
 
 If a usable pamflet is found in the `docs` or other specified
 directory, you will see its title page in the browser. Linear
@@ -584,14 +584,14 @@ Who's Using Pamflet?
 --------------------
 
 * [Dispatch](https://dispatchhttp.org/Dispatch.html)
-* [Pamflet](http://www.foundweekends.org/pamflet/)
+* [Pamflet](https://www.foundweekends.org/pamflet/)
 * [Subset](http://osinka.github.com/subset/Subset.html)
 * [Lifty](http://lifty.github.com/Lifty.html)
-* [treehugger.scala](http://eed3si9n.com/treehugger/)
+* [treehugger.scala](https://eed3si9n.com/treehugger/)
 * [GeoTrellis](http://azavea.github.com/geotrellis/getting_started/GeoTrellis.html)
 * [BND book](http://bnd-book.duck-asteroid.cloudbees.net/BND.html)
-* [learning Scalaz](http://eed3si9n.com/learning-scalaz/)
-* [tetrix in Scala](http://eed3si9n.com/tetrix-in-scala/)
+* [learning Scalaz](https://eed3si9n.com/learning-scalaz/)
+* [tetrix in Scala](https://eed3si9n.com/tetrix-in-scala/)
 * [sbt](https://www.scala-sbt.org/1.x/docs/index.html)
 * [scodec](http://scodec.org/guide/)
 
