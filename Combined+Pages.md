@@ -592,7 +592,7 @@ Who's Using Pamflet?
 * [BND book](http://bnd-book.duck-asteroid.cloudbees.net/BND.html)
 * [learning Scalaz](http://eed3si9n.com/learning-scalaz/)
 * [tetrix in Scala](http://eed3si9n.com/tetrix-in-scala/)
-* [sbt](http://www.scala-sbt.org/0.13/tutorial/index.html)
+* [sbt](https://www.scala-sbt.org/1.x/docs/index.html)
 * [scodec](http://scodec.org/guide/)
 
 Are you using Pamflet? Add your project and send a pull request.
