@@ -40,7 +40,7 @@ object Pamflet {
       unfiltered.util.Browser.open(
         "http://127.0.0.1:%d/".format(server.portBindings.head.port)
       )
-      println("\nPreviewing `%s`. Press CTRL+C to stop.".format(dir))
+      println(s"\nPreviewing `${dir}`. Press CTRL+C to stop.")
     }
     0
   }

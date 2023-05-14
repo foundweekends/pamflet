@@ -61,7 +61,7 @@ sealed trait AuthoredPage extends Page {
   lazy val prettifyLangs = referencedLangs.filter { lang =>
     try {
       new java.net.URL(Shared.resources,
-                       "js/prettify/lang-%s.js".format(lang)
+                       s"js/prettify/lang-${lang}.js"
                      ).openStream().close()
       true
     } catch {

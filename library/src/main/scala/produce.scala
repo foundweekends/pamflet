@@ -118,7 +118,7 @@ object Produce {
     ).map { "js/" + _ } :::
     "css/prettify.css" ::
     ("prettify.js" ::
-      contents.prettifyLangs.map { l => "lang-%s.js".format(l) }.toList
+      contents.prettifyLangs.map { l => s"lang-${l}.js" }.toList
     ).map {
       "js/prettify/" + _
     }
