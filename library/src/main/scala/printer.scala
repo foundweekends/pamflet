@@ -114,7 +114,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
           src= { relativeBase + "js/prettify/prettify.js" } ></script> } ++
       page.prettifyLangs.map { br =>
         <script type="text/javascript" src={
-          relativeBase + "js/prettify/lang-%s.js".format(br)
+          relativeBase + s"js/prettify/lang-${br}.js"
         } ></script>
       } ++
       <link type="text/css" rel="stylesheet" href={ relativeBase + "css/prettify.css" } />
@@ -262,7 +262,7 @@ case class Printer(contents: Contents, globalized: Globalized, manifest: Option[
       <head>
         <meta charset="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <title>{ "%s — %s".format(contents.title, page.name) }</title>
+        <title>{ s"${contents.title} — ${page.name}" }</title>
         {
           contents.favicon match {
             case Some(_) => <link rel="shortcut icon" href="favicon.ico" />
