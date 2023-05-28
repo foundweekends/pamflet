@@ -13,7 +13,7 @@ ThisBuild / evictionErrorLevel := Level.Warn
 ThisBuild / scalaVersion       := Scala212
 ThisBuild / organization       := "org.foundweekends"
 ThisBuild / organizationName   := "foundweekends"
-ThisBuild / crossScalaVersions := Seq(Scala212, "2.13.10", "3.2.2")
+ThisBuild / crossScalaVersions := Seq(Scala212, "2.13.10", "3.3.0")
 ThisBuild / homepage :=
   Some(url("https://www.foundweekends.org/pamflet/"))
 ThisBuild  / licenses          := Seq("LGPL v3" -> url("https://www.gnu.org/licenses/lgpl.txt"))
