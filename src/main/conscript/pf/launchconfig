@@ -4,7 +4,7 @@
   name: pamflet-app
   class: pamflet.Pamflet
 [scala]
-  version: 2.13.10
+  version: 2.13.11
 [repositories]
   local
   maven-central
