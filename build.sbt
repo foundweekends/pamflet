@@ -172,7 +172,7 @@ lazy val library: Project = (project in file("library"))
         ).toSeq
       }
     }.taskValue,
-    libraryDependencies += "com.lihaoyi" %% "utest" % "0.8.1" % Test,
+    libraryDependencies += "com.lihaoyi" %% "utest" % "0.8.2" % Test,
     testFrameworks += new TestFramework("utest.runner.Framework"),
   )
 
