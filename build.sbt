@@ -28,6 +28,14 @@ ThisBuild / publishTo := sonatypePublishToBundle.value
 lazy val common = Seq(
   scalacOptions ++= Seq("-language:_", "-deprecation"),
   scalacOptions ++= {
+    scalaBinaryVersion.value match {
+      case "3" =>
+        Nil
+      case _ =>
+        Seq("-Xsource:3")
+    }
+  },
+  scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, v)) if v <= 12 => Seq("-Yno-adapted-args", "-Xfuture")
       case _ => Nil

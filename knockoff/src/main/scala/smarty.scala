@@ -5,7 +5,7 @@ import scala.util.matching.Regex
 
 trait SmartyDiscounter extends Discounter {
   override def createSpanConverter(
-    linkDefinitions: collection.Seq[LinkDefinitionChunk]) =
+    linkDefinitions: collection.Seq[LinkDefinitionChunk]): SpanConverter =
     new SpanConverter(linkDefinitions) with SmartySpanConverter
 }
 
