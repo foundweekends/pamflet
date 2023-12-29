@@ -2,7 +2,7 @@ package pamflet
 import java.io.File
 
 class Pamflet extends xsbti.AppMain {
-  def run(config: xsbti.AppConfiguration) = {
+  def run(config: xsbti.AppConfiguration): xsbti.MainResult = {
     Exit(Pamflet.run(config.arguments))
   }
   case class Exit(val code: Int) extends xsbti.Exit
