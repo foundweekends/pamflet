@@ -15,7 +15,7 @@ jobs:
         distribution: temurin
     - uses: actions/checkout@v4
     - run: sbt -v -Dfile.encoding=UTF8 "+test" testConscript
-    - uses: webfactory/ssh-agent@v0.8.0
+    - uses: webfactory/ssh-agent@v0.9.0
       if: ${{ github.repository_owner == 'foundweekends' && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
       with:
         ssh-private-key: ${{ secrets.DEPLOY_KEY_1 }}
