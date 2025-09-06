@@ -29,10 +29,12 @@ lazy val common = Seq(
   scalacOptions ++= Seq("-language:_", "-deprecation"),
   scalacOptions ++= {
     scalaBinaryVersion.value match {
-      case "3" =>
-        Nil
-      case _ =>
+      case "2.12" =>
         Seq("-Xsource:3")
+      case "2.13" =>
+        Seq("-Xsource:3-cross")
+      case _ =>
+        Nil
     }
   },
   scalacOptions ++= {
