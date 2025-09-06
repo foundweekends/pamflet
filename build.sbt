@@ -84,7 +84,7 @@ lazy val appDeps = Def.setting { Seq(
 val launchconfigFile = file("src/main/conscript/pf/launchconfig")
 
 lazy val pamflet: Project = (project in file("."))
-  .enablePlugins(GhpagesPlugin, ConscriptPlugin, PamfletPlugin)
+  .enablePlugins(ConscriptPlugin)
   .aggregate(knockoff, library, app)
   .settings(common)
   .settings(
@@ -106,12 +106,14 @@ lazy val pamflet: Project = (project in file("."))
         }
       ).value
     },
-    Pamflet / includeFilter := {
-      new FileFilter{
-        override def accept(file: File) = {
-          !file.getCanonicalPath.contains("offline/")
-        }
-      }
+    TaskKey[Unit]("makeSite") := {
+      val output = target.value / "site"
+      IO.delete(output)
+      val src     = (LocalRootProject / baseDirectory).value / "docs"
+      val storage = _root_.pamflet.FileStorage(src, Nil)
+      _root_.pamflet.Produce(storage.globalized, output)
+      IO.delete(output / "offline")
+      IO.delete(output / "ja" / "offline")
     },
     updateLaunchconfig := {
       val mainClassName = (app / Compile / discoveredMainClasses).value match {
@@ -132,11 +134,8 @@ lazy val pamflet: Project = (project in file("."))
       IO.write(launchconfigFile, launchconfig)
       launchconfigFile
     },
-    Pamflet / sourceDirectory := (LocalRootProject / baseDirectory).value / "docs",
-    git.remoteRepo := "git@github.com:foundweekends/pamflet.git",
     name := "pamflet",
     publishArtifact := false,
-    previewSite / aggregate := false,
   )
 
 lazy val knockoff: Project = (project in file("knockoff"))
