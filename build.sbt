@@ -23,7 +23,7 @@ ThisBuild / developers := List(
   Developer("eed3si9n", "Eugene Yokota", "@eed3si9n", url("https://github.com/eed3si9n"))
 )
 ThisBuild / publishMavenStyle := true
-ThisBuild / publishTo := sonatypePublishToBundle.value
+ThisBuild / publishTo := (if (isSnapshot.value) None else localStaging.value)
 
 lazy val common = Seq(
   scalacOptions ++= Seq("-language:_", "-deprecation"),
@@ -58,7 +58,7 @@ lazy val common = Seq(
     commitReleaseVersion,
     tagRelease,
     releaseStepCommandAndRemaining("+ publishSigned"),
-    releaseStepCommandAndRemaining("sonatypeBundleRelease"),
+    releaseStepCommandAndRemaining("sonaRelease"),
     setNextVersion,
     commitNextVersion,
     pushChanges
