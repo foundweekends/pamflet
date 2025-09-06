@@ -49,6 +49,21 @@ lazy val common = Seq(
       case _ => Nil
     }
   },
+  Compile / doc / scalacOptions ++= {
+    val v = sys.process.Process("git rev-parse HEAD").lineStream_!.head
+    scalaBinaryVersion.value match {
+      case "3" =>
+        Seq(s"-source-links:github://foundweekends/pamflet", "-revision", v)
+      case _ =>
+        val base = (LocalRootProject / baseDirectory).value.getAbsolutePath
+        Seq(
+          "-sourcepath",
+          base,
+          "-doc-source-url",
+          "https://github.com/foundweekends/pamflet/tree/" + v + "€{FILE_PATH}.scala"
+        )
+    }
+  },
   Test / publishArtifact := false,
   releaseCrossBuild := true,
   releaseProcess := Seq[ReleaseStep](
