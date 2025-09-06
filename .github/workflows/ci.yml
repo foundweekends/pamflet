@@ -16,7 +16,7 @@ jobs:
     - run: sbt -v -Dfile.encoding=UTF8 "+test" testConscript makeSite
     - id: generate_token
       uses: actions/create-github-app-token@a8d616148505b5069dccd32f177bb87d7f39123b # v2.1.1
-      if: ${{ github.repository_owner == 'foundweekends' && github.ref == 'refs/heads/develop' && github.event_name == 'push' }}
+      if: ${{ github.repository_owner == 'foundweekends' && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
       with:
         app-id: 89697
         private-key: ${{ secrets.FOUNDWEEKENDS_BOT_KEY }}
