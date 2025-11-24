@@ -11,7 +11,7 @@ jobs:
       with:
         java-version: 11
         distribution: temurin
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - uses: sbt/setup-sbt@v1
     - run: sbt -v -Dfile.encoding=UTF8 "+test" testConscript makeSite
     - id: generate_token
