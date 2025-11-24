@@ -15,7 +15,7 @@ jobs:
     - uses: sbt/setup-sbt@v1
     - run: sbt -v -Dfile.encoding=UTF8 "+test" testConscript makeSite
     - id: generate_token
-      uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 # v2.1.4
+      uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
       if: ${{ github.repository_owner == 'foundweekends' && github.ref == 'refs/heads/master' && github.event_name == 'push' }}
       with:
         app-id: 89697
