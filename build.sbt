@@ -4,7 +4,7 @@ val unusedWarnings = Seq(
   "-Ywarn-unused"
 )
 
-val Scala212 = "2.12.20"
+val Scala212 = "2.12.21"
 
 lazy val updateLaunchconfig = TaskKey[File]("updateLaunchconfig")
 
