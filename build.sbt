@@ -110,9 +110,9 @@ lazy val pamflet: Project = (project in file("."))
       TaskKey[File]("testConscript") := Def.sequential(
         updateLaunchconfig,
         Def.task {
-          val extracted = Project extract state.value
+          val extracted = Project.extract(state.value)
           val s = extracted.appendWithSession(Seq(scalaVersion := Scala212), state.value)
-          (Project extract s).runAggregated(extracted.get(thisProjectRef) / publishLocal, s)
+          Project.extract(s).runAggregated(extracted.get(thisProjectRef) / publishLocal, s)
           IO.delete(out)
         },
         csRun.toTask(" pf src/test/pf target"),
