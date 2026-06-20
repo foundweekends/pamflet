@@ -6,6 +6,7 @@ val unusedWarnings = Seq(
 
 val Scala212 = "2.12.21"
 
+@transient
 lazy val updateLaunchconfig = TaskKey[File]("updateLaunchconfig")
 
 ThisBuild / evictionErrorLevel := Level.Warn
@@ -50,7 +51,7 @@ lazy val common = Seq(
     }
   },
   Compile / doc / scalacOptions ++= {
-    val v = sys.process.Process("git rev-parse HEAD").lineStream_!.head
+    val v = sys.process.Process("git rev-parse HEAD").lazyLines_!.head
     scalaBinaryVersion.value match {
       case "3" =>
         Seq(s"-source-links:github://foundweekends/pamflet", "-revision", v)
@@ -100,6 +101,9 @@ lazy val appDeps = Def.setting { Seq(
 
 val launchconfigFile = file("src/main/conscript/pf/launchconfig")
 
+@transient
+val testConscript = taskKey[File]("")
+
 lazy val pamflet: Project = (project in file("."))
   .enablePlugins(ConscriptPlugin)
   .aggregate(knockoff, library, app)
@@ -107,7 +111,7 @@ lazy val pamflet: Project = (project in file("."))
   .settings(
     {
       val out = file("target/test.html")
-      TaskKey[File]("testConscript") := Def.sequential(
+      testConscript := Def.sequential(
         updateLaunchconfig,
         Def.task {
           val extracted = Project.extract(state.value)
