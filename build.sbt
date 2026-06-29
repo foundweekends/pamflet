@@ -127,8 +127,8 @@ lazy val pamflet: Project = (project in file("."))
         }
       ).value
     },
-    TaskKey[Unit]("makeSite") := {
-      val output = target.value / "site"
+    TaskKey[Unit]("makeSite") := Def.uncached {
+      val output = file("target") / "site"
       IO.delete(output)
       val src     = (LocalRootProject / baseDirectory).value / "docs"
       val storage = _root_.pamflet.FileStorage(src, Nil)
