@@ -50,7 +50,7 @@ lazy val common = Seq(
       case _ => Nil
     }
   },
-  Compile / doc / scalacOptions ++= {
+  Compile / doc / scalacOptions ++= Def.uncached {
     val v = sys.process.Process("git rev-parse HEAD").lazyLines_!.head
     scalaBinaryVersion.value match {
       case "3" =>
