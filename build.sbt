@@ -6,6 +6,7 @@ val unusedWarnings = Seq(
 
 val Scala212 = "2.12.21"
 
+@transient
 lazy val updateLaunchconfig = TaskKey[File]("updateLaunchconfig")
 
 ThisBuild / evictionErrorLevel := Level.Warn
@@ -15,12 +16,12 @@ ThisBuild / organization       := "org.foundweekends"
 ThisBuild / organizationName   := "foundweekends"
 ThisBuild / crossScalaVersions := Seq(Scala212, "2.13.18", "3.3.8")
 ThisBuild / homepage :=
-  Some(url("https://www.foundweekends.org/pamflet/"))
-ThisBuild  / licenses          := Seq("LGPL v3" -> url("https://www.gnu.org/licenses/lgpl.txt"))
-ThisBuild / scmInfo            := Some(ScmInfo(url("https://github.com/foundweekends/pamflet"), "git@github.com:foundweekends/pamflet.git"))
+  Some(uri("https://www.foundweekends.org/pamflet/"))
+ThisBuild  / licenses          := Seq("LGPL v3" -> uri("https://www.gnu.org/licenses/lgpl.txt"))
+ThisBuild / scmInfo            := Some(ScmInfo(uri("https://github.com/foundweekends/pamflet"), "git@github.com:foundweekends/pamflet.git"))
 ThisBuild / developers := List(
-  Developer("n8han", "Nathan Hamblen", "@n8han", url("https://github.com/n8han")),
-  Developer("eed3si9n", "Eugene Yokota", "@eed3si9n", url("https://github.com/eed3si9n"))
+  Developer("n8han", "Nathan Hamblen", "@n8han", uri("https://github.com/n8han")),
+  Developer("eed3si9n", "Eugene Yokota", "@eed3si9n", uri("https://github.com/eed3si9n"))
 )
 ThisBuild / publishMavenStyle := true
 ThisBuild / publishTo := (if (isSnapshot.value) None else localStaging.value)
@@ -49,8 +50,8 @@ lazy val common = Seq(
       case _ => Nil
     }
   },
-  Compile / doc / scalacOptions ++= {
-    val v = sys.process.Process("git rev-parse HEAD").lineStream_!.head
+  Compile / doc / scalacOptions ++= Def.uncached {
+    val v = sys.process.Process("git rev-parse HEAD").lazyLines_!.head
     scalaBinaryVersion.value match {
       case "3" =>
         Seq(s"-source-links:github://foundweekends/pamflet", "-revision", v)
@@ -93,12 +94,15 @@ lazy val libraryDeps = Def.setting { Seq(
   "ws.unfiltered" %% "unfiltered-jetty" % unfilteredVersion,
   "org.antlr" % "ST4" % "4.3.4"
 )}
-val launcherInterfaceVersion = "1.6.1"
+val launcherInterfaceVersion = "1.6.2"
 lazy val appDeps = Def.setting { Seq(
   "org.scala-sbt" % "launcher-interface" % launcherInterfaceVersion % "provided"
 )}
 
 val launchconfigFile = file("src/main/conscript/pf/launchconfig")
+
+@transient
+val testConscript = taskKey[File]("")
 
 lazy val pamflet: Project = (project in file("."))
   .enablePlugins(ConscriptPlugin)
@@ -107,7 +111,7 @@ lazy val pamflet: Project = (project in file("."))
   .settings(
     {
       val out = file("target/test.html")
-      TaskKey[File]("testConscript") := Def.sequential(
+      testConscript := Def.sequential(
         updateLaunchconfig,
         Def.task {
           val extracted = Project.extract(state.value)
@@ -123,8 +127,8 @@ lazy val pamflet: Project = (project in file("."))
         }
       ).value
     },
-    TaskKey[Unit]("makeSite") := {
-      val output = target.value / "site"
+    TaskKey[Unit]("makeSite") := Def.uncached {
+      val output = file("target") / "site"
       IO.delete(output)
       val src     = (LocalRootProject / baseDirectory).value / "docs"
       val storage = _root_.pamflet.FileStorage(src, Nil)
