@@ -3,4 +3,3 @@ addSbtPlugin("com.github.sbt" % "sbt-release" % "1.5.0")
 addSbtPlugin("org.foundweekends.conscript" % "sbt-conscript" % "0.5.9")
 
 libraryDependencies += "org.foundweekends" %% "pamflet-library" % "0.13.0"
-libraryDependencySchemes += "org.scala-lang.modules" %% "scala-parser-combinators" % "always"
