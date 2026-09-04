@@ -27,7 +27,7 @@ ThisBuild / publishMavenStyle := true
 ThisBuild / publishTo := (if (isSnapshot.value) None else localStaging.value)
 
 lazy val common = Seq(
-  scalacOptions ++= Seq("-language:_", "-deprecation"),
+  scalacOptions ++= Seq("-deprecation"),
   scalacOptions ++= {
     scalaBinaryVersion.value match {
       case "2.12" =>
