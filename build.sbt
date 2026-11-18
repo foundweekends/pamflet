@@ -167,7 +167,7 @@ lazy val knockoff: Project = (project in file("knockoff"))
     libraryDependencies ++= knockoffDeps.value
   )
 
-val jquery = "org.webjars" % "jquery" % "4.0.0"
+val jquery = "org.webjars" % "jquery" % "4.1.0"
 
 lazy val library: Project = (project in file("library"))
   .dependsOn(knockoff)
